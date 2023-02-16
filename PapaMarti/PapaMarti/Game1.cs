@@ -16,10 +16,14 @@ namespace PapaMarti {
     public class Game1 : Microsoft.Xna.Framework.Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        int screenWidth, screenHeight;
+        Rectangle screenRect;
+        CuttingScreen cuttingScreen;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -30,6 +34,9 @@ namespace PapaMarti {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
+            screenWidth = graphics.GraphicsDevice.Viewport.Width;
+            screenHeight = graphics.GraphicsDevice.Viewport.Height;
+            screenRect = new Rectangle(0, 0, screenWidth, screenHeight);
 
             base.Initialize();
         }
@@ -43,6 +50,9 @@ namespace PapaMarti {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            Texture2D white = this.Content.Load<Texture2D>("whitePixel");
+            Texture2D outline = this.Content.Load<Texture2D>("circle outline");
+            cuttingScreen = new CuttingScreen(PizzaShape.Circle, screenRect, white, outline);
         }
 
         /// <summary>
@@ -64,6 +74,7 @@ namespace PapaMarti {
                 this.Exit();
 
             // TODO: Add your update logic here
+            cuttingScreen.update(gameTime);
 
             base.Update(gameTime);
         }
@@ -76,7 +87,9 @@ namespace PapaMarti {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            cuttingScreen.draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
