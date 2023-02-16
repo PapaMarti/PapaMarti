@@ -9,19 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-enum Toppings
-{
-    tomatoSauce,
-    cheese,
-    pepperoni,
-    sausage,
-    olives,
-    onions,
-    chicken,
-    tomato,
-    jalapeno
-}
-
 namespace PapaMarti
 {
     class Pizza
