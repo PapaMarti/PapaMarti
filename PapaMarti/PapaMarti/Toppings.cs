@@ -7,7 +7,19 @@ using Microsoft.Xna.Framework;
 
 namespace PapaMarti
 {
-    class Toppings
+    public enum ToppingsType {
+        tomatoSauce,
+        cheese,
+        pepperoni,
+        sausage,
+        olives,
+        onions,
+        chicken,
+        tomato,
+        jalapeno
+    }
+
+    public class Toppings
     {
         string name;
         Rectangle panel;

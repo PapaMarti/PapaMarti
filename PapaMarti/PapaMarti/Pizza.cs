@@ -9,21 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public enum Toppings
-{
-    tomatoSauce,
-    cheese,
-    pepperoni,
-    sausage,
-    olives,
-    onions,
-    chicken,
-    tomato,
-    jalapeno
-}
+
 
 namespace PapaMarti
 {
+    
     public class Pizza
     {
         List<Rectangle> outline;
@@ -36,8 +26,7 @@ namespace PapaMarti
         /// <param name="cookTime">The amount of time it takes to cook this pizza.</param>
         /// <param name="toppings">The types of toppings that this pizza will have.</param>
         /// <param name="outline">List of Rectangles outlining where the pizza is supposed to be cut</param>
-        public Pizza(List<Rectangle> outline, List<Toppings> toppings, int cookTime)
-        {
+        public Pizza(List<Rectangle> outline, List<Toppings> toppings, int cookTime) {
             this.outline = outline;
             this.toppings = toppings;
             this.cookTime = cookTime;

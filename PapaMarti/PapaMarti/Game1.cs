@@ -31,7 +31,11 @@ namespace PapaMarti {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            currentStage = new CookingManager(Content, new Pizza(null, null, 0));
+            currentStage = new CookingManager(GraphicsDevice, Content, new Pizza(null, null, 0));
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -61,7 +65,7 @@ namespace PapaMarti {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
             // Allows the game to exit
-            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if(Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
             // TODO: Add your update logic here
@@ -76,6 +80,9 @@ namespace PapaMarti {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin();
+            currentStage.draw(spriteBatch);
+            spriteBatch.End();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
