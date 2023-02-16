@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-enum Toppings
+public enum Toppings
 {
     tomatoSauce,
     cheese,
@@ -24,7 +24,7 @@ enum Toppings
 
 namespace PapaMarti
 {
-    class Pizza
+    public class Pizza
     {
         List<Rectangle> outline;
         List<Toppings> toppings;
