@@ -16,6 +16,7 @@ namespace PapaMarti {
     public class Game1 : Microsoft.Xna.Framework.Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        StageManager currentStage;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -30,7 +31,7 @@ namespace PapaMarti {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-
+            currentStage = new CookingManager(Content, new Pizza(null, null, 0));
             base.Initialize();
         }
 
