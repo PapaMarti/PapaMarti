@@ -11,6 +11,7 @@ using System.Linq;
 
 namespace PapaMarti
 {
+    //this is used to decide which hardcoded rectangles to use, but the correct outline & cut dough texture needs to be passed in manually
     enum PizzaShape
     {
         Circle
@@ -22,16 +23,19 @@ namespace PapaMarti
         Rectangle screenRect;
         Rectangle tableRect;
         Rectangle uncutDoughRect; //this will always be a square
-        Texture2D dough; //for testing purposes its a white pixel i make different colors
+        Texture2D whitePixel; //TESTING ONLY REMOVE LATER
+        Texture2D dough;
         Texture2D outline;
+        Texture2D cutDough;
         private bool mouseIsPressed;
         List<Point> mouseLocations;
         List<double> accuracies;
         List<Rectangle> outlineRects;
         Rectangle outlineTextRect;
+        bool done;
 
         //please never make the screen width less than its height. you will break my stuff
-        public CuttingScreen(PizzaShape shape, Rectangle screenRectangle, Texture2D dough, Texture2D outline)
+        public CuttingScreen(PizzaShape shape, Rectangle screenRectangle, Texture2D dough, Texture2D outline, Texture2D cutDough, Texture2D white)
         {
             this.shape = shape;
             screenRect = screenRectangle;
@@ -42,9 +46,14 @@ namespace PapaMarti
             uncutDoughRect = new Rectangle((tableRect.Width - uncutHeight) / 2 + tableRect.X, (tableHeight - uncutHeight) / 2 + tableRect.Y, uncutHeight, uncutHeight);
             int outlineHeight = (int)(uncutHeight * 0.8);
             outlineTextRect = new Rectangle((uncutHeight - outlineHeight) / 2 + uncutDoughRect.X, (uncutHeight - outlineHeight) / 2 + uncutDoughRect.Y, outlineHeight, outlineHeight);
+
             this.dough = dough;
             this.outline = outline;
+            this.cutDough = cutDough;
+            whitePixel = white;
+
             mouseIsPressed = false;
+            done = false;
             accuracies = new List<double>();
             mouseLocations = new List<Point>();
             outlineRects = getOutlineRects();
@@ -53,36 +62,76 @@ namespace PapaMarti
         public void draw(SpriteBatch spriteBatch)
         {
             //table
-            spriteBatch.Draw(dough, tableRect, Color.Gray);
-            spriteBatch.Draw(dough, uncutDoughRect, Color.Yellow);
-            spriteBatch.Draw(outline, outlineTextRect, Color.Black);
-            //might need to print accuracy rectangles for testing
-            Rectangle pixel = new Rectangle(0, 0, 2, 2);
-            for(int i = 0; i < mouseLocations.Count; i++)
-            {
-                pixel.X = mouseLocations[i].X;
-                pixel.Y = mouseLocations[i].Y;
-                spriteBatch.Draw(dough, pixel, Color.Blue);
+            spriteBatch.Draw(whitePixel, tableRect, Color.Gray);
+            if(done){
+                spriteBatch.Draw(cutDough, outlineTextRect, Color.White);
+            }else{
+                spriteBatch.Draw(dough, uncutDoughRect, Color.White);
+                spriteBatch.Draw(outline, outlineTextRect, Color.White);
+                Rectangle pixel = new Rectangle(0, 0, 2, 2);
+                for(int i = 0; i < mouseLocations.Count; i++)
+                {
+                    //makes the color anywhere from green to red depending on how accurate the point is
+                    Color accuracyColor = new Color((float)(1.0 - accuracies[i]), (float)accuracies[i], 0.0);
+                    pixel.X = mouseLocations[i].X;
+                    pixel.Y = mouseLocations[i].Y;
+                    spriteBatch.Draw(dough, pixel, accuracyColor);
+                }
             }
+            //might need to print accuracy rectangles for testing
         }
         public void update(GameTime time)
         {
             MouseState mouse = Mouse.GetState();
-            if(mouse.LeftButton == ButtonState.Pressed)
+            if(mouse.LeftButton == ButtonState.Pressed && !done)
             {
-                mouseLocations.Add(new Point(mouse.X, mouse.Y));
+                Point mousePosition = new Point(mouse.X, mouse.Y);
+                //the point of this whole if statement is to prevent gaps in the line it draws as the mouse moves
+                int previousIndex = mouseLocations.Count - 1;
+                if(mouseIsPressed){
+                    Point previous = mouseLocations[previousIndex];
+                    int xDiff = mousePosition.X - previous.X;
+                    int yDiff = mousePosition.Y - previous.Y;
+                    int diff = yDiff;
+                    if(Math.Abs(xDiff) > Math.Abs(yDiff))
+                        diff = xDiff;
+                    int step = 2;
+                    if(diff < 0)
+                        step *= -1;
+                    double xStep = (double)xDiff / diff;
+                    double yStep = (double)yDiff / diff;
+                    for(int i = step, ; Math.Abs(i) < Math.Abs(diff); i+=step){
+                        mouseLocations.Add(new Point(previous.X + (int)(i * xStep), previous.Y + (int)(i * yStep)));
+                    }
+                }
+                mouseLocations.Add(mousePosition);
+                int currentIndex = mouseLocations.Count - 1;
+                //adding accuracy of all the points added
+                for(int i = previousIndex; i <= currentIndex; i++){
+                    accuracies.Add(getMousePointAccuracy(mouseLocations[i]));
+                }
+                //checking if done, not done
+                Point first = mouseLocations[0];
+                for(int i = 1; i < mouseLocations.Count; i++){
+                    if(Math.Abs(first.X - mouseLocations[i].X) < 4 && Math.Abs(first.Y - mouseLocations[i].Y) < 4){
+                        done = true;
+                        break;
+                    }
+                }
                 mouseIsPressed = true;
             }
             else if (mouseIsPressed)
             {
                 mouseIsPressed = false;
-                mouseLocations = new List<Point>();
-                accuracies = new List<double>();
+                if(!done){
+                    mouseLocations = new List<Point>();
+                    accuracies = new List<double>();
+                }
             }
         }
-        public bool isDone()
+        public bool isDone() //not done yet
         {
-            return false;
+            return done;
         }
         public double getAccuracy()
         {
@@ -202,7 +251,7 @@ namespace PapaMarti
                 }
                 else
                 {
-                    currentAccuracy = (15 - distance) / 15;
+                    currentAccuracy = (15.0 - distance) / 15.0;
                 }
                 if (currentAccuracy > bestAccuracy)
                     bestAccuracy = currentAccuracy;

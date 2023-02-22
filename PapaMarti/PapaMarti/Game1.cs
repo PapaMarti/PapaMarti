@@ -50,9 +50,11 @@ namespace PapaMarti {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            Texture2D white = this.Content.Load<Texture2D>("whitePixel");
+            Texture2D white = this.Content.Load<Texture2D>("whitePixel");//white pixel for table & testing, delete later
             Texture2D outline = this.Content.Load<Texture2D>("circle outline");
-            cuttingScreen = new CuttingScreen(PizzaShape.Circle, screenRect, white, outline);
+            Texture2D dough = this.Content.Load<Texture2D>("dough");
+            Texture2D cutDough = this.Content.Load<Texture2D>("circle dough");
+            cuttingScreen = new CuttingScreen(PizzaShape.Circle, screenRect, dough, outline, cutDough, white);
         }
 
         /// <summary>
