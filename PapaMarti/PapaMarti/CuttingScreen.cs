@@ -68,6 +68,12 @@ namespace PapaMarti
             }else{
                 spriteBatch.Draw(dough, uncutDoughRect, Color.White);
                 spriteBatch.Draw(outline, outlineTextRect, Color.White);
+
+                //drawing rectangles used for accuracy
+                for(int i = 0; i < rects; i++){
+                    spriteBatch.Draw(whitePixel, rects[i], Color.FromArgb(100, Color.Black));
+                }
+
                 Rectangle pixel = new Rectangle(0, 0, 2, 2);
                 for(int i = 0; i < mouseLocations.Count; i++)
                 {
@@ -112,7 +118,6 @@ namespace PapaMarti
                         accuracies.Add(getMousePointAccuracy(mouseLocations[i]));
                     }
                 }
-
                 else {
                     accuracies.Add(getMousePointAccuracy(mouseLocations[0]));
                 }
@@ -135,7 +140,7 @@ namespace PapaMarti
                 }
             }
         }
-        public bool isDone() //not done yet
+        public bool isDone()
         {
             return done;
         }
@@ -219,6 +224,9 @@ namespace PapaMarti
                 rects.Add(new Rectangle((int) (oX + (15.0 * (oW / 23.0))), (int) (oY + (21.0 * (oH / 23.0))), (int) (2.0 * (oW / 23.0)), (int) (oH / 23.0)));
                 // X: 9 to 15, Y: 23
                 rects.Add(new Rectangle((int) (oX + (8.0 * (oW / 23.0))), (int) (oY + (22.0 * (oH / 23.0))), (int) (7.0 * (oW / 23.0)), (int) (oH / 23.0)));
+            }
+            else{ //if we add more shapes the rectangles for those can go here, just change this to else if
+
             }
             return rects;
         }
