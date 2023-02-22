@@ -17,6 +17,9 @@ namespace PapaMarti {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         StageManager currentStage;
+        const int screenWidth = 1920;
+        const int screenHeight = 1080;
+        Rectangle screenRect;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -31,7 +34,10 @@ namespace PapaMarti {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            currentStage = new CookingManager(Content, new Pizza(null, null, 0));
+            screenRect = new Rectangle(0, 0, screenWidth, screenHeight);
+            graphics.PreferredBackBufferWidth = screenWidth;
+            graphics.PreferredBackBufferHeight = screenHeight;
+            graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -42,7 +48,9 @@ namespace PapaMarti {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
+            baseRect.SetData(new Color[] { Color.White });
+            currentStage = new CookingManager(Content, screenRect, baseRect, new Pizza(null, null, 0));
             // TODO: use this.Content to load your game content here
         }
 
