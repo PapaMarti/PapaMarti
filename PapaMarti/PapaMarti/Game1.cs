@@ -17,10 +17,20 @@ namespace PapaMarti {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        ToppingScreen screen;
+        Pizza pizza;
+        KeyboardState kb;
+        
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = "Content"; 
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
         }
+
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -30,6 +40,7 @@ namespace PapaMarti {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
+            pizza = new Pizza(new List<Rectangle>(), new List<Topping>(), 50);
 
             base.Initialize();
         }
@@ -43,6 +54,8 @@ namespace PapaMarti {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            Texture2D bruh = Content.Load<Texture2D>("Image1");
+            screen = new ToppingScreen(pizza, bruh, new Rectangle(0,0,GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
         }
 
         /// <summary>
@@ -59,8 +72,9 @@ namespace PapaMarti {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
+            kb = Keyboard.GetState();
             // Allows the game to exit
-            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kb.IsKeyDown(Keys.Escape))
                 this.Exit();
 
             // TODO: Add your update logic here
@@ -76,6 +90,9 @@ namespace PapaMarti {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            screen.draw(spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
