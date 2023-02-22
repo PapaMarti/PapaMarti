@@ -16,7 +16,7 @@ namespace PapaMarti {
     public class Game1 : Microsoft.Xna.Framework.Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        int screenWidth, screenHeight;
+        int screenWidth = 1920, screenHeight = 1080;
         Rectangle screenRect;
         CuttingScreen cuttingScreen;
 
@@ -34,9 +34,10 @@ namespace PapaMarti {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            screenWidth = graphics.GraphicsDevice.Viewport.Width;
-            screenHeight = graphics.GraphicsDevice.Viewport.Height;
+            graphics.PreferredBackBufferHeight = screenHeight;
+            graphics.PreferredBackBufferWidth = screenWidth;
             screenRect = new Rectangle(0, 0, screenWidth, screenHeight);
+            graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -89,7 +90,8 @@ namespace PapaMarti {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+
             cuttingScreen.draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);

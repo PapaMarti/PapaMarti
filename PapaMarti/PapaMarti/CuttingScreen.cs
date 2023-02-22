@@ -107,17 +107,23 @@ namespace PapaMarti
                 mouseLocations.Add(mousePosition);
                 int currentIndex = mouseLocations.Count - 1;
                 //adding accuracy of all the points added
-                for(int i = previousIndex; i <= currentIndex; i++){
-                    accuracies.Add(getMousePointAccuracy(mouseLocations[i]));
+                if(previousIndex >= 0) {
+                    for(int i = previousIndex; i <= currentIndex; i++) {
+                        accuracies.Add(getMousePointAccuracy(mouseLocations[i]));
+                    }
+                }
+
+                else {
+                    accuracies.Add(getMousePointAccuracy(mouseLocations[0]));
                 }
                 //checking if done, not done
                 Point first = mouseLocations[0];
-                for(int i = 1; i < mouseLocations.Count; i++){
-                    if(Math.Abs(first.X - mouseLocations[i].X) < 4 && Math.Abs(first.Y - mouseLocations[i].Y) < 4){
-                        done = true;
-                        break;
-                    }
-                }
+                //for(int i = 1; i < mouseLocations.Count; i++){
+                //    if(Math.Abs(first.X - mouseLocations[i].X) < 4 && Math.Abs(first.Y - mouseLocations[i].Y) < 4){
+                //        done = true;
+                //        break;
+                //    }
+                //}
                 mouseIsPressed = true;
             }
             else if (mouseIsPressed)
