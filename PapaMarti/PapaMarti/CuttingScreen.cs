@@ -71,7 +71,7 @@ namespace PapaMarti
 
                 //drawing rectangles used for accuracy
                 for(int i = 0; i < rects; i++){
-                    spriteBatch.Draw(whitePixel, rects[i], Color.FromArgb(100, Color.Black));
+                    spriteBatch.Draw(whitePixel, outlineRects[i], Color.Red);
                 }
 
                 Rectangle pixel = new Rectangle(0, 0, 2, 2);
@@ -233,11 +233,12 @@ namespace PapaMarti
         private double getMousePointAccuracy(Point point)
         {
             double bestAccuracy = 0;
+            int buffer = 10;
             for(int i = 0; i < outlineRects.Count; i++)
             {
                 double currentAccuracy = 0;
                 double xDistance, yDistance;
-                if(point.X <= outlineRects[i].Width + outlineRects[i].X && point.X >= outlineRects[i].X && point.Y >= outlineRects[i].Y && point.Y <= outlineRects[i].Height + outlineRects[i].Y)
+                if(point.X <= outlineRects[i].Width + outlineRects[i].X + buffer && point.X >= outlineRects[i].X - buffer && point.Y >= outlineRects[i].Y - buffer && point.Y <= outlineRects[i].Height + outlineRects[i].Y + buffer)
                 {
                     bestAccuracy = 1.0;
                     break;
@@ -259,13 +260,13 @@ namespace PapaMarti
                     yDistance = Math.Abs(outlineRects[i].Y - point.Y);
                 }
                 double distance = Math.Sqrt(Math.Pow(xDistance, 2) + Math.Pow(yDistance, 2));
-                if(distance > 15)
+                if(distance > 30)
                 {
                     currentAccuracy = 0.0;
                 }
                 else
                 {
-                    currentAccuracy = (15.0 - distance) / 15.0;
+                    currentAccuracy = (40.0 - distance) / 30.0;
                 }
                 if (currentAccuracy > bestAccuracy)
                     bestAccuracy = currentAccuracy;
