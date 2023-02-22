@@ -59,6 +59,7 @@
     <Compile Include="CookingManager.cs" />
     <Compile Include="CookingStage.cs" />
     <Compile Include="Pizza.cs" />
+    <Compile Include="Animations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
