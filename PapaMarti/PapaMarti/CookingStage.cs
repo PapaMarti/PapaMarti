@@ -23,7 +23,5 @@ namespace PapaMarti {
         public abstract bool isDone();
         public abstract double getAccuracy();
         public abstract CookStage getStage();
-        public abstract void startTransition();
-        public abstract void endTransition();
     }
 }
