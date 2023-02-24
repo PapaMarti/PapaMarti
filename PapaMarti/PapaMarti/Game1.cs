@@ -14,20 +14,20 @@ namespace PapaMarti {
     /// This is the main type for your game
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game {
+        public static Rectangle screenRect = new Rectangle(0, 0, 1920, 1080);
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         StageManager currentStage;
 
-        ToppingScreen screen;
         Pizza pizza;
-        KeyboardState kb;
         
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content"; 
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = screenRect.Width;
+            graphics.PreferredBackBufferHeight = screenRect.Height;
             graphics.IsFullScreen = true;
             graphics.ApplyChanges();
         }
@@ -41,7 +41,7 @@ namespace PapaMarti {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            currentStage = new CookingManager(GraphicsDevice, Content, new Pizza(null, null, 0));
+            currentStage = new CookingManager(Content, new Pizza(null, new List<Topping>(), 0));
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.IsFullScreen = true;
@@ -58,8 +58,6 @@ namespace PapaMarti {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            Texture2D bruh = Content.Load<Texture2D>("Image1");
-            screen = new ToppingScreen(pizza, bruh, new Rectangle(0,0,GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height));
         }
 
         /// <summary>
@@ -76,7 +74,6 @@ namespace PapaMarti {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
-            kb = Keyboard.GetState();
             // Allows the game to exit
             if(Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
@@ -93,13 +90,10 @@ namespace PapaMarti {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
             currentStage.draw(spriteBatch);
             spriteBatch.End();
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
-            screen.draw(spriteBatch);
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }

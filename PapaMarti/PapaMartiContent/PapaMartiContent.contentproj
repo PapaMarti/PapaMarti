@@ -29,15 +29,15 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Image1.bmp">
-      <Name>Image1</Name>
+    <Compile Include="CookingStageTextures\ToppingsTextures\bowl.png">
+      <Name>bowl</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="shop-layout.png">
-      <Name>shop-layout</Name>
+    <Compile Include="CookingStageTextures\ToppingsTextures\Toppings.png">
+      <Name>Toppings</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
