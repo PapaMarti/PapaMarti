@@ -63,7 +63,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="StageManager.cs" />
-    <Compile Include="Toppings.cs" />
     <Compile Include="ToppingContainer.cs" />
     <Compile Include="ToppingScreen.cs" />
   </ItemGroup>
