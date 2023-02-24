@@ -16,6 +16,7 @@ namespace PapaMarti {
     public class Game1 : Microsoft.Xna.Framework.Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        StageManager currentStage;
 
         ToppingScreen screen;
         Pizza pizza;
@@ -40,8 +41,11 @@ namespace PapaMarti {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            pizza = new Pizza(new List<Rectangle>(), new List<Topping>(), 50);
-
+            currentStage = new CookingManager(GraphicsDevice, Content, new Pizza(null, null, 0));
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -74,7 +78,7 @@ namespace PapaMarti {
         protected override void Update(GameTime gameTime) {
             kb = Keyboard.GetState();
             // Allows the game to exit
-            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kb.IsKeyDown(Keys.Escape))
+            if(Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
             // TODO: Add your update logic here
@@ -89,6 +93,9 @@ namespace PapaMarti {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin();
+            currentStage.draw(spriteBatch);
+            spriteBatch.End();
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             screen.draw(spriteBatch);

@@ -5,20 +5,16 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace PapaMarti
-{
-    public enum CookStage
-    {
+namespace PapaMarti {
+    public enum CookStage {
         Cutting,
         Toppings,
         Cooking
     }
-    public abstract class CookingStage
-    {
+    public abstract class CookingStage {
         protected readonly Pizza type;
 
-        public CookingStage(Pizza type)
-        {
+        public CookingStage(Pizza type) {
             this.type = type;
         }
 
