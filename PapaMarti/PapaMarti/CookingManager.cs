@@ -17,7 +17,8 @@ namespace PapaMarti {
             this.type = type;
             this.content = content;
             // currentStage = new CuttingScreen()
-            currentStage = new ToppingScreen(type, content.Load<Texture2D>(@"CookingStageTextures\ToppingsTextures\bowl"), content.Load<Texture2D>(@"CookingStageTextures\ToppingsTextures\Toppings"));
+            currentStage = new ToppingScreen(type, content.Load<Texture2D>(@"CookingStageTextures\ToppingsTextures\bowl"), content.Load<Texture2D>(@"CookingStageTextures\ToppingsTextures\Toppings"),
+                content.Load<Texture2D>(@"CookingStageTextures\circle dough"), content.Load<Texture2D>(@"CookingStageTextures\Table"));
         }
 
         public override void draw(SpriteBatch spriteBatch) {

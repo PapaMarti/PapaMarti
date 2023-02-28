@@ -29,6 +29,7 @@ namespace PapaMarti {
             graphics.PreferredBackBufferWidth = screenRect.Width;
             graphics.PreferredBackBufferHeight = screenRect.Height;
             graphics.IsFullScreen = true;
+            IsMouseVisible = true;
             graphics.ApplyChanges();
         }
 
@@ -79,7 +80,7 @@ namespace PapaMarti {
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            currentStage.update(gameTime);
             base.Update(gameTime);
         }
 
