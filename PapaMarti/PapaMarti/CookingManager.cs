@@ -13,13 +13,16 @@ namespace PapaMarti {
         private CookingStage currentStage;
         private Texture2D baseRect;
         private bool isTransitioning;
+        private bool isFadingIn, isFadingOut;
         private Rectangle screenRect;
         private Color alpha;
-        private double accuracy;
+        public double accuracy; //a number from 0.0 to 1.0
 
         public CookingManager(ContentManager content, Rectangle screenRect, Texture2D baseRect, Pizza type) : base(content) {
             this.type = type;
             isTransitioning = false;
+            isFadingIn = false;
+            isFadingOut = false;
             this.baseRect = baseRect;
             alpha = new Color(255, 255, 255, 0);
             this.screenRect = screenRect;
@@ -46,27 +49,48 @@ namespace PapaMarti {
         public override void update(GameTime time) {
             currentStage.update(time);
             if(currentStage.isDone()) {
-                if(!isTransitioning) {
+                if(!isTransitioning) 
+                {
                     isTransitioning = true;
+                    isFadingIn = true;
                     alpha.A = 0;
                 }
+                else if(isFadingIn) 
+                {
+                    alpha.A++;
+                    if(alpha.A >= 255)
+                    {
+                        alpha.A = 255;
+                        isFadingIn = false;
+                        isFadingOut = true;
+                    }
+                    
+                }
+                else if(isFadingOut)
+                {
+                    alpha.A--;
+                    if(alpha.A <= 0)
+                    {
+                        isFadingOut = false;
+                        isTransitioning = false;
+                        alpha.A = 0;
+                        accuracy+=currentStage.getAccuracy();
+                        if(currentStage == CookingStage.Cooking)
+                        {
+                            accuracy/=3.0;
+                        }
+                        switch(currentStage.getStage()) 
+                        {
+                            case CookStage.Cutting:
+                                // currentStage = new ToppingsScreen
+                                break;
 
-                else if(alpha.A >= 255) {
-                    isTransitioning = false;
-                    alpha.A = 0;
-
-                    switch(currentStage.getStage()) {
-                        case CookStage.Cutting:
-                            // currentStage = new ToppingsScreen
-                            break;
-
-                        case CookStage.Toppings:
-                            // currentStage = new CookingScreen
-                            break;
+                            case CookStage.Toppings:
+                                // currentStage = new CookingScreen
+                                break;
+                        }
                     }
                 }
-
-                
             }
         }
     }
