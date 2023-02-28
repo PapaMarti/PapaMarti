@@ -18,9 +18,15 @@ namespace PapaMarti {
         static ToppingContainer() {
             containers = new List<ToppingContainer>();
             int ypos = (Game1.screenRect.Height - 800) / 2;
+            int xpos = 45;
             foreach(Topping t in Topping.toppings) {
-                containers.Add(new ToppingContainer(t, new Rectangle(0, ypos, 313, 165)));
+                containers.Add(new ToppingContainer(t, new Rectangle(xpos, ypos, 313, 165)));
                 ypos += 200;
+
+                if(ypos > 800) {
+                    xpos = Game1.screenRect.Width - 45 - 313;
+                    ypos = (Game1.screenRect.Height - 800) / 2;
+                }
             }
         }
 
