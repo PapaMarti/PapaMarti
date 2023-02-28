@@ -26,19 +26,19 @@ namespace PapaMarti
 {
     public class Pizza
     {
-        List<Rectangle> outline;
-        List<Toppings> toppings;
-        int cookTime;
+        public PizzaShape shape;
+        public List<Toppings> toppings;
+        public int cookTime;
 
         /// <summary>
         /// Creates a pizza that holds its specific values.
         /// </summary>
         /// <param name="cookTime">The amount of time it takes to cook this pizza.</param>
         /// <param name="toppings">The types of toppings that this pizza will have.</param>
-        /// <param name="outline">List of Rectangles outlining where the pizza is supposed to be cut</param>
-        public Pizza(List<Rectangle> outline, List<Toppings> toppings, int cookTime)
+        /// <param name="shape">Enum for what shape of the pizza is for the Cutting Stage.</param>
+        public Pizza(PizzaShape shape, List<Toppings> toppings, int cookTime)
         {
-            this.outline = outline;
+            this.shape = shape;
             this.toppings = toppings;
             this.cookTime = cookTime;
         }

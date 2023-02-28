@@ -18,7 +18,7 @@ namespace PapaMarti {
         SpriteBatch spriteBatch;
         int screenWidth = 1920, screenHeight = 1080;
         Rectangle screenRect;
-        CuttingScreen cuttingScreen;
+        CookingManager currentStage;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -51,13 +51,12 @@ namespace PapaMarti {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
-            currentStage = new CookingManager(Content, screenRect, baseRect, new Pizza(null, null, 0));
+            currentStage = new CookingManager(Content, screenRect, baseRect, new Pizza(PizzaShape.Circle, null, 0));
             // TODO: use this.Content to load your game content here
             Texture2D white = this.Content.Load<Texture2D>("whitePixel");//white pixel for table & testing, delete later
             Texture2D outline = this.Content.Load<Texture2D>("circle outline");
             Texture2D dough = this.Content.Load<Texture2D>("dough");
             Texture2D cutDough = this.Content.Load<Texture2D>("circle dough");
-            cuttingScreen = new CuttingScreen(PizzaShape.Circle, screenRect, dough, outline, cutDough, white);
         }
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace PapaMarti {
                 this.Exit();
 
             // TODO: Add your update logic here
-            cuttingScreen.update(gameTime);
+            currentStage.update(gameTime);
 
             base.Update(gameTime);
         }
@@ -100,7 +99,7 @@ namespace PapaMarti {
             // TODO: Add your drawing code here
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
-            cuttingScreen.draw(spriteBatch);
+            currentStage.draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

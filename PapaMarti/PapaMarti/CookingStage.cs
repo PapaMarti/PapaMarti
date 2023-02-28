@@ -12,6 +12,7 @@ namespace PapaMarti {
         Cooking
     }
     public abstract class CookingStage {
+
         protected readonly Pizza type;
 
         public CookingStage(Pizza type) {

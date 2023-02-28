@@ -12,17 +12,17 @@ using System.Linq;
 namespace PapaMarti
 {
     //this is used to decide which hardcoded rectangles to use, but the correct outline & cut dough texture needs to be passed in manually
-    enum PizzaShape
+    public enum PizzaShape
     {
         Circle
     }
 
-    class CuttingScreen
+    class CuttingScreen : CookingStage
     {
         PizzaShape shape;
         Rectangle screenRect;
-        Rectangle uncutDoughRect; //this will always be a square
-        Texture2D whitePixel; //TESTING ONLY REMOVE LATER
+        Rectangle uncutDoughRect;
+        Texture2D whitePixel;
         Texture2D dough;
         Texture2D outline;
         Texture2D cutDough;
@@ -34,9 +34,9 @@ namespace PapaMarti
         bool done;
 
         //please never make the screen width less than its height. you will break my stuff
-        public CuttingScreen(PizzaShape shape, Rectangle screenRectangle, Texture2D dough, Texture2D outline, Texture2D cutDough, Texture2D white)
+        public CuttingScreen(Pizza type, Rectangle screenRectangle, Texture2D dough, Texture2D outline, Texture2D cutDough, Texture2D white) : base(type)
         {
-            this.shape = shape;
+            shape = this.type.shape;
             screenRect = screenRectangle;
             int uncutHeight = (int)(screenRect.Height * 0.8);
             uncutDoughRect = new Rectangle((screenRect.Width - uncutHeight) / 2 + screenRect.X, (screenRect.Height - uncutHeight) / 2 + screenRect.Y, uncutHeight, uncutHeight);
@@ -65,7 +65,7 @@ namespace PapaMarti
             //}
         }
 
-        public void draw(SpriteBatch spriteBatch)
+        public override void draw(SpriteBatch spriteBatch)
         {
             if (done)
             {
@@ -89,12 +89,12 @@ namespace PapaMarti
                     Color accuracyColor = new Color((float)(1.0 - accuracies[i]), (float)accuracies[i], 0.0f);
                     pixel.X = mouseLocations[i].X;
                     pixel.Y = mouseLocations[i].Y;
-                    spriteBatch.Draw(dough, pixel, accuracyColor);
+                    spriteBatch.Draw(whitePixel, pixel, accuracyColor);
                 }
             }
             //might need to print accuracy rectangles for testing
         }
-        public void update(GameTime time)
+        public override void update(GameTime time)
         {
             MouseState mouse = Mouse.GetState();
             if (mouse.LeftButton == ButtonState.Pressed && !done)
@@ -164,11 +164,11 @@ namespace PapaMarti
                 }
             }
         }
-        public bool isDone()
+        public override bool isDone()
         {
             return done;
         }
-        public double getAccuracy()
+        public override double getAccuracy()
         {
             if (accuracies.Count == 0)
                 return 0.0;
@@ -311,6 +311,11 @@ namespace PapaMarti
                     bestAccuracy = currentAccuracy;
             }
             return bestAccuracy;
+        }
+
+        public override CookStage getStage()
+        {
+            return CookStage.Cutting;
         }
     }
 }
