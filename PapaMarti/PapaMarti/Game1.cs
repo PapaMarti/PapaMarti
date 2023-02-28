@@ -16,14 +16,14 @@ namespace PapaMarti {
     public class Game1 : Microsoft.Xna.Framework.Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        StageManager currentStage;
-        const int screenWidth = 1920;
-        const int screenHeight = 1080;
+        int screenWidth = 1920, screenHeight = 1080;
         Rectangle screenRect;
+        CuttingScreen cuttingScreen;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -53,6 +53,11 @@ namespace PapaMarti {
             baseRect.SetData(new Color[] { Color.White });
             currentStage = new CookingManager(Content, screenRect, baseRect, new Pizza(null, null, 0));
             // TODO: use this.Content to load your game content here
+            Texture2D white = this.Content.Load<Texture2D>("whitePixel");//white pixel for table & testing, delete later
+            Texture2D outline = this.Content.Load<Texture2D>("circle outline");
+            Texture2D dough = this.Content.Load<Texture2D>("dough");
+            Texture2D cutDough = this.Content.Load<Texture2D>("circle dough");
+            cuttingScreen = new CuttingScreen(PizzaShape.Circle, screenRect, dough, outline, cutDough, white);
         }
 
         /// <summary>
@@ -69,11 +74,13 @@ namespace PapaMarti {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
+            KeyboardState kb = Keyboard.GetState();
             // Allows the game to exit
-            if(Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kb.IsKeyDown(Keys.Escape))
                 this.Exit();
 
             // TODO: Add your update logic here
+            cuttingScreen.update(gameTime);
 
             base.Update(gameTime);
         }
@@ -91,7 +98,10 @@ namespace PapaMarti {
             spriteBatch.End();
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
+            cuttingScreen.draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
