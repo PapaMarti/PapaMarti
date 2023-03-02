@@ -17,6 +17,9 @@ namespace PapaMarti {
         private Rectangle screenRect;
         private Color alpha;
         public double accuracy; //a number from 0.0 to 1.0
+        private int waitTime; //in 1/60th of a seconds
+        private bool hasWaited;
+        SpriteFont font;
 
         public CookingManager(ContentManager content, Rectangle screenRect, Texture2D baseRect, Pizza type) : base(content) {
             this.type = type;
@@ -24,9 +27,12 @@ namespace PapaMarti {
             isFadingIn = false;
             isFadingOut = false;
             this.baseRect = baseRect;
-            alpha = new Color(255, 255, 255, 0);
+            alpha = new Color(0, 0, 0, 0);
             this.screenRect = screenRect;
             accuracy = 0.0;
+            waitTime = 0;
+            hasWaited = false;
+            font = content.Load<SpriteFont>("text01");
             if(type.shape == PizzaShape.Circle)
                 currentStage = new CuttingScreen(type, this.screenRect, content.Load<Texture2D>("dough"), content.Load<Texture2D>("circle outline"), content.Load<Texture2D>("circle dough"), content.Load<Texture2D>("whitePixel"));
         }
@@ -35,6 +41,11 @@ namespace PapaMarti {
             currentStage.draw(spriteBatch);
             if(isTransitioning) {
                 spriteBatch.Draw(baseRect, screenRect, alpha);
+            }
+            if(waitTime > 0)
+            {
+                string accuracyText = "Accuracy: " + Math.Round(currentStage.getAccuracy() * 100) + "%";
+                spriteBatch.DrawString(font, accuracyText, new Vector2((screenRect.Width - font.MeasureString(accuracyText).X) / 2, (screenRect.Height - font.MeasureString(accuracyText).Y) / 2), Color.Black);
             }
         }
 
@@ -48,8 +59,18 @@ namespace PapaMarti {
 
         public override void update(GameTime time) {
             currentStage.update(time);
-            if(currentStage.isDone()) {
-                if(!isTransitioning) 
+            waitTime--;
+            if(waitTime > 0)
+            {
+
+            }
+            else if(currentStage.isDone()) {
+                if (!hasWaited)
+                {
+                    waitTime = 120;
+                    hasWaited = true;
+                }
+                else if(!isTransitioning) 
                 {
                     isTransitioning = true;
                     isFadingIn = true;
@@ -57,8 +78,8 @@ namespace PapaMarti {
                 }
                 else if(isFadingIn) 
                 {
-                    alpha.A++;
-                    if(alpha.A >= 255)
+                    alpha.A+=3;
+                    if(alpha.A >= 253)
                     {
                         alpha.A = 255;
                         isFadingIn = false;
@@ -68,14 +89,14 @@ namespace PapaMarti {
                 }
                 else if(isFadingOut)
                 {
-                    alpha.A--;
-                    if(alpha.A <= 0)
+                    alpha.A-=3;
+                    if(alpha.A <= 2)
                     {
                         isFadingOut = false;
                         isTransitioning = false;
                         alpha.A = 0;
                         accuracy+=currentStage.getAccuracy();
-                        if(currentStage == CookingStage.Cooking)
+                        if(currentStage.getStage() == CookStage.Cooking)
                         {
                             accuracy/=3.0;
                         }
@@ -89,6 +110,7 @@ namespace PapaMarti {
                                 // currentStage = new CookingScreen
                                 break;
                         }
+                        hasWaited = false;
                     }
                 }
             }
