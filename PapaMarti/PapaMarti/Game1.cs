@@ -43,10 +43,6 @@ namespace PapaMarti {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
             currentStage = new CookingManager(Content, new Pizza(null, new List<Topping>(), 0));
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
-            graphics.IsFullScreen = true;
-            graphics.ApplyChanges();
             base.Initialize();
         }
 

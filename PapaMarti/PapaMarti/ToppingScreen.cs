@@ -14,35 +14,38 @@ namespace PapaMarti {
         private readonly Texture2D bowl;
         private readonly Texture2D toppings;
         private readonly Texture2D dough;
-        private readonly Texture2D table;
         private readonly Rectangle doughRect;
         private readonly List<Topping> toppingOrder;
 
         private Topping currentClicked;
         private Rectangle toppingRect;
-        private Dictionary<Rectangle, Topping> toppingPos;
+        private Queue<KeyValuePair<Rectangle, Topping>> toppingPos;
+        private Point prevMouse;
 
         /// <summary>
         /// Creates a new topping screen to complete the topping stage of creating the pizza
         /// </summary>
-        public ToppingScreen(Pizza type, Texture2D bowl, Texture2D toppings, Texture2D dough, Texture2D table) : base(type) {
+        public ToppingScreen(Pizza type, Texture2D bowl, Texture2D toppings, Texture2D dough) : base(type) {
             this.bowl = bowl;
             this.toppings = toppings;
             this.dough = dough;
-            this.table = table;
             double size = Game1.screenRect.Height * 0.64;
             doughRect = new Rectangle((int) (Game1.screenRect.Width - size) / 2, (int) ((Game1.screenRect.Height - size) / 2), (int) size, (int) size);
             currentClicked = null;
             toppingRect = new Rectangle();
-            toppingPos = new Dictionary<Rectangle, Topping>();
+            toppingPos = new Queue<KeyValuePair<Rectangle, Topping>>();
+            prevMouse = new Point(Mouse.GetState().X, Mouse.GetState().Y);
         }
 
         override
         public void draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(table, Game1.screenRect, Color.White);
             spriteBatch.Draw(dough, doughRect, Color.White);
             foreach(ToppingContainer t in ToppingContainer.containers) {
                 t.draw(spriteBatch, bowl, toppings);
+            }
+
+            foreach(KeyValuePair<Rectangle, Topping> k in toppingPos) {
+                spriteBatch.Draw(toppings, k.Key, k.Value.textureRect, Color.White);
             }
 
             if(currentClicked != null)
@@ -63,14 +66,20 @@ namespace PapaMarti {
 
                 else {
                     toppingRect = new Rectangle(m.X - (ToppingContainer.TOPPING_SIZE / 2), m.Y - (ToppingContainer.TOPPING_SIZE / 2), ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE);
-                }
-
-                if(Math.Pow(m.X - 960, 2) + Math.Pow(m.Y - 540, 2) < 345.6) {
-                    toppingPos.Add(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked);
+                    if(Math.Pow(m.X - 930, 2) + Math.Pow(m.Y - 510, 2) < 75625 && Math.Sqrt(Math.Pow(m.X - prevMouse.X, 2) + Math.Pow(m.Y - prevMouse.Y, 2)) > 32 && !currentClicked.isDragAndDrop) {
+                        if(toppingPos.Count > 500)
+                            toppingPos.Dequeue();
+                        toppingPos.Enqueue(new KeyValuePair<Rectangle, Topping>(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked));
+                        prevMouse.X = m.X;
+                        prevMouse.Y = m.Y;
+                    }
                 }
             }
 
             else {
+                if(currentClicked != null && Math.Pow(m.X - 930, 2) + Math.Pow(m.Y - 540, 2) < 75625 && currentClicked.isDragAndDrop) {
+                    toppingPos.Enqueue(new KeyValuePair<Rectangle, Topping>(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked));
+                }
                 currentClicked = null;
             }
         }
