@@ -14,27 +14,26 @@ namespace PapaMarti {
         private Texture2D baseRect;
         private bool isTransitioning;
         private bool isFadingIn, isFadingOut;
-        private Rectangle screenRect;
         private Color alpha;
         public double accuracy; //a number from 0.0 to 1.0
+        private readonly ContentManager content;
 
-        public CookingManager(ContentManager content, Rectangle screenRect, Texture2D baseRect, Pizza type) : base(content) {
+        public CookingManager(ContentManager content, Texture2D baseRect, Pizza type) : base(content) {
             this.type = type;
             isTransitioning = false;
             isFadingIn = false;
             isFadingOut = false;
             this.baseRect = baseRect;
             alpha = new Color(255, 255, 255, 0);
-            this.screenRect = screenRect;
             accuracy = 0.0;
             if(type.shape == PizzaShape.Circle)
-                currentStage = new CuttingScreen(type, this.screenRect, content.Load<Texture2D>("dough"), content.Load<Texture2D>("circle outline"), content.Load<Texture2D>("circle dough"), content.Load<Texture2D>("whitePixel"));
+                currentStage = new CuttingScreen(type, Game1.screenRect, content.Load<Texture2D>("dough"), content.Load<Texture2D>("circle outline"), content.Load<Texture2D>("circle dough"), content.Load<Texture2D>("whitePixel"));
         }
 
         public override void draw(SpriteBatch spriteBatch) {
             currentStage.draw(spriteBatch);
             if(isTransitioning) {
-                spriteBatch.Draw(baseRect, screenRect, alpha);
+                spriteBatch.Draw(baseRect, Game1.screenRect, alpha);
             }
         }
 
@@ -75,7 +74,7 @@ namespace PapaMarti {
                         isTransitioning = false;
                         alpha.A = 0;
                         accuracy+=currentStage.getAccuracy();
-                        if(currentStage == CookingStage.Cooking)
+                        if(currentStage.getStage() == CookStage.Cooking)
                         {
                             accuracy/=3.0;
                         }
