@@ -25,11 +25,10 @@ namespace PapaMarti {
         /// <summary>
         /// Creates a new topping screen to complete the topping stage of creating the pizza
         /// </summary>
-        public ToppingScreen(Pizza type, Texture2D bowl, Texture2D toppings, Texture2D dough, Texture2D table) : base(type) {
+        public ToppingScreen(Pizza type, Texture2D bowl, Texture2D toppings, Texture2D dough) : base(type) {
             this.bowl = bowl;
             this.toppings = toppings;
             this.dough = dough;
-            this.table = table;
             double size = Game1.screenRect.Height * 0.64;
             doughRect = new Rectangle((int) (Game1.screenRect.Width - size) / 2, (int) ((Game1.screenRect.Height - size) / 2), (int) size, (int) size);
             currentClicked = null;
@@ -39,7 +38,6 @@ namespace PapaMarti {
 
         override
         public void draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(table, Game1.screenRect, Color.White);
             spriteBatch.Draw(dough, doughRect, Color.White);
             foreach(ToppingContainer t in ToppingContainer.containers) {
                 t.draw(spriteBatch, bowl, toppings);
@@ -77,7 +75,7 @@ namespace PapaMarti {
 
         override
         public bool isDone() {
-            return false;
+            return true;
         }
 
         override

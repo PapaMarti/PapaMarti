@@ -16,7 +16,7 @@ namespace PapaMarti {
 
 
     public abstract class StageManager {
-        private readonly ContentManager content;
+        protected readonly ContentManager content;
 
         public StageManager(ContentManager content) {
             this.content = content;

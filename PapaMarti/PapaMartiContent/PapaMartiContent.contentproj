@@ -36,19 +36,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="circle outline.png">
+    <Compile Include="CookingStageTextures\CuttingStageTextures\circle outline.png">
       <Name>circle outline</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="circle dough.png">
-      <Name>circle dough</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="dough.png">
+    <Compile Include="CookingStageTextures\CuttingStageTextures\dough.png">
       <Name>dough</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>

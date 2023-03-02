@@ -61,10 +61,6 @@ namespace PapaMarti {
             baseRect.SetData(new Color[] { Color.White });
             currentStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, null, null, 0));
             // TODO: use this.Content to load your game content here
-            Texture2D white = this.Content.Load<Texture2D>("whitePixel");//white pixel for table & testing, delete later
-            Texture2D outline = this.Content.Load<Texture2D>("circle outline");
-            Texture2D dough = this.Content.Load<Texture2D>("dough");
-            Texture2D cutDough = this.Content.Load<Texture2D>("circle dough");
         }
 
         /// <summary>
