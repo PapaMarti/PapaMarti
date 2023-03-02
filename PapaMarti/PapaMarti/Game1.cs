@@ -14,17 +14,26 @@ namespace PapaMarti {
     /// This is the main type for your game
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game {
+        public static Rectangle screenRect = new Rectangle(0, 0, 1920, 1080);
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         int screenWidth = 1920, screenHeight = 1080;
-        Rectangle screenRect;
         CookingManager currentStage;
+
+        Pizza pizza;
+        
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            this.IsMouseVisible = true;
+            Content.RootDirectory = "Content"; 
+            graphics.PreferredBackBufferWidth = screenRect.Width;
+            graphics.PreferredBackBufferHeight = screenRect.Height;
+            graphics.IsFullScreen = true;
+            IsMouseVisible = true;
+            graphics.ApplyChanges();
         }
+
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -34,9 +43,8 @@ namespace PapaMarti {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            screenRect = new Rectangle(0, 0, screenWidth, screenHeight);
-            graphics.PreferredBackBufferWidth = screenWidth;
-            graphics.PreferredBackBufferHeight = screenHeight;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
             graphics.IsFullScreen = true;
             graphics.ApplyChanges();
             base.Initialize();
@@ -51,7 +59,7 @@ namespace PapaMarti {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
-            currentStage = new CookingManager(Content, screenRect, baseRect, new Pizza(PizzaShape.Circle, null, 0));
+            currentStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, null, null, 0));
             // TODO: use this.Content to load your game content here
             Texture2D white = this.Content.Load<Texture2D>("whitePixel");//white pixel for table & testing, delete later
             Texture2D outline = this.Content.Load<Texture2D>("circle outline");
@@ -75,12 +83,11 @@ namespace PapaMarti {
         protected override void Update(GameTime gameTime) {
             KeyboardState kb = Keyboard.GetState();
             // Allows the game to exit
-            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || kb.IsKeyDown(Keys.Escape))
+            if(Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
             // TODO: Add your update logic here
             currentStage.update(gameTime);
-
             base.Update(gameTime);
         }
 
@@ -92,15 +99,10 @@ namespace PapaMarti {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-
-
-            spriteBatch.End();
-
-            // TODO: Add your drawing code here
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-
             currentStage.draw(spriteBatch);
             spriteBatch.End();
+            // TODO: Add your drawing code here
+
             base.Draw(gameTime);
         }
     }

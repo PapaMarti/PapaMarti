@@ -55,6 +55,34 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CookingStageTextures\ToppingsTextures\bowl.png">
+      <Name>bowl</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CookingStageTextures\ToppingsTextures\Toppings.png">
+      <Name>Toppings</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CookingStageTextures\circle dough.png">
+      <Name>circle dough</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CookingStageTextures\Table.png">
+      <Name>Table</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="text01.spritefont">
       <Name>text01</Name>
       <Importer>FontDescriptionImporter</Importer>
