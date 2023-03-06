@@ -16,10 +16,18 @@ namespace PapaMarti {
     public class Game1 : Microsoft.Xna.Framework.Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D pizza;
+        Texture2D text;
+        OvenScreen oven;
+        SpriteFont font;
+
+        Texture2D ovenText;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
         }
 
         /// <summary>
@@ -30,6 +38,7 @@ namespace PapaMarti {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
+            IsMouseVisible = true;
 
             base.Initialize();
         }
@@ -41,8 +50,13 @@ namespace PapaMarti {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            pizza = this.Content.Load<Texture2D>("pizza");
+            ovenText = this.Content.Load<Texture2D>("oven");
+            font = this.Content.Load<SpriteFont>("SpriteFont1");
+            text = this.Content.Load<Texture2D>("place");
+            oven = new OvenScreen(pizza, ovenText, text, 10, font, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             // TODO: use this.Content to load your game content here
+
         }
 
         /// <summary>
@@ -64,6 +78,7 @@ namespace PapaMarti {
                 this.Exit();
 
             // TODO: Add your update logic here
+            oven.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -76,7 +91,11 @@ namespace PapaMarti {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            // oven.Draw(spriteBatch);
+            oven.Draw(spriteBatch);
+            //spriteBatch.Draw(rect, new Rectangle(100, 100, 100, 100), Color.Pink);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
