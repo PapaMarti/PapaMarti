@@ -43,7 +43,6 @@ namespace PapaMarti {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
-            currentStage = new CookingManager(Content, new Pizza(null, new List<Topping>(), 0));
             base.Initialize();
         }
 
