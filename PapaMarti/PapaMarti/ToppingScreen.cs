@@ -21,6 +21,7 @@ namespace PapaMarti {
         private Rectangle toppingRect;
         private Queue<KeyValuePair<Rectangle, Topping>> toppingPos;
         private Point prevMouse;
+        private double passedTime;
 
         /// <summary>
         /// Creates a new topping screen to complete the topping stage of creating the pizza
@@ -31,6 +32,7 @@ namespace PapaMarti {
             this.dough = dough;
             double size = Game1.screenRect.Height * 0.64;
             doughRect = new Rectangle((int) (Game1.screenRect.Width - size) / 2, (int) ((Game1.screenRect.Height - size) / 2), (int) size, (int) size);
+            passedTime = 0;
             currentClicked = null;
             toppingRect = new Rectangle();
             toppingPos = new Queue<KeyValuePair<Rectangle, Topping>>();
@@ -55,6 +57,7 @@ namespace PapaMarti {
         override
         public void update(GameTime time) {
             MouseState m = Mouse.GetState();
+            passedTime += time.ElapsedGameTime.TotalSeconds;
             if(m.LeftButton == ButtonState.Pressed) {
                 if(currentClicked == null) {
                     foreach(ToppingContainer c in ToppingContainer.containers) {
@@ -86,7 +89,7 @@ namespace PapaMarti {
 
         override
         public bool isDone() {
-            return false;
+            return passedTime > 10;
         }
 
         override
