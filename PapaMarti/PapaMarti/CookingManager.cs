@@ -1,10 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PapaMarti {
 
@@ -21,6 +24,11 @@ namespace PapaMarti {
         SpriteFont font;
         bool drawTable;
         Texture2D table;
+        Rectangle retryButton;
+        bool done;
+        bool readyToMoveOn;
+        Texture2D pixel;
+
 
         public CookingManager(ContentManager content, Texture2D baseRect, Pizza type) : base(content) {
             this.type = type;
@@ -28,13 +36,18 @@ namespace PapaMarti {
             isFadingIn = false;
             isFadingOut = false;
             this.baseRect = baseRect;
+            int retryWidth = Game1.screenRect.Width / 10;
+            int retryHeight = Game1.screenRect.Height / 10;
+            retryButton = new Rectangle((Game1.screenRect.Width - retryWidth) / 2, (Game1.screenRect.Height - retryHeight) / 2 + 40, retryWidth, retryHeight);
             alpha = new Color(0, 0, 0, 0);
             accuracy = 0.0;
             waitTime = 0;
             hasWaited = false;
             drawTable = true;
+            readyToMoveOn = false;
             table = content.Load<Texture2D>("CookingStageTextures/Table");
             font = content.Load<SpriteFont>("text01");
+            pixel = content.Load<Texture2D>("whitePixel");
             if(type.shape == PizzaShape.Circle)
                 currentStage = new CuttingScreen(type, Game1.screenRect, content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/dough"), content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/circle outline"), content.Load<Texture2D>("CookingStageTextures/circle dough"), content.Load<Texture2D>("whitePixel"));
         }
@@ -46,10 +59,16 @@ namespace PapaMarti {
             if(isTransitioning) {
                 spriteBatch.Draw(baseRect, Game1.screenRect, alpha);
             }
-            if(waitTime > 0)
+            if(waitTime > 0 && !done)
             {
                 string accuracyText = "Accuracy: " + Math.Round(currentStage.getAccuracy() * 100) + "%";
                 spriteBatch.DrawString(font, accuracyText, new Vector2((Game1.screenRect.Width - font.MeasureString(accuracyText).X) / 2, (Game1.screenRect.Height - font.MeasureString(accuracyText).Y) / 2), Color.Black);
+            }
+            if(done && !readyToMoveOn)
+            {
+                string accuracyText = "Total Accuracy: " + Math.Round(accuracy * 100) + "%";
+                spriteBatch.DrawString(font, accuracyText, new Vector2((Game1.screenRect.Width - font.MeasureString(accuracyText).X) / 2, (Game1.screenRect.Height - font.MeasureString(accuracyText).Y) / 2), Color.Black);
+                spriteBatch.Draw(pixel, retryButton, Color.Blue);
             }
         }
 
@@ -58,13 +77,31 @@ namespace PapaMarti {
         }
 
         public override bool isDone() {
-            return currentStage.getStage() == CookStage.Cooking && currentStage.isDone();
+            return readyToMoveOn;
         }
 
         public override void update(GameTime time) {
             currentStage.update(time);
+            MouseState mouse = Mouse.GetState();
             waitTime--;
-            if(waitTime > 0)
+            if(currentStage.getStage() == CookStage.Cooking && currentStage.isDone() && waitTime <= 0)
+            {
+                done = true;
+            }
+            if(done && waitTime > 0)
+            {
+                if(mouse.LeftButton == ButtonState.Pressed && retryButton.Contains(new Point(mouse.X, mouse.Y)))
+                {
+                    done = false;
+                    waitTime = 0;
+                    currentStage = new CuttingScreen(type, Game1.screenRect, content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/dough"), content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/circle outline"), content.Load<Texture2D>("CookingStageTextures/circle dough"), content.Load<Texture2D>("whitePixel"));
+                }
+            }
+            else if (done)
+            {
+                readyToMoveOn = true;
+            }
+            else if(waitTime > 0)
             {
 
             }
@@ -72,6 +109,8 @@ namespace PapaMarti {
                 if (!hasWaited)
                 {
                     waitTime = 120;
+                    if (done)
+                        waitTime = 180;
                     hasWaited = true;
                 }
                 else if(!isTransitioning) 
