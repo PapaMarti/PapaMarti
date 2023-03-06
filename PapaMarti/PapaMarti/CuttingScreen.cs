@@ -144,9 +144,9 @@ namespace PapaMarti
                                 break;
                             }
                         }
-                        if(i != 0)
+                        if(i != 0 && i != 1)
                         {
-                            if (!checkingRectangles[i] && !checkingRectangles[i - 1])
+                            if (!checkingRectangles[i] && !checkingRectangles[i - 1] && !checkingRectangles[i - 2])
                             {
                                 isDone = false;
                                 break;
