@@ -15,7 +15,7 @@ namespace PapaMarti {
         private readonly Texture2D toppings;
         private readonly Texture2D dough;
         private readonly Rectangle doughRect;
-        private readonly List<Topping> toppingOrder;
+        private readonly List<KeyValuePair<Rectangle, Topping>> actualToppingPos;
 
         private Topping currentClicked;
         private Rectangle toppingRect;
@@ -26,10 +26,11 @@ namespace PapaMarti {
         /// <summary>
         /// Creates a new topping screen to complete the topping stage of creating the pizza
         /// </summary>
-        public ToppingScreen(Pizza type, Texture2D bowl, Texture2D toppings, Texture2D dough) : base(type) {
+        public ToppingScreen(Pizza type, Texture2D bowl, Texture2D toppings, Texture2D dough, List<KeyValuePair<Rectangle, Topping>> actualToppingPos) : base(type) {
             this.bowl = bowl;
             this.toppings = toppings;
             this.dough = dough;
+            this.actualToppingPos = actualToppingPos;
             double size = Game1.screenRect.Height * 0.64;
             doughRect = new Rectangle((int) (Game1.screenRect.Width - size) / 2, (int) ((Game1.screenRect.Height - size) / 2), (int) size, (int) size);
             passedTime = 0;
@@ -89,12 +90,22 @@ namespace PapaMarti {
 
         override
         public bool isDone() {
-            return passedTime > 10;
+            int t = 0;
+            foreach(KeyValuePair<Rectangle, Topping> top in toppingPos)
+                if(top.Value != Topping.cheese && top.Value != Topping.sauce)
+                    t++;
+            
+            return t == actualToppingPos.Count();
         }
 
         override
         public double getAccuracy() {
-            return 0;
+            double t = 0;
+            foreach(KeyValuePair<Rectangle, Topping> top in toppingPos)
+                if(top.Value != Topping.cheese && top.Value != Topping.sauce)
+                    t++;
+
+            return t / actualToppingPos.Count;
         }
 
         override
