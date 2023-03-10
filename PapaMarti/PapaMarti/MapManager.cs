@@ -37,11 +37,12 @@ namespace PapaMarti
             mapSource = new Rectangle(0, 0, map.Width, map.Height);
             mapOrigin = new Vector2(map.Width / 2, map.Height / 2);
             translation = 1700; //adjust this number to get the scaling right
-            innerCircleTranslation = 200;
+            innerCircleTranslation = 250;
             mapPosition = new Vector2(Game1.screenRect.Width / 2, Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation)));
             minPosition = 0.005;
             maxPosition = 0.995;
         }
+        //makes sure that the position of the map matches the position of the player
         private void updatePosition()
         {
             mapPosition.Y = Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation));
@@ -58,7 +59,6 @@ namespace PapaMarti
         public override void update(GameTime time)
         {
             KeyboardState kb = Keyboard.GetState();
-            updatePosition();
             double angleSpeed = 0.005; //in radians per frame
             if (kb.IsKeyDown(Keys.Left) && canRotate())
             {
@@ -74,14 +74,17 @@ namespace PapaMarti
                 else
                     angle -= angleSpeed * 2;
             }
-            if(kb.IsKeyDown(Keys.Up) && canMove())
+            double movementSpeed = 0.005;
+            if(kb.IsKeyDown(Keys.Up) && canMove() && position > 0)
             {
-
+                position -= movementSpeed;
             }
-            if(kb.IsKeyDown(Keys.Down) && canMove())
+            if(kb.IsKeyDown(Keys.Down) && canMove() && position < 1)
             {
-
+                position += movementSpeed;
             }
+
+            updatePosition();
         }
         public override bool isDone()
         {
