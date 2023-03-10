@@ -20,8 +20,8 @@ namespace PapaMarti {
         SpriteBatch spriteBatch;
         StageManager currentStage;
 
-        
 
+        List<TextCard> cards;
         Texture2D ovenText;
 
         public Game1() {
@@ -44,6 +44,7 @@ namespace PapaMarti {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
+            cards = new List<TextCard>();
             base.Initialize();
         }
 
@@ -58,7 +59,8 @@ namespace PapaMarti {
             baseRect.SetData(new Color[] { Color.White });
             currentStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0));
             // TODO: use this.Content to load your game content here
-
+            string text = "Testing the text card and making sure it works properly. Please work. Please. I'm begging.";
+            cards.Add(new TextCard(Content, text, "Ella"));
         }
 
         /// <summary>
@@ -80,6 +82,13 @@ namespace PapaMarti {
             if(Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
+            if(cards.Count > 0)
+            {
+                cards[0].update();
+                if (cards[0].isDone())
+                    cards.RemoveAt(0);
+            }
+
             // TODO: Add your update logic here
             currentStage.update(gameTime);
             base.Update(gameTime);
@@ -94,6 +103,10 @@ namespace PapaMarti {
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
             currentStage.draw(spriteBatch);
+
+            if (cards.Count > 0)
+                cards[0].draw(spriteBatch);
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
