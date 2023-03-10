@@ -56,7 +56,8 @@ namespace PapaMarti {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
-            currentStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0));
+            //currentStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0));
+            currentStage = new MapManager(Content, 0, 0);
             // TODO: use this.Content to load your game content here
 
         }

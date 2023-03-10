@@ -56,6 +56,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MapManager.cs" />
     <Compile Include="PizzaMaking\OvenScreen.cs" />
     <Compile Include="PizzaMaking\CookingManager.cs" />
     <Compile Include="PizzaMaking\Pizza.cs" />
