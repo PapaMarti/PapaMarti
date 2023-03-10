@@ -13,12 +13,12 @@ using Microsoft.Xna.Framework.GamerServices;
 namespace PapaMarti
 {
     //Make it inherit CookingStage
-    class OvenScreen
+    public class OvenScreen : CookingStage
     {
         
         //public Pizza pizza;
         public bool inOven;
-        public bool isDone;
+        public bool isPizzaDone;
         public bool isBurnt;
         public int timeUntilDone; //tracks seconds, default at 30 seconds
         public int timeUntilBurnt; //tracks seconds, default at 10 seconds
@@ -37,9 +37,6 @@ namespace PapaMarti
         Texture2D pizza;
         SpriteFont font;
 
-        //1920 x 1080
-        int SCREENWIDTH;
-        int SCREENHEIGHT;
         KeyboardState oldKB;
         //Press space to put pizza in the oven, press space again to take it out
 
@@ -63,15 +60,13 @@ namespace PapaMarti
 
         MouseState oldMouse;
 
-        public OvenScreen(Texture2D texture, Texture2D ovenTexture, Texture2D textbox_, int _timeUntilDone, SpriteFont _font, int screenWidth, int screenHeight) //Probably can eliminate some parameters later I didn't know how to access some variables in this class
+        public OvenScreen(Pizza pizza, Texture2D texture, Texture2D ovenTexture, Texture2D textbox_, int _timeUntilDone, SpriteFont _font) : base(pizza) //Probably can eliminate some parameters later I didn't know how to access some variables in this class
         {
-            SCREENWIDTH = screenWidth;
-            SCREENHEIGHT = screenHeight;
-            tempPizza = new Rectangle((SCREENWIDTH - 300) / 2, 750, 300, 300); //change to pizza variable
+            tempPizza = new Rectangle((Game1.screenRect.Width - 300) / 2, 750, 300, 300); //change to pizza variable
             startingLocation = new Vector2(tempPizza.X, tempPizza.Y);
-            pizza = texture;
+            this.pizza = texture;
             inOven = false;
-            isDone = false;
+            isPizzaDone = false;
             isBurnt = false;
             timeUntilDone = _timeUntilDone;
             cookingTimeSave = _timeUntilDone;
@@ -87,8 +82,8 @@ namespace PapaMarti
             oldKB = Keyboard.GetState();
             textbox = textbox_;
 
-            oven = new Rectangle((SCREENWIDTH - 600) / 2, 200, 600, 600);
-            cookingLocation = new Vector2((SCREENWIDTH - 300) / 2, 400);
+            oven = new Rectangle((Game1.screenRect.Width - 600) / 2, 200, 600, 600);
+            cookingLocation = new Vector2((Game1.screenRect.Width - 300) / 2, 400);
             ovenText = ovenTexture;
             instructions = true;
             score = 0;
@@ -97,7 +92,7 @@ namespace PapaMarti
             textCounter = 2;
             textInstructions = "Drag the pizza into the oven to cook.\nTry to get as close to the optimal cooking time as you can\n to earn maximum points.";
 
-            textBox = new Rectangle((SCREENWIDTH - 900) / 2, (SCREENHEIGHT - 200) / 2, 900, 200);
+            textBox = new Rectangle((Game1.screenRect.Width - 900) / 2, (Game1.screenRect.Height - 200) / 2, 900, 200);
             oldMouse = Mouse.GetState();
         }
 
@@ -112,7 +107,7 @@ namespace PapaMarti
         */
 
         //Updates cooking timer
-        public void Update(GameTime _gameTime)
+        public override void update(GameTime _gameTime)
         {
             KeyboardState kb = Keyboard.GetState();
             MouseState mouse = Mouse.GetState();
@@ -142,7 +137,7 @@ namespace PapaMarti
                 if (realTimeTracker % 60 == 0)
                 {
                     animationTimer++;
-                    if (isDone)
+                    if (isPizzaDone)
                     {
                         timeUntilBurnt--;
                         if (timeUntilBurnt <= 0)
@@ -160,7 +155,7 @@ namespace PapaMarti
                         splashText = "Take the pizza out of the oven after " + cookingTimeSave + " seconds!";
                         if (timeUntilDone <= 0)
                         {
-                            isDone = true;
+                            isPizzaDone = true;
                             
                         }
                     }
@@ -254,8 +249,8 @@ namespace PapaMarti
                 {
                     finished = true;
                     splashText = "Congrats! You have successfully made a pizza";
-                    tempPizza.X = (SCREENWIDTH - tempPizza.Width) / 2;
-                    tempPizza.Y = (SCREENHEIGHT - tempPizza.Height) / 2;
+                    tempPizza.X = (Game1.screenRect.Width - tempPizza.Width) / 2;
+                    tempPizza.Y = (Game1.screenRect.Height - tempPizza.Height) / 2;
                     //finish
                 }
 
@@ -277,14 +272,14 @@ namespace PapaMarti
             }
             return false;
         }
-        public double getAccuracy() //Percent difference between optimal cooking time and current cooking time. If pizza is burnt, 0 points are earned
+        public override double getAccuracy() //Percent difference between optimal cooking time and current cooking time. If pizza is burnt, 0 points are earned
         {
             double difference = 0;
             if (isBurnt)
             {
                 return 0;
             }
-            else if (isDone)
+            else if (isPizzaDone)
             {
                 difference = Math.Abs((timeUntilBurnt - burnTimeSave * 1.0) / burnTimeSave) * 100;
                 difference = 1000 - difference * 10;
@@ -302,7 +297,7 @@ namespace PapaMarti
         {
             tempPizza = new Rectangle((int)startingLocation.X, (int)startingLocation.Y, 200, 200);
             inOven = false;
-            isDone = false;
+            isPizzaDone = false;
             isBurnt = false;
             timeUntilDone = cookingTimeSave;
             timeUntilBurnt = 10;
@@ -312,18 +307,18 @@ namespace PapaMarti
             splashText = "Drag the pizza into the oven to cook";
         }
 
-        public void Draw(SpriteBatch _spriteBatch)
+        public override void draw(SpriteBatch _spriteBatch)
         {
             
             if (instructions)
             {
                 _spriteBatch.Draw(textbox, textBox, Color.White);
 
-                _spriteBatch.DrawString(font, textInstructions, new Vector2((SCREENWIDTH - 900) / 2 + 20, (SCREENHEIGHT - 200) / 2 + 20), Color.Black);
+                _spriteBatch.DrawString(font, textInstructions, new Vector2((Game1.screenRect.Width - 900) / 2 + 20, (Game1.screenRect.Height - 200) / 2 + 20), Color.Black);
             }
             else if (finished)
             {
-                _spriteBatch.DrawString(font, "Final Score: " + score + "pts", new Vector2((SCREENWIDTH - font.MeasureString("Final Score: " + score + "pts").X) / 2, 700), Color.Gold);
+                _spriteBatch.DrawString(font, "Final Score: " + score + "pts", new Vector2((Game1.screenRect.Width - font.MeasureString("Final Score: " + score + "pts").X) / 2, 700), Color.Gold);
                
             }
             else
@@ -338,16 +333,16 @@ namespace PapaMarti
                     {
                         _spriteBatch.Draw(ovenText, oven, new Rectangle(640, 0, 160, 160), Color.White);
                     }
-                    _spriteBatch.DrawString(font, "Score: ???", new Vector2(SCREENWIDTH - 230, SCREENHEIGHT - 70), Color.Gold);
+                    _spriteBatch.DrawString(font, "Score: ???", new Vector2(Game1.screenRect.Width - 230, Game1.screenRect.Height - 70), Color.Gold);
                 }
                 else
                 {
                     _spriteBatch.Draw(ovenText, oven, new Rectangle(0, 0, 160, 160), Color.White);
-                    _spriteBatch.DrawString(font, "Score: " + score, new Vector2(SCREENWIDTH - 230, SCREENHEIGHT - 70), Color.Gold);
-                    _spriteBatch.DrawString(font, subtext, new Vector2((SCREENWIDTH - font.MeasureString(subtext).X) / 2, SCREENHEIGHT - 110), Color.Black);
+                    _spriteBatch.DrawString(font, "Score: " + score, new Vector2(Game1.screenRect.Width - 230, Game1.screenRect.Height - 70), Color.Gold);
+                    _spriteBatch.DrawString(font, subtext, new Vector2((Game1.screenRect.Width - font.MeasureString(subtext).X) / 2, Game1.screenRect.Height - 110), Color.Black);
                     
                 }
-                _spriteBatch.DrawString(font, warningText, new Vector2((SCREENWIDTH - font.MeasureString(warningText).X) / 2, SCREENHEIGHT - 70), Color.Red);
+                _spriteBatch.DrawString(font, warningText, new Vector2((Game1.screenRect.Width - font.MeasureString(warningText).X) / 2, Game1.screenRect.Height - 70), Color.Red);
             }
             if (!instructions)
             {
@@ -355,7 +350,7 @@ namespace PapaMarti
                 {
                     _spriteBatch.Draw(pizza, tempPizza, Color.Gray);
                 }
-                else if (isDone)
+                else if (isPizzaDone)
                 {
                     _spriteBatch.Draw(pizza, tempPizza, Color.Gold);
                 }
@@ -365,12 +360,12 @@ namespace PapaMarti
                 }
                 if (finished || removePizzaTimes > 0)
                 {
-                    _spriteBatch.DrawString(font, splashText, new Vector2((SCREENWIDTH - font.MeasureString(splashText).X) / 2, 100), Color.Blue);
+                    _spriteBatch.DrawString(font, splashText, new Vector2((Game1.screenRect.Width - font.MeasureString(splashText).X) / 2, 100), Color.Blue);
                 }
                 
-                if (inOven && !isDone && !isBurnt) //to be removed
+                if (inOven && !isPizzaDone && !isBurnt) //to be removed
                 {
-                    _spriteBatch.DrawString(font, timeUntilDone + "", new Vector2(100, SCREENHEIGHT - 180), Color.Red);
+                    _spriteBatch.DrawString(font, timeUntilDone + "", new Vector2(100, Game1.screenRect.Height - 180), Color.Red);
                 }
             }
 
@@ -389,6 +384,14 @@ namespace PapaMarti
             
             
             
+        }
+
+        public override CookStage getStage() {
+            return CookStage.Cooking;
+        }
+
+        public override bool isDone() {
+            return finished;
         }
     }
 }

@@ -18,12 +18,8 @@ namespace PapaMarti {
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D pizza;
-        Texture2D text;
-        OvenScreen oven;
-        SpriteFont font;
+        StageManager currentStage;
 
-        Pizza pizza;
         
 
         Texture2D ovenText;
@@ -33,7 +29,7 @@ namespace PapaMarti {
             Content.RootDirectory = "Content"; 
             graphics.PreferredBackBufferWidth = screenRect.Width;
             graphics.PreferredBackBufferHeight = screenRect.Height;
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             IsMouseVisible = true;
             graphics.ApplyChanges();
         }
@@ -48,7 +44,6 @@ namespace PapaMarti {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
-
             base.Initialize();
         }
 
@@ -59,11 +54,9 @@ namespace PapaMarti {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            pizza = this.Content.Load<Texture2D>("pizza");
-            ovenText = this.Content.Load<Texture2D>("oven");
-            font = this.Content.Load<SpriteFont>("SpriteFont1");
-            text = this.Content.Load<Texture2D>("place");
-            oven = new OvenScreen(pizza, ovenText, text, 10, font, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
+            baseRect.SetData(new Color[] { Color.White });
+            currentStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0));
             // TODO: use this.Content to load your game content here
 
         }
@@ -101,12 +94,6 @@ namespace PapaMarti {
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
             currentStage.draw(spriteBatch);
-            spriteBatch.End();
-            // TODO: Add your drawing code here
-            spriteBatch.Begin();
-            // oven.Draw(spriteBatch);
-            oven.Draw(spriteBatch);
-            //spriteBatch.Draw(rect, new Rectangle(100, 100, 100, 100), Color.Pink);
             spriteBatch.End();
             base.Draw(gameTime);
         }

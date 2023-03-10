@@ -28,7 +28,7 @@ namespace PapaMarti {
         bool done;
         bool readyToMoveOn;
         Texture2D pixel;
-
+        Texture2D backgroundYes;
 
         public CookingManager(ContentManager content, Texture2D baseRect, Pizza type) : base(content) {
             this.type = type;
@@ -48,6 +48,7 @@ namespace PapaMarti {
             table = content.Load<Texture2D>("CookingStageTextures/Table");
             font = content.Load<SpriteFont>("text01");
             pixel = content.Load<Texture2D>("whitePixel");
+            backgroundYes = content.Load<Texture2D>("pixil-frame-0");
             if(type.shape == PizzaShape.Circle)
                 currentStage = new CuttingScreen(type, Game1.screenRect, content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/dough"), content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/circle outline"), content.Load<Texture2D>("CookingStageTextures/circle dough"), content.Load<Texture2D>("whitePixel"));
         }
@@ -55,6 +56,9 @@ namespace PapaMarti {
         public override void draw(SpriteBatch spriteBatch) {
             if (drawTable)
                 spriteBatch.Draw(table, Game1.screenRect, Color.White);
+            else
+                spriteBatch.Draw(backgroundYes, Game1.screenRect, Color.White);
+
             currentStage.draw(spriteBatch);
             if(isTransitioning) {
                 spriteBatch.Draw(baseRect, Game1.screenRect, alpha);
@@ -150,7 +154,7 @@ namespace PapaMarti {
                                 break;
 
                             case CookStage.Toppings:
-                                // currentStage = new CookingScreen
+                                currentStage = new OvenScreen(type, content.Load<Texture2D>("pizza"), content.Load<Texture2D>("oven"), content.Load<Texture2D>("place"), 10, content.Load<SpriteFont>("SpriteFont1"));
                                 drawTable = false;
                                 break;
                         }
