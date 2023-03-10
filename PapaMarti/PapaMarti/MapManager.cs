@@ -60,14 +60,14 @@ namespace PapaMarti
         {
             KeyboardState kb = Keyboard.GetState();
             double angleSpeed = 0.005; //in radians per frame
-            if (kb.IsKeyDown(Keys.Left) && canRotate())
+            if ((kb.IsKeyDown(Keys.Left) || kb.IsKeyDown(Keys.A)) && canRotate())
             {
                 if (position < minPosition)
                     angle += angleSpeed;
                 else
                     angle += angleSpeed * 2;
             }
-            if(kb.IsKeyDown(Keys.Right) && canRotate())
+            if((kb.IsKeyDown(Keys.Right) || kb.IsKeyDown(Keys.D)) && canRotate())
             {
                 if (position < minPosition)
                     angle -= angleSpeed;
@@ -75,11 +75,11 @@ namespace PapaMarti
                     angle -= angleSpeed * 2;
             }
             double movementSpeed = 0.005;
-            if(kb.IsKeyDown(Keys.Up) && canMove() && position > 0)
+            if((kb.IsKeyDown(Keys.Up) || kb.IsKeyDown(Keys.W)) && canMove() && position > 0)
             {
                 position -= movementSpeed;
             }
-            if(kb.IsKeyDown(Keys.Down) && canMove() && position < 1)
+            if((kb.IsKeyDown(Keys.Down) || kb.IsKeyDown(Keys.S)) && canMove() && position < 1)
             {
                 position += movementSpeed;
             }
