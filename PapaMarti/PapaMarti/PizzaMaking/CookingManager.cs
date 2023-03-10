@@ -15,6 +15,7 @@ namespace PapaMarti {
         private readonly Pizza type;
         private CookingStage currentStage;
         private Texture2D baseRect;
+        private GraphicsDevice gd;
         private bool isTransitioning;
         private bool isFadingIn, isFadingOut;
         private Color alpha;
@@ -30,7 +31,8 @@ namespace PapaMarti {
         Texture2D pixel;
         Texture2D backgroundYes;
 
-        public CookingManager(ContentManager content, Texture2D baseRect, Pizza type) : base(content) {
+        public CookingManager(GraphicsDevice gd, ContentManager content, Texture2D baseRect, Pizza type) : base(content) {
+            this.gd = gd;
             this.type = type;
             isTransitioning = false;
             isFadingIn = false;
@@ -151,8 +153,18 @@ namespace PapaMarti {
                         {
                             case CookStage.Cutting:
                                 List<KeyValuePair<Rectangle, Topping>> l = new List<KeyValuePair<Rectangle, Topping>>();
-                                l.Add(new KeyValuePair<Rectangle, Topping>(new Rectangle(), Topping.pepperoni));
-                                currentStage = new ToppingScreen(type, content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/bowl"), content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings"), content.Load<Texture2D>("CookingStageTextures/circle dough"), l);
+                                l.Add(new KeyValuePair<Rectangle, Topping>(new Rectangle(700, 600, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), Topping.pepperoni));
+                                Texture2D toppings = content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings");
+                                Color[] data = new Color[toppings.Width * toppings.Height];
+                                toppings.GetData(data);
+                                for(int i = 0; i < data.Length; i++) {
+                                    if(!(data[i].A == 0 && data[i].R == 0 && data[i].G == 0 && data[i].B == 0)) {
+                                        data[i] = Color.White;
+                                    }
+                                }
+                                Texture2D whiteout = new Texture2D(gd, toppings.Width, toppings.Height);
+                                whiteout.SetData(data);
+                                currentStage = new ToppingScreen(type, content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/bowl"), toppings, whiteout, content.Load<Texture2D>("CookingStageTextures/circle dough"), l);
                                 break;
 
                             case CookStage.Toppings:

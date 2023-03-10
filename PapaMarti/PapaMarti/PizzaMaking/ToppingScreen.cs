@@ -11,8 +11,11 @@ using System.Linq;
 
 namespace PapaMarti {
     public class ToppingScreen : CookingStage {
+        private static Color whiteoutColor = new Color(255, 255, 255, 100);
+
         private readonly Texture2D bowl;
         private readonly Texture2D toppings;
+        private readonly Texture2D whiteout;
         private readonly Texture2D dough;
         private readonly Rectangle doughRect;
         private readonly List<KeyValuePair<Rectangle, Topping>> actualToppingPos;
@@ -26,7 +29,8 @@ namespace PapaMarti {
         /// <summary>
         /// Creates a new topping screen to complete the topping stage of creating the pizza
         /// </summary>
-        public ToppingScreen(Pizza type, Texture2D bowl, Texture2D toppings, Texture2D dough, List<KeyValuePair<Rectangle, Topping>> actualToppingPos) : base(type) {
+        public ToppingScreen(Pizza type, Texture2D bowl, Texture2D toppings, Texture2D whiteout, Texture2D dough, List<KeyValuePair<Rectangle, Topping>> actualToppingPos) : base(type) {
+            this.whiteout = whiteout;
             this.bowl = bowl;
             this.toppings = toppings;
             this.dough = dough;
@@ -48,7 +52,17 @@ namespace PapaMarti {
             }
 
             foreach(KeyValuePair<Rectangle, Topping> k in toppingPos) {
-                spriteBatch.Draw(toppings, k.Key, k.Value.textureRect, Color.White);
+                if(k.Value == Topping.cheese || k.Value == Topping.sauce)
+                    spriteBatch.Draw(toppings, k.Key, k.Value.textureRect, Color.White);
+            }
+
+            foreach(KeyValuePair<Rectangle, Topping> t in actualToppingPos) {
+                spriteBatch.Draw(whiteout, t.Key, t.Value.textureRect, whiteoutColor);
+            }
+
+            foreach(KeyValuePair<Rectangle, Topping> k in toppingPos) {
+                if(k.Value != Topping.cheese && k.Value != Topping.sauce)
+                    spriteBatch.Draw(toppings, k.Key, k.Value.textureRect, Color.White);
             }
 
             if(currentClicked != null)
