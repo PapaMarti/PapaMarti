@@ -70,7 +70,7 @@ namespace PapaMarti
             arrowText = arrow;
             arrowLocation = new Vector2(0, 0);
             arrowAngle = 0f;
-            arrowScale = 2f;
+            arrowScale = 5f;
             updateArrow();
             arrowOrigin = new Vector2(arrow.Width / 2f, arrow.Height / 2f);
         }
@@ -78,27 +78,33 @@ namespace PapaMarti
         private void updateArrow()
         {
             angle = angle % (Math.PI * 2);
+            if (angle < 0)
+                angle += Math.PI * 2;
             double angleDiff = angle - primaryQuest.angle;
             double radiusDiff = position - primaryQuest.radius;
-            if(Math.Abs(angleDiff) < Math.PI / 4 && Math.Abs(radiusDiff) < 0.5)
+            if(Math.Abs(angleDiff) < Math.PI / 6 && Math.Abs(radiusDiff) < 0.2)
             {
                 arrowText = marker;
-                arrowAngle = (float)primaryQuest.angle;
-                arrowLocation.X = mapPosition.X + (primaryQuest.radius * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Cos(primaryQuest.angle);
-                arrowLocation.Y = mapPosition.Y + (primaryQuest.radius * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Sin(primaryQuest.angle);
+                arrowAngle = 0;
+                arrowLocation.X = (float)(mapPosition.X - (primaryQuest.radius * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Sin(angleDiff));
+                arrowLocation.Y = (float)(mapPosition.Y - (primaryQuest.radius * (translation - innerCircleTranslation) + translation) * Math.Cos(angleDiff));
+                Console.WriteLine(arrowLocation + " " + arrowAngle);
+                Console.WriteLine((primaryQuest.radius * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Sin(angleDiff) + "");
+                Console.WriteLine((primaryQuest.radius * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Cos(angleDiff) + "");
+                Console.WriteLine(Game1.screenRect);
             }
-            else if(Math.Abs(angleDiff) < Math.PI / 4)
+            else if(Math.Abs(angleDiff) < Math.PI / 6)
             {
                 arrowText = arrow;
                 arrowLocation.X = Game1.screenRect.Width / 2;
-                if(radiusDiff < 0)
+                if(radiusDiff > 0)
                 {
                     arrowAngle = 0;
                     arrowLocation.Y = 20 + arrowText.Height * arrowScale / 2;
                 }
                 else
                 {
-                    arrowAngle = Math.PI;
+                    arrowAngle = (float)Math.PI;
                     arrowLocation.Y = Game1.screenRect.Height - 20 - arrowText.Height * arrowScale / 2;
                 }
             }
@@ -108,12 +114,12 @@ namespace PapaMarti
                 arrowLocation.Y = Game1.screenRect.Height / 2;
                 if(angleDiff < 0)
                 {
-                    arrowAngle = -Math.PI / 2;
+                    arrowAngle = (float)-Math.PI / 2;
                     arrowLocation.X = arrowText.Width * arrowScale / 2 + 20;
                 }
                 else
                 {
-                    arrowAngle = Math.PI / 2;
+                    arrowAngle = (float)Math.PI / 2;
                     arrowLocation.X = Game1.screenRect.Width - 20 - arrowText.Width * arrowScale / 2;
                 }
             }

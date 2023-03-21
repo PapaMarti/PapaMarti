@@ -19,7 +19,7 @@ namespace PapaMarti {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         StageManager currentStage;
-
+        Quest currentQuest;
         
 
         Texture2D ovenText;
@@ -29,7 +29,7 @@ namespace PapaMarti {
             Content.RootDirectory = "Content"; 
             graphics.PreferredBackBufferWidth = screenRect.Width;
             graphics.PreferredBackBufferHeight = screenRect.Height;
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
             IsMouseVisible = true;
             graphics.ApplyChanges();
         }
@@ -57,7 +57,9 @@ namespace PapaMarti {
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
             //currentStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0));
-            currentStage = new MapManager(Content, 0, 0);
+            Task[] list = new Task[0];
+            currentQuest = new Quest(list, 0.1, Math.PI / 2);
+            currentStage = new MapManager(Content, 0, 0, currentQuest);
             // TODO: use this.Content to load your game content here
 
         }
