@@ -46,16 +46,16 @@ namespace PapaMarti
             mapPosition = new Vector2(Game1.screenRect.Width / 2, Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation)));
             minPosition = 0.005;
             maxPosition = 0.995;
-            road = content.Load<Texture2D>(¨whitePixel¨); //replace later with road
+            road = content.Load<Texture2D>("whitePixel"); //replace later with road
             int roadWidth = 30;
             roadRect = new Rectangle((Game1.screenRect.Width - roadWidth)/2, Game1.screenRect.Height / 2 - (int)(position * (translation - innerCircleTranslation)), roadWidth, translation - innerCircleTranslation);
-            roadOrigin = new Vector2((double)road.Width / 2, road.Height + ((double)road.Height / (translation - innerCircleTranslation) * innerCircleTranslation));
+            roadOrigin = new Vector2((float)road.Width / 2, road.Height + ((float)road.Height / (translation - innerCircleTranslation) * innerCircleTranslation));
         }
         //makes sure that the position of the map matches the position of the player
         private void updatePosition()
         {
             mapPosition.Y = Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation));
-            roadRect.Y = Game1.screenRect.Height / 2 - (int)(position * (translation - innerCircleTranslation));
+            roadRect.Y = Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation));
         }
 
         public override GameStage getStage()
@@ -65,12 +65,12 @@ namespace PapaMarti
         public override void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(map, mapPosition, mapSource, Color.White, (float)(angle - Math.PI / 2), mapOrigin, 6f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle - Math.PI / 2), roadOrigin, SpriteEffects.None, 0f);
-            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle - Math.PI / 6), roadOrigin, SpriteEffects.None, 0f);
-            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI / 6), roadOrigin, SpriteEffects.None, 0f);
-            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI / 2), roadOrigin, SpriteEffects.None, 0f);
-            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 5 * Math.PI / 6), roadOrigin, SpriteEffects.None, 0f);
-            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 7 * Math.PI / 6), roadOrigin, SpriteEffects.None, 0f);
+            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle), roadOrigin, SpriteEffects.None, 0f);
+            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle - Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
+            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
+            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI), roadOrigin, SpriteEffects.None, 0f);
+            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 2 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
+            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 4 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
         }
         public override void update(GameTime time)
         {
