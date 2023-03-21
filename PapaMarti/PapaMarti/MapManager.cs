@@ -38,7 +38,7 @@ namespace PapaMarti
         {
             this.angle = angle % (2 * Math.PI);
             this.position = position;
-            map = content.Load<Texture2D>("MapTextures/temporary map");
+            map = content.Load<Texture2D>("MapTextures/temporary map"); // REPLACE THIS LATER WITH MAP TEXTURE
             mapSource = new Rectangle(0, 0, map.Width, map.Height);
             mapOrigin = new Vector2(map.Width / 2, map.Height / 2);
             translation = 1700; //adjust this number to get the scaling right
@@ -46,9 +46,9 @@ namespace PapaMarti
             mapPosition = new Vector2(Game1.screenRect.Width / 2, Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation)));
             minPosition = 0.005;
             maxPosition = 0.995;
-            road = content.Load<Texture2D>("whitePixel"); //replace later with road
+            road = content.Load<Texture2D>("whitePixel"); //REPLACE LATER WITH ROAD TEXTURE
             int roadWidth = 30;
-            roadRect = new Rectangle((Game1.screenRect.Width - roadWidth)/2, Game1.screenRect.Height / 2 - (int)(position * (translation - innerCircleTranslation)), roadWidth, translation - innerCircleTranslation);
+            roadRect = new Rectangle((Game1.screenRect.Width - roadWidth)/2, Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation)), roadWidth, translation - innerCircleTranslation);
             roadOrigin = new Vector2((float)road.Width / 2, road.Height + ((float)road.Height / (translation - innerCircleTranslation) * innerCircleTranslation));
         }
         //makes sure that the position of the map matches the position of the player
