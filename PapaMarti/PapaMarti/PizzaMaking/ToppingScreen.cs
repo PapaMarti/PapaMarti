@@ -12,11 +12,16 @@ using System.Linq;
 namespace PapaMarti {
     public class ToppingScreen : CookingStage {
         private static Color whiteoutColor = new Color(255, 255, 255, 100);
+        private static Color clear = new Color(0, 0, 0, 0);
+        private static Color brown = new Color(57, 38, 17, 255);
+        private static Color brown2 = new Color(42, 28, 13, 255);
+        private static Color brown3 = new Color(34, 16, 6, 255);
 
         private readonly Texture2D bowl;
         private readonly Texture2D toppings;
         private readonly Texture2D whiteout;
-        private readonly Texture2D dough;
+        private readonly GraphicsDevice gd;
+        private Texture2D dough;
         private readonly Rectangle doughRect;
         private readonly List<KeyValuePair<Rectangle, Topping>> actualToppingPos;
 
@@ -29,7 +34,8 @@ namespace PapaMarti {
         /// <summary>
         /// Creates a new topping screen to complete the topping stage of creating the pizza
         /// </summary>
-        public ToppingScreen(Pizza type, Texture2D bowl, Texture2D toppings, Texture2D whiteout, Texture2D dough, List<KeyValuePair<Rectangle, Topping>> actualToppingPos) : base(type) {
+        public ToppingScreen(GraphicsDevice gd, Pizza type, Texture2D bowl, Texture2D toppings, Texture2D whiteout, Texture2D dough, List<KeyValuePair<Rectangle, Topping>> actualToppingPos) : base(type) {
+            this.gd = gd;
             this.whiteout = whiteout;
             this.bowl = bowl;
             this.toppings = toppings;
@@ -108,8 +114,23 @@ namespace PapaMarti {
             foreach(KeyValuePair<Rectangle, Topping> top in toppingPos)
                 if(top.Value != Topping.cheese && top.Value != Topping.sauce)
                     t++;
-            
-            return t == actualToppingPos.Count();
+            bool done = t == actualToppingPos.Count();
+
+            if(done) {
+                Color[] data = new Color[Game1.screenRect.Width * Game1.screenRect.Height];
+                Color[] cropped = new Color[550 * 550];
+                for(int i = 567055; i < 1623605; i++) {
+                    cropped[i - 567055] = data[i];
+                    if(cropped[i - 567055].Equals(brown) || cropped[i - 567055].Equals(brown2) || cropped[i - 567055].Equals(brown3)) {
+                        cropped[i - 567055] = clear;
+                    }
+                }
+
+                dough = new Texture2D(gd, 550, 550);
+                dough.SetData(cropped);
+            }
+
+            return done;
         }
 
         override
@@ -125,6 +146,10 @@ namespace PapaMarti {
         override
         public CookStage getStage() {
             return CookStage.Toppings;
+        }
+
+        public override Texture2D getModifiedPizza() {
+            return dough;
         }
     }
 }

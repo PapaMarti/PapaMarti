@@ -164,11 +164,12 @@ namespace PapaMarti {
                                 }
                                 Texture2D whiteout = new Texture2D(gd, toppings.Width, toppings.Height);
                                 whiteout.SetData(data);
-                                currentStage = new ToppingScreen(type, content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/bowl"), toppings, whiteout, content.Load<Texture2D>("CookingStageTextures/circle dough"), l);
+                                currentStage = new ToppingScreen(gd, type, content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/bowl"), toppings, whiteout, content.Load<Texture2D>("CookingStageTextures/circle dough"), l);
                                 break;
 
                             case CookStage.Toppings:
-                                currentStage = new OvenScreen(type, content.Load<Texture2D>("pizza"), content.Load<Texture2D>("oven"), content.Load<Texture2D>("place"), 10, content.Load<SpriteFont>("SpriteFont1"));
+                                Texture2D pizzaTex = currentStage.getModifiedPizza();
+                                currentStage = new OvenScreen(type, pizzaTex, content.Load<Texture2D>("oven"), content.Load<Texture2D>("place"), 10, content.Load<SpriteFont>("SpriteFont1"));
                                 drawTable = false;
                                 break;
                         }
