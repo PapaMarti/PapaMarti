@@ -8,24 +8,27 @@ namespace PapaMarti
 {
     class MovementTask : Task //Player needs to go to a certain location;
     {
-        public Vector2 location; //Probably change to Player object later
+        public double radius; //Probably change to Player object later
+        public double angle;
         public Rectangle target;
-        public MovementTask(Vector2 location_, Rectangle target_)
+        public MovementTask(double radius_, double angle_, Rectangle target_)
         {
-            location = location_;
+            radius = radius_;
+            angle = angle_;
             target = target_;
         }
         public override void check()
         {
-            //add a call to update with updates player location
-            if (target.Contains((int)location.X, (int)location.Y))
+            //add a call to update with updated player location
+            if (target.Contains((int)(radius * Math.Cos(angle)), (int)(radius * Math.Sin(angle))))
             {
                 taskComplete = true;
             }
         }
-        public void update(Vector2 newLocation)
+        public void update(double newRadius, double newAngle)
         {
-            location = newLocation;
+            radius = newRadius;
+            angle = newAngle;
             check();
         }
     }

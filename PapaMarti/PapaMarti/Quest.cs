@@ -16,24 +16,32 @@ namespace PapaMarti
      */
     class Quest //Create a Quest array in a different class to progress the story
     {
-        public bool questComplete;
-        public Task[] tasks; //"completed" must be true for isComplete to be true
+        public Status status;
+        public Task[] tasks; //All "taskComplete" must be true for status to be Completed
+        public double radius;
+        public double angle;
 
-        public Quest(Task[] tasks_)
+        public Quest(Task[] tasks_, double radius_, double angle_)
         {
-            questComplete = false;
+            status = Status.Unknown;
             tasks = tasks_;
+            radius = radius_;
+            angle = angle_;
         }
 
+        public void obtain()
+        {
+            status = Status.Obtained;
+        }
         public void update()
         {
-            questComplete = true;
+            status = Status.Completed;
             for (int i = 0; i < tasks.Length; i++)
             {
                 tasks[i].check();
                 if (!tasks[i].taskComplete)
                 {
-                    questComplete = false;
+                    status = Status.Obtained;
                 }
             }
         }
