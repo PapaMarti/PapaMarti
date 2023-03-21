@@ -29,33 +29,66 @@ namespace PapaMarti
         double minPosition;
         double maxPosition;
 
+        Texture2D arrow;
+        Vector2 arrowLocation;
+        Vector2 arrowOrigin;
+        float arrowAngle;
+
+        Quest primaryQuest;
+
         /// <summary>
         /// Making a new map manager to allow the player to explore the island
         /// </summary>
         /// <param name="angle">Angular location on the pizza map, give radians. Typical unit circle stuff, roads are at 0, pi/3, 2pi/3, pi, 4pi/3, 5pi/3</param>
         /// <param name="position">How far up or down they are on a road, 0 for closer to the outside, 1 for the inner ring.</param>
-        public MapManager(ContentManager content, double angle, double position) : base(content)
+        public MapManager(ContentManager content, double angle, double position, Quest primaryQuest) : base(content)
         {
             this.angle = angle % (2 * Math.PI);
             this.position = position;
+
             map = content.Load<Texture2D>("MapTextures/temporary map"); // REPLACE THIS LATER WITH MAP TEXTURE
             mapSource = new Rectangle(0, 0, map.Width, map.Height);
             mapOrigin = new Vector2(map.Width / 2, map.Height / 2);
+
             translation = 1700; //adjust this number to get the scaling right
             innerCircleTranslation = 250;
+
             mapPosition = new Vector2(Game1.screenRect.Width / 2, Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation)));
+
             minPosition = 0.005;
             maxPosition = 0.995;
             road = content.Load<Texture2D>("whitePixel"); //REPLACE LATER WITH ROAD TEXTURE
             int roadWidth = 30;
             roadRect = new Rectangle((Game1.screenRect.Width - roadWidth)/2, Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation)), roadWidth, translation - innerCircleTranslation);
             roadOrigin = new Vector2((float)road.Width / 2, road.Height + ((float)road.Height / (translation - innerCircleTranslation) * innerCircleTranslation));
+
+            this.primaryQuest = primaryQuest;
+
+            arrow = content.Load<Texture2D>("Arrow");
+            arrowLocation = new Vector2(0, 0);
+            updateArrow();
+            arrowOrigin = new Vector2(arrow.Width / 2f, arrow.Height / 2f);
         }
+
+        private void updateArrow()
+        {
+
+        }
+
         //makes sure that the position of the map matches the position of the player
         private void updatePosition()
         {
             mapPosition.Y = Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation));
             roadRect.Y = Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation));
+        }
+
+        /// <summary>
+        /// A method to update the quest displayed on the map
+        /// </summary>
+        /// <param name="newQuest">The quest object of the quest that needs to have an arrow pointing to it</param>
+        public void updatePrimaryQuest(Quest newQuest)
+        {
+            primaryQuest = newQuest;
         }
 
         public override GameStage getStage()
@@ -71,6 +104,7 @@ namespace PapaMarti
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI), roadOrigin, SpriteEffects.None, 0f);
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 2 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 4 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
+            spriteBatch.Draw(arrow, arrowLocation, null, Color.White, arrowAngle, arrowOrigin, 2f, SpriteEffects.None, 0f);
         }
         public override void update(GameTime time)
         {
@@ -100,6 +134,7 @@ namespace PapaMarti
                 position += movementSpeed;
             }
 
+            updateArrow();
             updatePosition();
         }
         public override bool isDone()
