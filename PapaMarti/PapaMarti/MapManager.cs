@@ -29,10 +29,11 @@ namespace PapaMarti
         double minPosition;
         double maxPosition;
 
-        Texture2D arrow;
+        Texture2D arrow, marker, arrowText;
         Vector2 arrowLocation;
         Vector2 arrowOrigin;
         float arrowAngle;
+        float arrowScale;
 
         Quest primaryQuest;
 
@@ -65,14 +66,57 @@ namespace PapaMarti
             this.primaryQuest = primaryQuest;
 
             arrow = content.Load<Texture2D>("Arrow");
+            marker = content.Load<Texture2D>("Arrow");
+            arrowText = arrow;
             arrowLocation = new Vector2(0, 0);
+            arrowAngle = 0f;
+            arrowScale = 2f;
             updateArrow();
             arrowOrigin = new Vector2(arrow.Width / 2f, arrow.Height / 2f);
         }
 
         private void updateArrow()
         {
-
+            angle = angle % (Math.PI * 2);
+            double angleDiff = angle - primaryQuest.angle;
+            double radiusDiff = position - primaryQuest.radius;
+            if(Math.Abs(angleDiff) < Math.PI / 4 && Math.Abs(radiusDiff) < 0.5)
+            {
+                arrowText = marker;
+                arrowAngle = (float)primaryQuest.angle;
+                arrowLocation.X = mapPosition.X + (primaryQuest.radius * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Cos(primaryQuest.angle);
+                arrowLocation.Y = mapPosition.Y + (primaryQuest.radius * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Sin(primaryQuest.angle);
+            }
+            else if(Math.Abs(angleDiff) < Math.PI / 4)
+            {
+                arrowText = arrow;
+                arrowLocation.X = Game1.screenRect.Width / 2;
+                if(radiusDiff < 0)
+                {
+                    arrowAngle = 0;
+                    arrowLocation.Y = 20 + arrowText.Height * arrowScale / 2;
+                }
+                else
+                {
+                    arrowAngle = Math.PI;
+                    arrowLocation.Y = Game1.screenRect.Height - 20 - arrowText.Height * arrowScale / 2;
+                }
+            }
+            else
+            {
+                arrowText = arrow;
+                arrowLocation.Y = Game1.screenRect.Height / 2;
+                if(angleDiff < 0)
+                {
+                    arrowAngle = -Math.PI / 2;
+                    arrowLocation.X = arrowText.Width * arrowScale / 2 + 20;
+                }
+                else
+                {
+                    arrowAngle = Math.PI / 2;
+                    arrowLocation.X = Game1.screenRect.Width - 20 - arrowText.Width * arrowScale / 2;
+                }
+            }
         }
 
         //makes sure that the position of the map matches the position of the player
@@ -97,14 +141,19 @@ namespace PapaMarti
         }
         public override void draw(SpriteBatch spriteBatch)
         {
+            //map
             spriteBatch.Draw(map, mapPosition, mapSource, Color.White, (float)(angle - Math.PI / 2), mapOrigin, 6f, SpriteEffects.None, 0f);
+
+            //roads
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle), roadOrigin, SpriteEffects.None, 0f);
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle - Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI), roadOrigin, SpriteEffects.None, 0f);
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 2 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 4 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
-            spriteBatch.Draw(arrow, arrowLocation, null, Color.White, arrowAngle, arrowOrigin, 2f, SpriteEffects.None, 0f);
+
+            //arrow
+            spriteBatch.Draw(arrowText, arrowLocation, null, Color.White, arrowAngle, arrowOrigin, arrowScale, SpriteEffects.None, 0f);
         }
         public override void update(GameTime time)
         {
@@ -134,8 +183,8 @@ namespace PapaMarti
                 position += movementSpeed;
             }
 
-            updateArrow();
             updatePosition();
+            updateArrow();
         }
         public override bool isDone()
         {
