@@ -10,6 +10,18 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace PapaMarti {
+    public class indTopping//individual topping class because jacob screwed everything up and i just need 1 rectanglr
+    {
+        public Topping topping;
+        public Rectangle source;
+
+        public indTopping(Topping topping, Rectangle source)
+        {
+            this.topping = topping;
+            this.source = source;
+        }
+    }
+
     public class ToppingScreen : CookingStage {
         private readonly Texture2D bowl;
         private readonly Texture2D toppings;
@@ -17,11 +29,12 @@ namespace PapaMarti {
         private readonly Rectangle doughRect;
         private readonly List<Topping> toppingOrder;
 
-        private Topping currentClicked;
+        private Topping currentClicked;//change this to indToppings and fix all of it
         private Rectangle toppingRect;
-        private Queue<KeyValuePair<Rectangle, Topping>> toppingPos;
+        private Queue<KeyValuePair<Rectangle, indTopping>> toppingPos;
         private Point prevMouse;
         private double passedTime;
+        private Random rand;
 
         /// <summary>
         /// Creates a new topping screen to complete the topping stage of creating the pizza
@@ -35,8 +48,9 @@ namespace PapaMarti {
             passedTime = 0;
             currentClicked = null;
             toppingRect = new Rectangle();
-            toppingPos = new Queue<KeyValuePair<Rectangle, Topping>>();
+            toppingPos = new Queue<KeyValuePair<Rectangle, indTopping>>();
             prevMouse = new Point(Mouse.GetState().X, Mouse.GetState().Y);
+            rand = new Random();
         }
 
         override
@@ -46,12 +60,16 @@ namespace PapaMarti {
                 t.draw(spriteBatch, bowl, toppings);
             }
 
-            foreach(KeyValuePair<Rectangle, Topping> k in toppingPos) {
-                spriteBatch.Draw(toppings, k.Key, k.Value.textureRect, Color.White);
+            foreach(KeyValuePair<Rectangle, indTopping> k in toppingPos) {
+                
+                spriteBatch.Draw(toppings, k.Key, indTopping.source, Color.White);
             }
 
-            if(currentClicked != null)
-                spriteBatch.Draw(toppings, toppingRect, currentClicked.textureRect, Color.White);
+            if (currentClicked != null)
+            {
+                int xPos = rand.Next(3);
+                spriteBatch.Draw(toppings, toppingRect, new Rectangle(xPos * 8, currentClicked.yPos, 8, 8), Color.White);
+            }
         }
 
         override

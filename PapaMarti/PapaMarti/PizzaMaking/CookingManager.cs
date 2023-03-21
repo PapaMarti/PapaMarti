@@ -150,7 +150,7 @@ namespace PapaMarti {
                         switch(currentStage.getStage()) 
                         {
                             case CookStage.Cutting:
-                                currentStage = new ToppingScreen(type, content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/bowl"), content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings"), content.Load<Texture2D>("CookingStageTextures/circle dough"));
+                                currentStage = new ToppingScreen(type, content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Bowls"), content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings"), content.Load<Texture2D>("CookingStageTextures/circle dough"));
                                 break;
 
                             case CookStage.Toppings:
