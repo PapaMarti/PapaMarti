@@ -20,6 +20,7 @@ namespace PapaMarti {
         SpriteBatch spriteBatch;
         StageManager currentStage;
 
+        CookingManager currentCookingStage; //Had to add this bc i didn't know how else to get current cooking stage
 
         List<TextCard> cards;
         Texture2D ovenText;
@@ -57,7 +58,8 @@ namespace PapaMarti {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
-            currentStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0));
+            currentCookingStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0));
+            currentStage = currentCookingStage;
             // TODO: use this.Content to load your game content here
             string text = "Testing the text card and making sure it works properly. Please work. Please. I'm begging.";
             cards.Add(new TextCard(Content, text, "Ella"));
@@ -88,7 +90,7 @@ namespace PapaMarti {
                 if (cards[0].isDone())
                     cards.RemoveAt(0);
             }
-
+            
             // TODO: Add your update logic here
             currentStage.update(gameTime);
             base.Update(gameTime);

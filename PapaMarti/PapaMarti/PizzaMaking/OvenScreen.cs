@@ -42,7 +42,8 @@ namespace PapaMarti
 
         Rectangle oven;
         Texture2D ovenText;
-        Texture2D textbox;
+
+        TextCard textbox;
 
         bool finished;
         bool instructions;
@@ -56,11 +57,10 @@ namespace PapaMarti
 
         string warningText;
 
-        Rectangle textBox;
 
         MouseState oldMouse;
 
-        public OvenScreen(Pizza pizza, Texture2D texture, Texture2D ovenTexture, Texture2D textbox_, int _timeUntilDone, SpriteFont _font) : base(pizza) //Probably can eliminate some parameters later I didn't know how to access some variables in this class
+        public OvenScreen(Pizza pizza, Texture2D texture, Texture2D ovenTexture,int _timeUntilDone, SpriteFont _font) : base(pizza) //Probably can eliminate some parameters later I didn't know how to access some variables in this class
         {
             tempPizza = new Rectangle((Game1.screenRect.Width - 300) / 2, 750, 300, 300); //change to pizza variable
             startingLocation = new Vector2(tempPizza.X, tempPizza.Y);
@@ -80,7 +80,6 @@ namespace PapaMarti
 
             font = _font;
             oldKB = Keyboard.GetState();
-            textbox = textbox_;
 
             oven = new Rectangle((Game1.screenRect.Width - 600) / 2, 200, 600, 600);
             cookingLocation = new Vector2((Game1.screenRect.Width - 300) / 2, 400);
@@ -90,9 +89,8 @@ namespace PapaMarti
             animationTimer = 0;
             finished = false;
             textCounter = 2;
-            textInstructions = "Drag the pizza into the oven to cook.\nTry to get as close to the optimal cooking time as you can\n to earn maximum points.";
+            textInstructions = "Drag the pizza into the oven to cook. Try to get as close to the optimal cooking time as you can to earn maximum points.";
 
-            textBox = new Rectangle((Game1.screenRect.Width - 900) / 2, (Game1.screenRect.Height - 200) / 2, 900, 200);
             oldMouse = Mouse.GetState();
         }
 
@@ -123,6 +121,7 @@ namespace PapaMarti
                     else
                     {
                         textInstructions = "You can only take the pizza out twice before it gets ruined from\noverhandling, so use them wisely!";
+                        
                     }
                 }
             }
@@ -312,7 +311,7 @@ namespace PapaMarti
             
             if (instructions)
             {
-                _spriteBatch.Draw(textbox, textBox, Color.White);
+                //_spriteBatch.Draw(textbox, textBox, Color.White);
 
                 _spriteBatch.DrawString(font, textInstructions, new Vector2((Game1.screenRect.Width - 900) / 2 + 20, (Game1.screenRect.Height - 200) / 2 + 20), Color.Black);
             }

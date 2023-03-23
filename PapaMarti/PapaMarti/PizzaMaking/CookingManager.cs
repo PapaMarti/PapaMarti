@@ -13,7 +13,7 @@ namespace PapaMarti {
 
     public class CookingManager : StageManager {
         private readonly Pizza type;
-        private CookingStage currentStage;
+        public CookingStage currentStage;
         private Texture2D baseRect;
         private bool isTransitioning;
         private bool isFadingIn, isFadingOut;
