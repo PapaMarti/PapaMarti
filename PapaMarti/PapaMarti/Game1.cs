@@ -59,7 +59,7 @@ namespace PapaMarti {
             //currentStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0));
             Task[] list = new Task[0];
             currentQuest = new Quest(list, 0.5, Math.PI / 2);
-            currentStage = new MapManager(Content, 0, 0, currentQuest);
+            currentStage = new MapManager(Content, 0, 0, currentQuest, 1);
             // TODO: use this.Content to load your game content here
 
         }

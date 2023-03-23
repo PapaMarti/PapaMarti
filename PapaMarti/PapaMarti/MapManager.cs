@@ -39,12 +39,15 @@ namespace PapaMarti
 
         Quest primaryQuest;
 
+        Texture2D sliceLock;
+        int slicesOpen;
+
         /// <summary>
         /// Making a new map manager to allow the player to explore the island
         /// </summary>
         /// <param name="angle">Angular location on the pizza map, give radians. Typical unit circle stuff, roads are at 0, pi/3, 2pi/3, pi, 4pi/3, 5pi/3</param>
         /// <param name="position">How far up or down they are on a road, 0 for closer to the outside, 1 for the inner ring.</param>
-        public MapManager(ContentManager content, double angle, double position, Quest primaryQuest) : base(content)
+        public MapManager(ContentManager content, double angle, double position, Quest primaryQuest, int slicesOpen) : base(content)
         {
             this.angle = angle % (2 * Math.PI);
             this.position = position;
@@ -77,6 +80,9 @@ namespace PapaMarti
             arrowScale = arrowTextScale;
             updateArrow();
             arrowOrigin = new Vector2(arrow.Width / 2f, arrow.Height / 2f);
+
+            this.slicesOpen = slicesOpen;
+            sliceLock = content.Load<Texture2D>("slice lock");
         }
 
         private void updateArrow()
@@ -167,6 +173,17 @@ namespace PapaMarti
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI), roadOrigin, SpriteEffects.None, 0f);
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 2 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 4 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
+
+            //locked slices
+            float sliceAngle = (float)Math.PI / 6;
+            for(int i = 1; i < 7; i++)
+            {
+                if(i > slicesOpen)
+                {
+                    spriteBatch.Draw(sliceLock, mapPosition, mapSource, Color.White, (float)angle - sliceAngle, mapOrigin, 6f, SpriteEffects.None, 0f);
+                }
+                sliceAngle += (float)Math.PI / 3;
+            }
 
             //arrow
             spriteBatch.Draw(arrowText, arrowLocation, null, Color.White, arrowAngle, arrowOrigin, arrowScale, SpriteEffects.None, 0f);
