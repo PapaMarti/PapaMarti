@@ -60,7 +60,10 @@ namespace PapaMarti
 
         MouseState oldMouse;
 
-        public OvenScreen(Pizza pizza, Texture2D texture, Texture2D ovenTexture, Texture2D textbox_, int _timeUntilDone, SpriteFont _font) : base(pizza) //Probably can eliminate some parameters later I didn't know how to access some variables in this class
+        Rectangle amazingPanel;
+        Texture2D amazing;
+
+        public OvenScreen(Pizza pizza, Texture2D texture, Texture2D ovenTexture, Texture2D textbox_, int _timeUntilDone, SpriteFont _font, Texture2D amazing) : base(pizza) //Probably can eliminate some parameters later I didn't know how to access some variables in this class
         {
             tempPizza = new Rectangle((Game1.screenRect.Width - 300) / 2, 750, 300, 300); //change to pizza variable
             startingLocation = new Vector2(tempPizza.X, tempPizza.Y);
@@ -82,8 +85,8 @@ namespace PapaMarti
             oldKB = Keyboard.GetState();
             textbox = textbox_;
 
-            oven = new Rectangle((Game1.screenRect.Width - 600) / 2, 200, 600, 600);
-            cookingLocation = new Vector2((Game1.screenRect.Width - 300) / 2, 400);
+            oven = new Rectangle(0, 0, Game1.screenRect.Width, Game1.screenRect.Height);
+            cookingLocation = new Vector2((Game1.screenRect.Width - 300) / 2, 300);
             ovenText = ovenTexture;
             instructions = true;
             score = 0;
@@ -94,6 +97,9 @@ namespace PapaMarti
 
             textBox = new Rectangle((Game1.screenRect.Width - 900) / 2, (Game1.screenRect.Height - 200) / 2, 900, 200);
             oldMouse = Mouse.GetState();
+
+            this.amazing = amazing;
+            this.amazingPanel = new Rectangle((Game1.screenRect.Width-400) / 2, (Game1.screenRect.Height - 400) / 2, 400, 400);
         }
 
         //TEMPORARY, constructor will take in a texture
@@ -250,7 +256,7 @@ namespace PapaMarti
                     finished = true;
                     splashText = "Congrats! You have successfully made a pizza";
                     tempPizza.X = (Game1.screenRect.Width - tempPizza.Width) / 2;
-                    tempPizza.Y = (Game1.screenRect.Height - tempPizza.Height) / 2;
+                    tempPizza.Y = (Game1.screenRect.Height - tempPizza.Height) /2;
                     //finish
                 }
 
@@ -318,8 +324,9 @@ namespace PapaMarti
             }
             else if (finished)
             {
-                _spriteBatch.DrawString(font, "Final Score: " + score + "pts", new Vector2((Game1.screenRect.Width - font.MeasureString("Final Score: " + score + "pts").X) / 2, 700), Color.Gold);
-               
+                _spriteBatch.DrawString(font, "Final Score: " + score + "pts", new Vector2((Game1.screenRect.Width - font.MeasureString("Final Score: " + score + "pts").X) / 2, 1000), Color.Gold);
+
+                _spriteBatch.Draw(amazing, amazingPanel, Color.White);
             }
             else
             {
@@ -327,17 +334,17 @@ namespace PapaMarti
                 {
                     if (animationTimer % 2 == 0)
                     {
-                        _spriteBatch.Draw(ovenText, oven, new Rectangle(480, 0, 160, 160), Color.White);
+                        _spriteBatch.Draw(ovenText, oven, new Rectangle(240, 0, 240, 135), Color.White);
                     }
                     else
                     {
-                        _spriteBatch.Draw(ovenText, oven, new Rectangle(640, 0, 160, 160), Color.White);
+                        _spriteBatch.Draw(ovenText, oven, new Rectangle(480, 0, 240, 135), Color.White);
                     }
                     _spriteBatch.DrawString(font, "Score: ???", new Vector2(Game1.screenRect.Width - 230, Game1.screenRect.Height - 70), Color.Gold);
                 }
                 else
                 {
-                    _spriteBatch.Draw(ovenText, oven, new Rectangle(0, 0, 160, 160), Color.White);
+                    _spriteBatch.Draw(ovenText, oven, new Rectangle(0, 0, 240, 135), Color.White);
                     _spriteBatch.DrawString(font, "Score: " + score, new Vector2(Game1.screenRect.Width - 230, Game1.screenRect.Height - 70), Color.Gold);
                     _spriteBatch.DrawString(font, subtext, new Vector2((Game1.screenRect.Width - font.MeasureString(subtext).X) / 2, Game1.screenRect.Height - 110), Color.Black);
                     

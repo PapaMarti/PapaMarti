@@ -14,11 +14,14 @@ namespace PapaMarti {
     {
         public Topping topping;
         public Rectangle source;
+        Random rand;
 
-        public indTopping(Topping topping, Rectangle source)
+        public indTopping(Topping topping)
         {
             this.topping = topping;
-            this.source = source;
+            rand = new Random();
+            int xpos = rand.Next(3) * 8;
+            source = new Rectangle(xpos, topping.yPos, 8, 8);
         }
     }
 
@@ -29,7 +32,7 @@ namespace PapaMarti {
         private readonly Rectangle doughRect;
         private readonly List<Topping> toppingOrder;
 
-        private Topping currentClicked;//change this to indToppings and fix all of it
+        private indTopping currentClicked;
         private Rectangle toppingRect;
         private Queue<KeyValuePair<Rectangle, indTopping>> toppingPos;
         private Point prevMouse;
@@ -62,13 +65,12 @@ namespace PapaMarti {
 
             foreach(KeyValuePair<Rectangle, indTopping> k in toppingPos) {
                 
-                spriteBatch.Draw(toppings, k.Key, indTopping.source, Color.White);
+                spriteBatch.Draw(toppings, k.Key, k.Value.source, Color.White);
             }
 
             if (currentClicked != null)
             {
-                int xPos = rand.Next(3);
-                spriteBatch.Draw(toppings, toppingRect, new Rectangle(xPos * 8, currentClicked.yPos, 8, 8), Color.White);
+                spriteBatch.Draw(toppings, toppingRect, currentClicked.source, Color.White);
             }
         }
 
@@ -80,17 +82,17 @@ namespace PapaMarti {
                 if(currentClicked == null) {
                     foreach(ToppingContainer c in ToppingContainer.containers) {
                         if(c.location.Contains(new Point(m.X, m.Y))) {
-                            currentClicked = c.type;
+                            currentClicked = new indTopping(c.type);
                         }
                     }
                 }
 
                 else {
                     toppingRect = new Rectangle(m.X - (ToppingContainer.TOPPING_SIZE / 2), m.Y - (ToppingContainer.TOPPING_SIZE / 2), ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE);
-                    if(Math.Pow(m.X - 930, 2) + Math.Pow(m.Y - 510, 2) < 75625 && Math.Sqrt(Math.Pow(m.X - prevMouse.X, 2) + Math.Pow(m.Y - prevMouse.Y, 2)) > 32 && !currentClicked.isDragAndDrop) {
+                    if(Math.Pow(m.X - 930, 2) + Math.Pow(m.Y - 510, 2) < 75625 && Math.Sqrt(Math.Pow(m.X - prevMouse.X, 2) + Math.Pow(m.Y - prevMouse.Y, 2)) > 32 && !currentClicked.topping.isDragAndDrop) {
                         if(toppingPos.Count > 500)
                             toppingPos.Dequeue();
-                        toppingPos.Enqueue(new KeyValuePair<Rectangle, Topping>(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked));
+                        toppingPos.Enqueue(new KeyValuePair<Rectangle, indTopping>(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked));
                         prevMouse.X = m.X;
                         prevMouse.Y = m.Y;
                     }
@@ -98,8 +100,8 @@ namespace PapaMarti {
             }
 
             else {
-                if(currentClicked != null && Math.Pow(m.X - 930, 2) + Math.Pow(m.Y - 540, 2) < 75625 && currentClicked.isDragAndDrop) {
-                    toppingPos.Enqueue(new KeyValuePair<Rectangle, Topping>(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked));
+                if(currentClicked != null && Math.Pow(m.X - 930, 2) + Math.Pow(m.Y - 540, 2) < 75625 && currentClicked.topping.isDragAndDrop) {
+                    toppingPos.Enqueue(new KeyValuePair<Rectangle, indTopping>(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked));
                 }
                 currentClicked = null;
             }

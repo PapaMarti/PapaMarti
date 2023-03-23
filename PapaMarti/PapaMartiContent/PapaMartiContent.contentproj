@@ -85,24 +85,24 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="pixil-frame-0.png">
+    <Compile Include="CookingStageTextures\OvenTextures\pixil-frame-0.png">
       <Name>pixil-frame-0</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="oven.png">
+    <Compile Include="CookingStageTextures\OvenTextures\oven.png">
       <Name>oven</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="pizza.png">
+    <Compile Include="CookingStageTextures\OvenTextures\pizza.png">
       <Name>pizza</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="place.jpg">
+    <Compile Include="CookingStageTextures\OvenTextures\place.jpg">
       <Name>place</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -125,6 +125,20 @@
   <ItemGroup>
     <Compile Include="CookingStageTextures\ToppingsTextures\Toppings1.png">
       <Name>Toppings1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CookingStageTextures\OvenTextures\Ovenbg.png">
+      <Name>Ovenbg</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CookingStageTextures\OvenTextures\amazing.png">
+      <Name>amazing</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
