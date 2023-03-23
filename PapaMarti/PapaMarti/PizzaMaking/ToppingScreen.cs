@@ -75,8 +75,13 @@ namespace PapaMarti {
             }
 
             foreach(KeyValuePair<Rectangle, indTopping> k in toppingPos) {
-                
-                spriteBatch.Draw(toppings, k.Key, k.Value.source, Color.White);
+                if(k.Value.topping == Topping.cheese || k.Value.topping == Topping.sauce)
+                    spriteBatch.Draw(toppings, k.Key, k.Value.source, Color.White);
+            }
+
+            foreach(KeyValuePair<Rectangle, indTopping> k in toppingPos) {
+                if(k.Value.topping != Topping.cheese && k.Value.topping != Topping.sauce)
+                    spriteBatch.Draw(toppings, k.Key, k.Value.source, Color.White);
             }
 
             if (currentClicked != null)
