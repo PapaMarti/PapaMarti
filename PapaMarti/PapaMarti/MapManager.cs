@@ -89,6 +89,10 @@ namespace PapaMarti
                 angle += Math.PI * 2;
             double angleDiff = angle - primaryQuest.angle;
             double radiusDiff = position - primaryQuest.radius;
+
+            if (radiusDiff < 0)
+                setRadiusDistance = 0.3;
+
             if(Math.Abs(angleDiff) < setAngleDistance && Math.Abs(radiusDiff) < setRadiusDistance)
             {
                 arrowText = marker;
