@@ -68,6 +68,7 @@
     <Compile Include="StageManager.cs" />
     <Compile Include="PizzaMaking\ToppingContainer.cs" />
     <Compile Include="PizzaMaking\ToppingScreen.cs" />
+    <Compile Include="TextCard.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

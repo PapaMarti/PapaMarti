@@ -10,6 +10,21 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace PapaMarti {
+    public class indTopping//individual topping class because jacob screwed everything up and i just need 1 rectanglr
+    {
+        public Topping topping;
+        public Rectangle source;
+        Random rand;
+
+        public indTopping(Topping topping)
+        {
+            this.topping = topping;
+            rand = new Random();
+            int xpos = rand.Next(3) * 8;
+            source = new Rectangle(xpos, topping.yPos, 8, 8);
+        }
+    }
+
     public class ToppingScreen : CookingStage {
         private static Color whiteoutColor = new Color(255, 255, 255, 100);
         private static Color clear = new Color(0, 0, 0, 0);
@@ -25,11 +40,12 @@ namespace PapaMarti {
         private readonly Rectangle doughRect;
         private readonly List<KeyValuePair<Rectangle, Topping>> actualToppingPos;
 
-        private Topping currentClicked;
+        private indTopping currentClicked;
         private Rectangle toppingRect;
-        private Queue<KeyValuePair<Rectangle, Topping>> toppingPos;
+        private Queue<KeyValuePair<Rectangle, indTopping>> toppingPos;
         private Point prevMouse;
         private double passedTime;
+        private Random rand;
 
         /// <summary>
         /// Creates a new topping screen to complete the topping stage of creating the pizza
@@ -46,8 +62,9 @@ namespace PapaMarti {
             passedTime = 0;
             currentClicked = null;
             toppingRect = new Rectangle();
-            toppingPos = new Queue<KeyValuePair<Rectangle, Topping>>();
+            toppingPos = new Queue<KeyValuePair<Rectangle, indTopping>>();
             prevMouse = new Point(Mouse.GetState().X, Mouse.GetState().Y);
+            rand = new Random();
         }
 
         override
@@ -57,22 +74,15 @@ namespace PapaMarti {
                 t.draw(spriteBatch, bowl, toppings);
             }
 
-            foreach(KeyValuePair<Rectangle, Topping> k in toppingPos) {
-                if(k.Value == Topping.cheese || k.Value == Topping.sauce)
-                    spriteBatch.Draw(toppings, k.Key, k.Value.textureRect, Color.White);
+            foreach(KeyValuePair<Rectangle, indTopping> k in toppingPos) {
+                
+                spriteBatch.Draw(toppings, k.Key, k.Value.source, Color.White);
             }
 
-            foreach(KeyValuePair<Rectangle, Topping> t in actualToppingPos) {
-                spriteBatch.Draw(whiteout, t.Key, t.Value.textureRect, whiteoutColor);
+            if (currentClicked != null)
+            {
+                spriteBatch.Draw(toppings, toppingRect, currentClicked.source, Color.White);
             }
-
-            foreach(KeyValuePair<Rectangle, Topping> k in toppingPos) {
-                if(k.Value != Topping.cheese && k.Value != Topping.sauce)
-                    spriteBatch.Draw(toppings, k.Key, k.Value.textureRect, Color.White);
-            }
-
-            if(currentClicked != null)
-                spriteBatch.Draw(toppings, toppingRect, currentClicked.textureRect, Color.White);
         }
 
         override
@@ -83,17 +93,17 @@ namespace PapaMarti {
                 if(currentClicked == null) {
                     foreach(ToppingContainer c in ToppingContainer.containers) {
                         if(c.location.Contains(new Point(m.X, m.Y))) {
-                            currentClicked = c.type;
+                            currentClicked = new indTopping(c.type);
                         }
                     }
                 }
 
                 else {
                     toppingRect = new Rectangle(m.X - (ToppingContainer.TOPPING_SIZE / 2), m.Y - (ToppingContainer.TOPPING_SIZE / 2), ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE);
-                    if(Math.Pow(m.X - 930, 2) + Math.Pow(m.Y - 510, 2) < 75625 && Math.Sqrt(Math.Pow(m.X - prevMouse.X, 2) + Math.Pow(m.Y - prevMouse.Y, 2)) > 32 && !currentClicked.isDragAndDrop) {
+                    if(Math.Pow(m.X - 930, 2) + Math.Pow(m.Y - 510, 2) < 75625 && Math.Sqrt(Math.Pow(m.X - prevMouse.X, 2) + Math.Pow(m.Y - prevMouse.Y, 2)) > 32 && !currentClicked.topping.isDragAndDrop) {
                         if(toppingPos.Count > 500)
                             toppingPos.Dequeue();
-                        toppingPos.Enqueue(new KeyValuePair<Rectangle, Topping>(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked));
+                        toppingPos.Enqueue(new KeyValuePair<Rectangle, indTopping>(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked));
                         prevMouse.X = m.X;
                         prevMouse.Y = m.Y;
                     }
@@ -101,8 +111,8 @@ namespace PapaMarti {
             }
 
             else {
-                if(currentClicked != null && Math.Pow(m.X - 930, 2) + Math.Pow(m.Y - 540, 2) < 75625 && currentClicked.isDragAndDrop) {
-                    toppingPos.Enqueue(new KeyValuePair<Rectangle, Topping>(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked));
+                if(currentClicked != null && Math.Pow(m.X - 930, 2) + Math.Pow(m.Y - 540, 2) < 75625 && currentClicked.topping.isDragAndDrop) {
+                    toppingPos.Enqueue(new KeyValuePair<Rectangle, indTopping>(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked));
                 }
                 currentClicked = null;
             }
@@ -111,8 +121,8 @@ namespace PapaMarti {
         override
         public bool isDone() {
             int t = 0;
-            foreach(KeyValuePair<Rectangle, Topping> top in toppingPos)
-                if(top.Value != Topping.cheese && top.Value != Topping.sauce)
+            foreach(KeyValuePair<Rectangle, indTopping> top in toppingPos)
+                if(top.Value.topping != Topping.cheese && top.Value.topping != Topping.sauce)
                     t++;
             bool done = t == actualToppingPos.Count();
 
@@ -136,8 +146,8 @@ namespace PapaMarti {
         override
         public double getAccuracy() {
             double t = 0;
-            foreach(KeyValuePair<Rectangle, Topping> top in toppingPos)
-                if(top.Value != Topping.cheese && top.Value != Topping.sauce)
+            foreach(KeyValuePair<Rectangle, indTopping> top in toppingPos)
+                if(top.Value.topping != Topping.cheese && top.Value.topping != Topping.sauce)
                     t++;
 
             return t / actualToppingPos.Count;

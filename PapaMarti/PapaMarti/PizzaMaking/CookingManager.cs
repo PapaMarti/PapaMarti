@@ -13,7 +13,7 @@ namespace PapaMarti {
 
     public class CookingManager : StageManager {
         private readonly Pizza type;
-        private CookingStage currentStage;
+        public CookingStage currentStage;
         private Texture2D baseRect;
         private GraphicsDevice gd;
         private bool isTransitioning;
@@ -50,7 +50,7 @@ namespace PapaMarti {
             table = content.Load<Texture2D>("CookingStageTextures/Table");
             font = content.Load<SpriteFont>("text01");
             pixel = content.Load<Texture2D>("whitePixel");
-            backgroundYes = content.Load<Texture2D>("pixil-frame-0");
+            backgroundYes = content.Load<Texture2D>("CookingStageTextures/OvenTextures/Ovenbg");
             if(type.shape == PizzaShape.Circle)
                 currentStage = new CuttingScreen(type, Game1.screenRect, content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/dough"), content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/circle outline"), content.Load<Texture2D>("CookingStageTextures/circle dough"), content.Load<Texture2D>("whitePixel"));
         }
@@ -59,7 +59,7 @@ namespace PapaMarti {
             if (drawTable)
                 spriteBatch.Draw(table, Game1.screenRect, Color.White);
             else
-                spriteBatch.Draw(backgroundYes, Game1.screenRect, Color.White);
+                spriteBatch.Draw(backgroundYes, Game1.screenRect, new Rectangle(0,0,240,135), Color.White);
 
             currentStage.draw(spriteBatch);
             if(isTransitioning) {
@@ -164,12 +164,11 @@ namespace PapaMarti {
                                 }
                                 Texture2D whiteout = new Texture2D(gd, toppings.Width, toppings.Height);
                                 whiteout.SetData(data);
-                                currentStage = new ToppingScreen(gd, type, content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/bowl"), toppings, whiteout, content.Load<Texture2D>("CookingStageTextures/circle dough"), l);
+                                currentStage = new ToppingScreen(gd, type, content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Bowls"), content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings1"), whiteout, content.Load<Texture2D>("CookingStageTextures/circle dough"), l);
                                 break;
 
                             case CookStage.Toppings:
-                                Texture2D pizzaTex = currentStage.getModifiedPizza();
-                                currentStage = new OvenScreen(type, pizzaTex, content.Load<Texture2D>("oven"), content.Load<Texture2D>("place"), 10, content.Load<SpriteFont>("SpriteFont1"));
+                                currentStage = new OvenScreen(type, content.Load<Texture2D>("CookingStageTextures/OvenTextures/pizza"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/Ovenbg"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/place"), 10, content.Load<SpriteFont>("SpriteFont1"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/amazing"));
                                 drawTable = false;
                                 break;
                         }
