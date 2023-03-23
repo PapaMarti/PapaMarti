@@ -58,7 +58,7 @@ namespace PapaMarti {
             baseRect.SetData(new Color[] { Color.White });
             //currentStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0));
             Task[] list = new Task[0];
-            currentQuest = new Quest(list, 0.1, Math.PI / 2);
+            currentQuest = new Quest(list, 0.5, Math.PI / 2);
             currentStage = new MapManager(Content, 0, 0, currentQuest);
             // TODO: use this.Content to load your game content here
 

@@ -34,6 +34,8 @@ namespace PapaMarti
         Vector2 arrowOrigin;
         float arrowAngle;
         float arrowScale;
+        float markerTextScale;
+        float arrowTextScale;
 
         Quest primaryQuest;
 
@@ -66,35 +68,38 @@ namespace PapaMarti
             this.primaryQuest = primaryQuest;
 
             arrow = content.Load<Texture2D>("Arrow");
-            marker = content.Load<Texture2D>("Arrow");
+            marker = content.Load<Texture2D>("marker");
             arrowText = arrow;
             arrowLocation = new Vector2(0, 0);
             arrowAngle = 0f;
-            arrowScale = 5f;
+            arrowTextScale = 5f;
+            markerTextScale = 5f;
+            arrowScale = arrowTextScale;
             updateArrow();
             arrowOrigin = new Vector2(arrow.Width / 2f, arrow.Height / 2f);
         }
 
         private void updateArrow()
         {
+            double setAngleDistance = Math.PI / 4.6;
+            double setRadiusDistance = 0.5;
+
             angle = angle % (Math.PI * 2);
             if (angle < 0)
                 angle += Math.PI * 2;
             double angleDiff = angle - primaryQuest.angle;
             double radiusDiff = position - primaryQuest.radius;
-            if(Math.Abs(angleDiff) < Math.PI / 6 && Math.Abs(radiusDiff) < 0.2)
+            if(Math.Abs(angleDiff) < setAngleDistance && Math.Abs(radiusDiff) < setRadiusDistance)
             {
                 arrowText = marker;
-                arrowAngle = 0;
-                arrowLocation.X = (float)(mapPosition.X - (primaryQuest.radius * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Sin(angleDiff));
-                arrowLocation.Y = (float)(mapPosition.Y - (primaryQuest.radius * (translation - innerCircleTranslation) + translation) * Math.Cos(angleDiff));
-                Console.WriteLine(arrowLocation + " " + arrowAngle);
-                Console.WriteLine((primaryQuest.radius * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Sin(angleDiff) + "");
-                Console.WriteLine((primaryQuest.radius * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Cos(angleDiff) + "");
-                Console.WriteLine(Game1.screenRect);
+                arrowScale = markerTextScale;
+                arrowAngle = (float)angle;
+                arrowLocation.X = (float)(mapPosition.X + ((1 - primaryQuest.radius) * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Sin(angleDiff));
+                arrowLocation.Y = (float)(mapPosition.Y - ((1 - primaryQuest.radius) * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Cos(angleDiff));
             }
-            else if(Math.Abs(angleDiff) < Math.PI / 6)
+            else if(Math.Abs(angleDiff) < setAngleDistance)
             {
+                arrowScale = arrowTextScale;
                 arrowText = arrow;
                 arrowLocation.X = Game1.screenRect.Width / 2;
                 if(radiusDiff > 0)
@@ -111,6 +116,7 @@ namespace PapaMarti
             else
             {
                 arrowText = arrow;
+                arrowScale = arrowTextScale;
                 arrowLocation.Y = Game1.screenRect.Height / 2;
                 if(angleDiff < 0)
                 {
