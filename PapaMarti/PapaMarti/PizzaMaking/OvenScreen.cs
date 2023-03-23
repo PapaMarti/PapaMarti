@@ -399,9 +399,5 @@ namespace PapaMarti
         public override bool isDone() {
             return finished;
         }
-
-        public override Texture2D getModifiedPizza() {
-            return null;
-        }
     }
 }

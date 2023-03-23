@@ -317,9 +317,5 @@ namespace PapaMarti
         {
             return CookStage.Cutting;
         }
-
-        public override Texture2D getModifiedPizza() {
-            return null;
-        }
     }
 }

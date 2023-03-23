@@ -36,7 +36,7 @@ namespace PapaMarti {
         private readonly Texture2D toppings;
         private readonly Texture2D whiteout;
         private readonly GraphicsDevice gd;
-        private Texture2D dough;
+        private readonly Texture2D dough;
         private readonly Rectangle doughRect;
         private readonly List<KeyValuePair<Rectangle, Topping>> actualToppingPos;
 
@@ -126,20 +126,6 @@ namespace PapaMarti {
                     t++;
             bool done = t == actualToppingPos.Count();
 
-            if(done) {
-                Color[] data = new Color[Game1.screenRect.Width * Game1.screenRect.Height];
-                Color[] cropped = new Color[550 * 550];
-                for(int i = 567055; i < 1623605; i++) {
-                    cropped[i - 567055] = data[i];
-                    if(cropped[i - 567055].Equals(brown) || cropped[i - 567055].Equals(brown2) || cropped[i - 567055].Equals(brown3)) {
-                        cropped[i - 567055] = clear;
-                    }
-                }
-
-                dough = new Texture2D(gd, 550, 550);
-                dough.SetData(cropped);
-            }
-
             return done;
         }
 
@@ -156,10 +142,6 @@ namespace PapaMarti {
         override
         public CookStage getStage() {
             return CookStage.Toppings;
-        }
-
-        public override Texture2D getModifiedPizza() {
-            return dough;
         }
     }
 }

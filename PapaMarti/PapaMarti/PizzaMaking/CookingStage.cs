@@ -24,6 +24,5 @@ namespace PapaMarti {
         public abstract bool isDone();
         public abstract double getAccuracy();
         public abstract CookStage getStage();
-        public abstract Texture2D getModifiedPizza();
     }
 }
