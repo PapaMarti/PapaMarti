@@ -16,15 +16,15 @@ namespace PapaMarti {
 
         static ToppingContainer() {
             containers = new List<ToppingContainer>();
-            int ypos = (Game1.screenRect.Height - 800) / 2;
+            int ypos = (Game1.screenRect.Height - 1000) / 2;
             int xpos = 75;
             foreach(Topping t in Topping.toppings) {
-                containers.Add(new ToppingContainer(t, new Rectangle(xpos, ypos, 313, 165)));
-                ypos += 200;
+                containers.Add(new ToppingContainer(t, new Rectangle(xpos, ypos, 240, 240)));
+                ypos += 240;
 
                 if(ypos > 800) {
-                    xpos = Game1.screenRect.Width - 75 - 313;
-                    ypos = (Game1.screenRect.Height - 800) / 2;
+                    xpos = Game1.screenRect.Width - 75 - 240;
+                    ypos = (Game1.screenRect.Height - 1000) / 2;
                 }
             }
         }
@@ -40,9 +40,9 @@ namespace PapaMarti {
             toppingLocation = new Rectangle(location.X + ((location.Width - TOPPING_SIZE) / 2), location.Y + ((location.Height - TOPPING_SIZE) / 2), TOPPING_SIZE, TOPPING_SIZE);
         }
 
-        public void draw(SpriteBatch spritebatch, Texture2D bowl, Texture2D toppings) {
-            spritebatch.Draw(bowl, location, Color.White);
-            spritebatch.Draw(toppings, toppingLocation, type.textureRect, Color.White);
+        public void draw(SpriteBatch spritebatch, Texture2D sheet, Texture2D toppings) {
+            spritebatch.Draw(sheet, location, type.bowlRect, Color.White);
+            //spritebatch.Draw(toppings, toppingLocation, type.textureRect, Color.White);
         }
     }
 }
