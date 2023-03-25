@@ -66,7 +66,7 @@ namespace PapaMarti
             road = content.Load<Texture2D>("whitePixel"); //REPLACE LATER WITH ROAD TEXTURE
             int roadWidth = 30;
             roadRect = new Rectangle((Game1.screenRect.Width - roadWidth)/2, Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation)), roadWidth, translation - innerCircleTranslation);
-            roadOrigin = new Vector2((float)road.Width / 2, road.Height + ((float)road.Height / (translation - innerCircleTranslation) * innerCircleTranslation));
+            roadOrigin = new Vector2((float)road.Width / 2f, road.Height + ((float)road.Height / (translation - innerCircleTranslation) * innerCircleTranslation));
 
             this.primaryQuest = primaryQuest;
 
@@ -94,6 +94,12 @@ namespace PapaMarti
             if (angle < 0)
                 angle += Math.PI * 2;
             double angleDiff = angle - primaryQuest.angle;
+            double secondDiff = -2 * Math.PI + angle - primaryQuest.angle;
+            double thirdDiff = 2 * Math.PI - primaryQuest.angle + angle;
+            if (Math.Abs(thirdDiff) < Math.Abs(secondDiff))
+                secondDiff = thirdDiff;
+            if (Math.Abs(secondDiff) < Math.Abs(angleDiff))
+                angleDiff = secondDiff;
             double radiusDiff = position - primaryQuest.radius;
 
             if (radiusDiff < 0)
@@ -184,6 +190,9 @@ namespace PapaMarti
                 }
                 sliceAngle += (float)Math.PI / 3;
             }
+
+            //car (change later for animation and actual textures)
+            spriteBatch.Draw(road, new Rectangle((Game1.screenRect.Width - 50) / 2, (Game1.screenRect.Height - 50) / 2, 50, 50), Color.Red);
 
             //arrow
             spriteBatch.Draw(arrowText, arrowLocation, null, Color.White, arrowAngle, arrowOrigin, arrowScale, SpriteEffects.None, 0f);
