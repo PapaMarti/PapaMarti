@@ -154,12 +154,16 @@ namespace PapaMarti {
                             case CookStage.Cutting:
                                 List<KeyValuePair<Rectangle, Topping>> l = new List<KeyValuePair<Rectangle, Topping>>();
                                 l.Add(new KeyValuePair<Rectangle, Topping>(new Rectangle(700, 600, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), Topping.pepperoni));
-                                Texture2D toppings = content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings");
+                                
+                                Texture2D toppings = content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings1");
                                 Color[] data = new Color[toppings.Width * toppings.Height];
                                 toppings.GetData(data);
                                 for(int i = 0; i < data.Length; i++) {
                                     if(!(data[i].A == 0 && data[i].R == 0 && data[i].G == 0 && data[i].B == 0)) {
-                                        data[i] = Color.White;
+                                        data[i].A = 125;
+                                        //data[i].R = (byte) (data[i].R * 1.5);
+                                        //data[i].G = (byte) (data[i].G * 1.5);
+                                        //data[i].B = (byte) (data[i].B * 1.5);
                                     }
                                 }
                                 Texture2D whiteout = new Texture2D(gd, toppings.Width, toppings.Height);

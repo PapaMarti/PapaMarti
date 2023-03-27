@@ -85,6 +85,11 @@ namespace PapaMarti {
         override
         public void draw(SpriteBatch spriteBatch) {
             spriteBatch.Draw(dough, doughRect, Color.White);
+
+            foreach(KeyValuePair<Rectangle, Topping> kv in actualToppingPos) {
+                spriteBatch.Draw(whiteout, kv.Key, kv.Value.spritesheetRect, Color.White);
+            }
+
             foreach(ToppingContainer t in ToppingContainer.containers) {
                 t.draw(spriteBatch, bowl, toppings);
             }
@@ -145,21 +150,25 @@ namespace PapaMarti {
         override
         public bool isDone() {
             bool done = true;
+            bool hasSauce = false;
+            bool hasCheese = false;
+
+            foreach(KeyValuePair<Rectangle, indTopping> kv in toppingPos) {
+                hasSauce = hasSauce || kv.Value.topping == Topping.sauce;
+            }
+
+            foreach(KeyValuePair<Rectangle, indTopping> kv in toppingPos)
+                hasCheese = hasCheese || kv.Value.topping == Topping.cheese;
 
             foreach(ToppingList l in toppingLists)
                 done = done && l.hasAll();
 
-            return done;
+            return hasCheese && hasSauce && done;
         }
 
         override
         public double getAccuracy() {
-            double t = 0;
-            foreach(KeyValuePair<Rectangle, indTopping> top in toppingPos)
-                if(top.Value.topping != Topping.cheese && top.Value.topping != Topping.sauce)
-                    t++;
-
-            return t / actualToppingPos.Count;
+            return 1;
         }
 
         override

@@ -22,14 +22,14 @@ namespace PapaMarti {
         public static readonly List<Topping> toppings;
 
         static Topping() {
-            cheese = new Topping(56, new Rectangle(96, 32, 32, 32), false);
-            pepperoni = new Topping(48, new Rectangle(64, 32, 32, 32), true);
-            mushroom = new Topping(40, new Rectangle(32, 32, 32, 32), true);
-            capsicum = new Topping(32, new Rectangle(0, 32, 32, 32), true);
-            jalapeno = new Topping(24, new Rectangle(96, 0, 32, 32), true);
-            meat = new Topping(16, new Rectangle(64, 0, 32, 32), true);
-            onion = new Topping(8, new Rectangle(32, 0, 32, 32), true);
-            sauce = new Topping(0, new Rectangle(0, 0, 32, 32), false);
+            cheese = new Topping(56, new Rectangle(96, 32, 32, 32), false, new Rectangle(0, 56, 8, 8));
+            pepperoni = new Topping(48, new Rectangle(64, 32, 32, 32), true, new Rectangle(0, 48, 8, 8));
+            mushroom = new Topping(40, new Rectangle(32, 32, 32, 32), true, new Rectangle(0, 40, 8, 8));
+            capsicum = new Topping(32, new Rectangle(0, 32, 32, 32), true, new Rectangle(0, 32, 8, 8));
+            jalapeno = new Topping(24, new Rectangle(96, 0, 32, 32), true, new Rectangle(0, 24, 8, 8));
+            meat = new Topping(16, new Rectangle(64, 0, 32, 32), true, new Rectangle(0, 16, 8, 8));
+            onion = new Topping(8, new Rectangle(32, 0, 32, 32), true, new Rectangle(0, 8, 8, 8));
+            sauce = new Topping(0, new Rectangle(0, 0, 32, 32), false, new Rectangle(0, 0, 8, 8));
             toppings = new List<Topping>();
             toppings.Add(cheese);
             toppings.Add(pepperoni);
@@ -44,12 +44,14 @@ namespace PapaMarti {
         public readonly int yPos;//y position inside the texture itself
         public readonly Rectangle bowlRect;
         public readonly bool isDragAndDrop;
+        public readonly Rectangle spritesheetRect;
         public int type;//which one of the 3 textures is this
 
-        private Topping(int yPos, Rectangle bowlRect, bool isDragAndDrop) {
+        private Topping(int yPos, Rectangle bowlRect, bool isDragAndDrop, Rectangle spritesheetRect) {
             this.yPos = yPos;
             this.bowlRect = bowlRect;
             this.isDragAndDrop = isDragAndDrop;
+            this.spritesheetRect = spritesheetRect;
         }
     }
     public class Pizza {

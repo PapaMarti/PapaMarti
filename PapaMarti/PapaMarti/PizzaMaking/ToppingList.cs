@@ -20,7 +20,7 @@
         }
 
         public bool hasAll() {
-            return has == desired;
+            return has >= desired;
         }
 
     }
