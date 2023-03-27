@@ -20,7 +20,8 @@ namespace PapaMarti
         public Color color;
         public float scale;
         public Vector2 origin;
-        public MapLocation(double angle, double radius, Texture2D texture, Color color, float scale)
+        public float rotation;
+        public MapLocation(double angle, double radius, Texture2D texture, Color color, float scale, float rotation)
         {
             //this.room = room;
             this.angle = angle;
@@ -29,6 +30,7 @@ namespace PapaMarti
             this.color = color;
             this.scale = scale;
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
+            this.rotation = rotation;
         }
     }
 }

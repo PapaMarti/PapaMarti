@@ -25,12 +25,12 @@ namespace PapaMarti
             places = new MapLocation[6];
 
             //slice one
-            places[0] = new MapLocation(0.4, 0.8, building, Color.Blue, 1f);
-            places[1] = new MapLocation(0.3, 0.45, building, Color.Red, 1f);
-            places[2] = new MapLocation(0.15, 0.2, building, Color.Yellow, 1f);
-            places[3] = new MapLocation(0.4, 0.12, building, Color.Green, 1f);
-            places[4] = new MapLocation(0.8, 0.12, building, Color.Purple, 1f);
-            places[5] = new MapLocation(0.8, 0.55, building, Color.Orange, 1f);
+            places[0] = new MapLocation(0.4, 0.78, building, Color.Blue, 1.1f, 0f);
+            places[1] = new MapLocation(0.3, 0.47, building, Color.Red, 1f, 0f);
+            places[2] = new MapLocation(0.15, 0.22, building, Color.Yellow, 1.2f, 0f);
+            places[3] = new MapLocation(0.36, 0.15, building, Color.Green, 0.9f, 0.25f);
+            places[4] = new MapLocation(0.8, 0.12, building, Color.Purple, 0.8f, -0.2f);
+            places[5] = new MapLocation(0.8, 0.55, building, Color.Orange, 1f, 0f);
         }
         public void drawLocations(SpriteBatch spriteBatch, float angle, Vector2 mapPosition)
         {
@@ -39,7 +39,7 @@ namespace PapaMarti
             {
                 location.X = (float)(mapPosition.X + ((1 - places[i].radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Sin(angle - places[i].angle));
                 location.Y = (float)(mapPosition.Y - ((1 - places[i].radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Cos(angle - places[i].angle));
-                spriteBatch.Draw(places[i].texture, location, null, places[i].color, angle, places[i].origin, places[i].scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(places[i].texture, location, null, places[i].color, angle - places[i].rotation, places[i].origin, places[i].scale, SpriteEffects.None, 0f);
             }
         }
 

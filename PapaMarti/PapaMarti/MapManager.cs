@@ -24,8 +24,8 @@ namespace PapaMarti
         Rectangle roadRect;
         Vector2 roadOrigin;
 
-        public readonly static int translation = 1700; //to calculate where the map needs to be placed on the screen
-        public readonly static int innerCircleTranslation = 250; //for inner circle calculations
+        public readonly static int translation = 1725; //to calculate where the map needs to be placed on the screen
+        public readonly static int innerCircleTranslation = 260; //for inner circle calculations
         double minPosition;
         double maxPosition;
 
