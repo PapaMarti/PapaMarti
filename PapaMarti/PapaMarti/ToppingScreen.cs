@@ -39,7 +39,6 @@ namespace PapaMarti {
         private readonly Texture2D dough;
         private readonly Rectangle doughRect;
         private readonly List<KeyValuePair<Rectangle, Topping>> actualToppingPos;
-        private List<ToppingList> toppingLists;
 
         private indTopping currentClicked;
         private Rectangle toppingRect;
@@ -57,6 +56,7 @@ namespace PapaMarti {
             this.bowl = bowl;
             this.toppings = toppings;
             this.dough = dough;
+            this.actualToppingPos = actualToppingPos;
             double size = Game1.screenRect.Height * 0.64;
             doughRect = new Rectangle((int) (Game1.screenRect.Width - size) / 2, (int) ((Game1.screenRect.Height - size) / 2), (int) size, (int) size);
             passedTime = 0;
@@ -65,21 +65,6 @@ namespace PapaMarti {
             toppingPos = new Queue<KeyValuePair<Rectangle, indTopping>>();
             prevMouse = new Point(Mouse.GetState().X, Mouse.GetState().Y);
             rand = new Random();
-
-
-            this.actualToppingPos = actualToppingPos;
-            this.toppingLists = new List<ToppingList>();
-            foreach(Topping t in Topping.toppings) {
-                if(t == Topping.cheese || t == Topping.sauce)
-                    continue;
-                int numtops = 0;
-                foreach(KeyValuePair<Rectangle, Topping> k in actualToppingPos) {
-                    if(k.Value == t)
-                        numtops++;
-                }
-
-                toppingLists.Add(new ToppingList(t, numtops));
-            }
         }
 
         override
@@ -121,12 +106,9 @@ namespace PapaMarti {
                 else {
                     toppingRect = new Rectangle(m.X - (ToppingContainer.TOPPING_SIZE / 2), m.Y - (ToppingContainer.TOPPING_SIZE / 2), ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE);
                     if(Math.Pow(m.X - 930, 2) + Math.Pow(m.Y - 510, 2) < 75625 && Math.Sqrt(Math.Pow(m.X - prevMouse.X, 2) + Math.Pow(m.Y - prevMouse.Y, 2)) > 32 && !currentClicked.topping.isDragAndDrop) {
-                        if(toppingPos.Count > 500) {
-                            decTopList(toppingPos.Peek().Value.topping);
+                        if(toppingPos.Count > 500)
                             toppingPos.Dequeue();
-                        }
                         toppingPos.Enqueue(new KeyValuePair<Rectangle, indTopping>(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked));
-                        incTopList(currentClicked.topping);
                         prevMouse.X = m.X;
                         prevMouse.Y = m.Y;
                     }
@@ -136,7 +118,6 @@ namespace PapaMarti {
             else {
                 if(currentClicked != null && Math.Pow(m.X - 930, 2) + Math.Pow(m.Y - 540, 2) < 75625 && currentClicked.topping.isDragAndDrop) {
                     toppingPos.Enqueue(new KeyValuePair<Rectangle, indTopping>(new Rectangle(m.X, m.Y, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), currentClicked));
-                    incTopList(currentClicked.topping);
                 }
                 currentClicked = null;
             }
@@ -144,10 +125,11 @@ namespace PapaMarti {
 
         override
         public bool isDone() {
-            bool done = true;
-
-            foreach(ToppingList l in toppingLists)
-                done = done && l.hasAll();
+            int t = 0;
+            foreach(KeyValuePair<Rectangle, indTopping> top in toppingPos)
+                if(top.Value.topping != Topping.cheese && top.Value.topping != Topping.sauce)
+                    t++;
+            bool done = t == actualToppingPos.Count();
 
             return done;
         }
@@ -165,18 +147,6 @@ namespace PapaMarti {
         override
         public CookStage getStage() {
             return CookStage.Toppings;
-        }
-
-        private void incTopList(Topping type) {
-            foreach(ToppingList l in toppingLists)
-                if(l.type == type)
-                    l.has++;
-        }
-
-        private void decTopList(Topping type) {
-            foreach(ToppingList l in toppingLists)
-                if(l.type == type)
-                    l.has--;
         }
     }
 }

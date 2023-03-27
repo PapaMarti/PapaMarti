@@ -1,46 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿namespace PapaMarti {
+    public class ToppingList {
 
-namespace PapaMarti.PizzaMaking {
-    class ToppingList {
+        public int desired {
+            get; private set;
+        }
 
-        List<Point> toppings;
-        List<Point> usedPoints;
+        public int has {
+            get; set;
+        }
 
         public Topping type {
             get; private set;
         }
 
-        public ToppingList(Topping type, List<Point> points) {
+        public ToppingList(Topping type, int desired) {
             this.type = type;
-            this.toppings = points;
-            usedPoints = new List<Point>();
+            this.desired = desired;
+            has = 0;
         }
 
         public bool hasAll() {
-            return toppings.Count == 0;
-        }
-
-        public void register(Point point) {
-            
-        }
-
-        public Point findNearest(Point other) {
-            double smallest = double.MaxValue;
-            int index = -1;
-
-            for(int i = 0; i < toppings.Count; i++) {
-                double distance = Math.Sqrt(Math.Pow(toppings.ElementAt(index).X + other.X, 2) + Math.Pow(toppings.ElementAt(index).Y + other.Y, 2));
-                if(distance < smallest) {
-                    smallest = distance;
-                    index = i;
-                }
-            }
-
-            return index == -1 ? new Point(-1, -1) : toppings.ElementAt(index);
+            return has == desired;
         }
 
     }
