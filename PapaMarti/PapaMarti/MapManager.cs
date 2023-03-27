@@ -24,8 +24,8 @@ namespace PapaMarti
         Rectangle roadRect;
         Vector2 roadOrigin;
 
-        int translation;
-        int innerCircleTranslation;
+        public readonly static int translation = 1700; //to calculate where the map needs to be placed on the screen
+        public readonly static int innerCircleTranslation = 250; //for inner circle calculations
         double minPosition;
         double maxPosition;
 
@@ -42,12 +42,21 @@ namespace PapaMarti
         Texture2D sliceLock;
         int slicesOpen;
 
+        RoomData data;
+        public MapLocation closestLocation
+        {
+            get
+            {
+                return data.getClosestLocation(angle, position);
+            }
+        }
+
         /// <summary>
         /// Making a new map manager to allow the player to explore the island
         /// </summary>
         /// <param name="angle">Angular location on the pizza map, give radians. Typical unit circle stuff, roads are at 0, pi/3, 2pi/3, pi, 4pi/3, 5pi/3</param>
         /// <param name="position">How far up or down they are on a road, 0 for closer to the outside, 1 for the inner ring.</param>
-        public MapManager(ContentManager content, double angle, double position, Quest primaryQuest, int slicesOpen) : base(content)
+        public MapManager(ContentManager content, double angle, double position, Quest primaryQuest, int slicesOpen, RoomData data) : base(content)
         {
             this.angle = angle % (2 * Math.PI);
             this.position = position;
@@ -56,8 +65,8 @@ namespace PapaMarti
             mapSource = new Rectangle(0, 0, map.Width, map.Height);
             mapOrigin = new Vector2(map.Width / 2, map.Height / 2);
 
-            translation = 1700; //adjust this number to get the scaling right
-            innerCircleTranslation = 250;
+            //translation = 1700; //adjust this number to get the scaling right
+            //innerCircleTranslation = 250;
 
             mapPosition = new Vector2(Game1.screenRect.Width / 2, Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation)));
 
@@ -83,6 +92,8 @@ namespace PapaMarti
 
             this.slicesOpen = slicesOpen;
             sliceLock = content.Load<Texture2D>("slice lock");
+
+            this.data = data;
         }
 
         private void updateArrow()
@@ -179,6 +190,9 @@ namespace PapaMarti
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI), roadOrigin, SpriteEffects.None, 0f);
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 2 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
             spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 4 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
+
+            //buildings
+            data.drawLocations(spriteBatch, (float)angle, mapPosition);
 
             //locked slices
             float sliceAngle = (float)Math.PI / 6;

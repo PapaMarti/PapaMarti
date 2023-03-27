@@ -19,8 +19,9 @@ namespace PapaMarti {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         StageManager currentStage;
+        MapManager mapManager;
         Quest currentQuest;
-        
+        RoomData data;
 
         Texture2D ovenText;
 
@@ -57,9 +58,13 @@ namespace PapaMarti {
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
             //currentStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0));
+
+            data = new RoomData(Content);
+
             Task[] list = new Task[0];
             currentQuest = new Quest(list, 0.5, 11 * Math.PI / 6);
-            currentStage = new MapManager(Content, 0, 0, currentQuest, 1);
+            mapManager = new MapManager(Content, 0, 0, currentQuest, 1, data);
+            currentStage = mapManager;
             // TODO: use this.Content to load your game content here
 
         }
@@ -82,6 +87,14 @@ namespace PapaMarti {
             // Allows the game to exit
             if(Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
+
+            if(currentStage.getStage() == GameStage.Exploring)
+            {
+                if (kb.IsKeyDown(Keys.Enter))
+                {
+                    currentStage = new RoomManager(Content, ((MapManager)currentStage).closestLocation);
+                }
+            }
 
             // TODO: Add your update logic here
             currentStage.update(gameTime);

@@ -11,7 +11,8 @@ namespace PapaMarti {
         Cooking,
         Cutscene,
         Exploring,
-        Fighting
+        Fighting,
+        Rooming
     }
 
 
