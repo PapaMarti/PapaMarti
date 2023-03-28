@@ -8,11 +8,11 @@ using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace PapaMarti
 {
-    public enum Status
-    {
+    public enum Status {
         Unknown,
         Obtained,
         Completed

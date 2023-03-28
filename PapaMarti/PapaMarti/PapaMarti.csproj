@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="MapLocation.cs" />
     <Compile Include="MapManager.cs" />
+    <Compile Include="MovementTask.cs" />
     <Compile Include="PizzaMaking\OvenScreen.cs" />
     <Compile Include="PizzaMaking\CookingManager.cs" />
     <Compile Include="PizzaMaking\Pizza.cs" />

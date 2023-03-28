@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace PapaMarti
 {
@@ -19,5 +20,6 @@ namespace PapaMarti
     }
     /*Types of tasks include
      * Movement: Player must go to a certain area
+     * 
     */
 }
