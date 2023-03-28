@@ -89,9 +89,18 @@ namespace PapaMarti {
 
             if(currentStage.getStage() == GameStage.Exploring)
             {
-                if (kb.IsKeyDown(Keys.Enter))
+                if (currentStage.isDone())
                 {
+                    Console.WriteLine("done");
                     currentStage = new RoomManager(Content, ((MapManager)currentStage).closestLocation);
+                }
+            }
+
+            if(currentStage.getStage() == GameStage.Rooming)
+            {
+                if (currentStage.isDone())
+                {
+                    currentStage = mapManager;
                 }
             }
 

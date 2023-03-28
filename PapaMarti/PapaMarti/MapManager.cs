@@ -244,7 +244,8 @@ namespace PapaMarti
         }
         public override bool isDone()
         {
-            return false;
+            KeyboardState kb = Keyboard.GetState();
+            return kb.IsKeyDown(Keys.Enter);
         }
 
         private bool canRotate()

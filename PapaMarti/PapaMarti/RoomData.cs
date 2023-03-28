@@ -24,13 +24,45 @@ namespace PapaMarti
 
             places = new MapLocation[6];
 
+            Texture2D wallTexture = content.Load<Texture2D>("wall");
+            Tile wall = new Tile(TilePhysics.Impassable, wallTexture, new Vector2(0, 0));
+            Tile floor = new Tile(TilePhysics.Passable, content.Load<Texture2D>("whitePixel"), new Vector2(0, 0));
+
             //slice one
-            places[0] = new MapLocation(0.4, 0.78, building, Color.Blue, 1.1f, 0f);
-            places[1] = new MapLocation(0.3, 0.47, building, Color.Red, 1f, 0f);
-            places[2] = new MapLocation(0.15, 0.22, building, Color.Yellow, 1.2f, 0f);
-            places[3] = new MapLocation(0.36, 0.15, building, Color.Green, 0.9f, 0.25f);
-            places[4] = new MapLocation(0.8, 0.12, building, Color.Purple, 0.8f, -0.2f);
-            places[5] = new MapLocation(0.8, 0.55, building, Color.Orange, 1f, 0f);
+            Room one = new Room(new Tile[,] {{wall, wall, wall, wall, wall, wall, wall, wall, wall },
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             { wall, wall, wall, wall, wall, wall, wall, wall, wall } });
+            Room two = new Room(new Tile[,] {{wall, wall, wall, wall, wall, wall, wall, wall, wall, wall },
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             {wall, wall, wall, wall, wall, wall, floor, floor, floor, wall},
+                                             {null, null, null, null, null, wall, floor, floor, floor, wall},
+                                             {null, null, null, null, null, wall, floor, floor, floor, wall},
+                                             {null, null, null, null, null, wall, floor, floor, floor, wall},
+                                             {null, null, null, null, null, wall, floor, floor, floor, wall},
+                                             {null, null, null, null, null, wall, wall, wall, wall, wall } });
+            Room three = new Room(new Tile[,] {{null, null, wall, wall, wall, wall, wall, null, null },
+                                             {null, null, wall, floor, floor, floor, wall, null, null},
+                                             {wall, wall, wall, floor, floor, floor, wall, wall, wall},
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
+                                             {wall, wall, wall, floor, floor, floor, wall, wall, wall},
+                                             {null, null, wall, floor, floor, floor, wall, null, null},
+                                             {null, null, wall, wall, wall, wall, wall, null, null } });
+            places[0] = new MapLocation(0.4, 0.78, building, Color.Blue, 1.1f, 0f, one);
+            places[1] = new MapLocation(0.3, 0.47, building, Color.Red, 1f, 0f, two);
+            places[2] = new MapLocation(0.15, 0.22, building, Color.Yellow, 1.2f, 0f, three);
+            places[3] = new MapLocation(0.36, 0.15, building, Color.Green, 0.9f, 0.25f, one);
+            places[4] = new MapLocation(0.8, 0.12, building, Color.Purple, 0.8f, -0.2f, two);
+            places[5] = new MapLocation(0.8, 0.55, building, Color.Orange, 1f, 0f, three);
         }
         public void drawLocations(SpriteBatch spriteBatch, float angle, Vector2 mapPosition)
         {

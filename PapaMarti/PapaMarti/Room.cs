@@ -13,7 +13,7 @@ namespace PapaMarti
         int height;
         int width;
         Vector2 origin;
-
+        int tileSize;
 
 
         readonly int SCREENWIDTH = 1920;
@@ -25,9 +25,11 @@ namespace PapaMarti
             height = tiles.GetLength(0);
             width = tiles.GetLength(1);
 
+            tileSize = 75;
+
             //Calculate origin at which to draw room
-            int pixelHeight = 60 * height;
-            int pixelWidth = 60 * width;
+            int pixelHeight = tileSize * height;
+            int pixelWidth = tileSize * width;
             origin = new Vector2((SCREENWIDTH - pixelWidth) / 2, (SCREENHEIGHT - pixelHeight) / 2);
         }
         public void draw(SpriteBatch spriteBatch)
@@ -38,11 +40,12 @@ namespace PapaMarti
             {
                 for (int j = 0; j < width; j++)
                 {
-                    spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.White);
-                    x += 60;
+                    if(tiles[i, j] != null)
+                        spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, tileSize, tileSize), Color.White);
+                    x += tileSize;
                 }
                 x = (int)origin.X;
-                y += 60;
+                y += tileSize;
             }
         }
     }

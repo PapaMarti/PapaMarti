@@ -13,7 +13,7 @@ namespace PapaMarti
 {
     class MapLocation
     {
-        //public Room room; add this back in later when room class is complete
+        public Room room;
         public double angle;
         public double radius;
         public Texture2D texture;
@@ -21,7 +21,7 @@ namespace PapaMarti
         public float scale;
         public Vector2 origin;
         public float rotation;
-        public MapLocation(double angle, double radius, Texture2D texture, Color color, float scale, float rotation)
+        public MapLocation(double angle, double radius, Texture2D texture, Color color, float scale, float rotation, Room room)
         {
             //this.room = room;
             this.angle = angle;
@@ -31,6 +31,7 @@ namespace PapaMarti
             this.scale = scale;
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
             this.rotation = rotation;
+            this.room = room;
         }
     }
 }

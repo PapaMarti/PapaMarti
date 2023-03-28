@@ -25,16 +25,17 @@ namespace PapaMarti
         }
         public override void draw(SpriteBatch spriteBatch)
         {
-            Console.WriteLine(location.angle + ", " + location.radius);
-            spriteBatch.Draw(location.texture, new Rectangle(0, 0, location.texture.Width, location.texture.Height), location.color);
+            //spriteBatch.Draw(location.texture, new Rectangle(0, 0, location.texture.Width, location.texture.Height), location.color);
+            location.room.draw(spriteBatch);
         }
         public override void update(GameTime time)
         {
-
+            //location.room.update();
         }
         public override bool isDone()
         {
-            return false;
+            KeyboardState kb = Keyboard.GetState();
+            return kb.IsKeyDown(Keys.Tab);
         }
     }
 }
