@@ -156,7 +156,7 @@ namespace PapaMarti {
                                 break;
 
                             case CookStage.Toppings:
-                                currentStage = new OvenScreen(type, content.Load<Texture2D>("pizza"), content.Load<Texture2D>("oven"), content.Load<Texture2D>("place"), 10, content.Load<SpriteFont>("SpriteFont1"));
+                                currentStage = new OvenScreen(type, content.Load<Texture2D>("pizza"), content.Load<Texture2D>("oven"), 10, content.Load<SpriteFont>("SpriteFont1"));
                                 drawTable = false;
                                 break;
                         }
