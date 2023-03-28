@@ -1,7 +1,3 @@
-Content\place.xnb
-Content\SpriteFont1.xnb
-Content\oven.xnb
-Content\pizza.xnb
 Content\whitePixel.xnb
 Content\CookingStageTextures\CuttingStageTextures\circle outline.xnb
 Content\CookingStageTextures\CuttingStageTextures\dough.xnb
@@ -13,9 +9,9 @@ Content\pixil-frame-0.xnb
 Content\oven.xnb
 Content\pizza.xnb
 Content\place.xnb
+Content\text01.xnb
 Content\SpriteFont1.xnb
 Content\Arrow.xnb
 Content\marker.xnb
 Content\MapTextures\temporary map.xnb
 Content\slice lock.xnb
-Content\text01.xnb

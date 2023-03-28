@@ -13,7 +13,7 @@ namespace PapaMarti {
 
     public class CookingManager : StageManager {
         private readonly Pizza type;
-        private CookingStage currentStage;
+        public CookingStage currentStage;
         private Texture2D baseRect;
         private bool isTransitioning;
         private bool isFadingIn, isFadingOut;
@@ -150,11 +150,13 @@ namespace PapaMarti {
                         switch(currentStage.getStage()) 
                         {
                             case CookStage.Cutting:
-                                currentStage = new ToppingScreen(type, content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/bowl"), content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings"), content.Load<Texture2D>("CookingStageTextures/circle dough"));
+                                List<KeyValuePair<Rectangle, Topping>> l = new List<KeyValuePair<Rectangle, Topping>>();
+                                l.Add(new KeyValuePair<Rectangle, Topping>(new Rectangle(), Topping.pepperoni));
+                                currentStage = new ToppingScreen(type, content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/bowl"), content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings"), content.Load<Texture2D>("CookingStageTextures/circle dough"), l);
                                 break;
 
                             case CookStage.Toppings:
-                                currentStage = new OvenScreen(type, content.Load<Texture2D>("pizza"), content.Load<Texture2D>("oven"), content.Load<Texture2D>("place"), 10, content.Load<SpriteFont>("SpriteFont1"));
+                                currentStage = new OvenScreen(type, content.Load<Texture2D>("pizza"), content.Load<Texture2D>("oven"), 10, content.Load<SpriteFont>("SpriteFont1"));
                                 drawTable = false;
                                 break;
                         }

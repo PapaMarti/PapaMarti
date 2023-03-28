@@ -59,6 +59,7 @@
     <Compile Include="MapLocation.cs" />
     <Compile Include="MapManager.cs" />
     <Compile Include="MovementTask.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="PizzaMaking\OvenScreen.cs" />
     <Compile Include="PizzaMaking\CookingManager.cs" />
     <Compile Include="PizzaMaking\Pizza.cs" />
@@ -71,10 +72,13 @@
     <Compile Include="Quest.cs" />
     <Compile Include="RoomData.cs" />
     <Compile Include="RoomManager.cs" />
-    <Compile Include="StageManager.cs" />
     <Compile Include="PizzaMaking\ToppingContainer.cs" />
     <Compile Include="PizzaMaking\ToppingScreen.cs" />
     <Compile Include="Task.cs" />
+    <Compile Include="Room.cs" />
+    <Compile Include="StageManager.cs" />
+    <Compile Include="TextCard.cs" />
+    <Compile Include="Tile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

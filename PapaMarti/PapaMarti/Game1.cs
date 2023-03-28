@@ -66,7 +66,6 @@ namespace PapaMarti {
             mapManager = new MapManager(Content, 0, 0, currentQuest, 1, data);
             currentStage = mapManager;
             // TODO: use this.Content to load your game content here
-
         }
 
         /// <summary>
@@ -110,6 +109,7 @@ namespace PapaMarti {
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
             currentStage.draw(spriteBatch);
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
