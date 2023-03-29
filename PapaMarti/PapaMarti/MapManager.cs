@@ -42,6 +42,9 @@ namespace PapaMarti
         Texture2D sliceLock;
         int slicesOpen;
 
+        Car car;
+        Texture2D carImage;
+
         RoomData data;
         public MapLocation closestLocation
         {
@@ -94,6 +97,9 @@ namespace PapaMarti
             sliceLock = content.Load<Texture2D>("slice lock");
 
             this.data = data;
+
+            car = new Car();
+            carImage = content.Load<Texture2D>("Car");
         }
 
         private void updateArrow()
@@ -163,6 +169,7 @@ namespace PapaMarti
         {
             mapPosition.Y = Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation));
             roadRect.Y = Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation));
+
         }
 
         /// <summary>
@@ -206,7 +213,7 @@ namespace PapaMarti
             }
 
             //car (change later for animation and actual textures)
-            spriteBatch.Draw(road, new Rectangle((Game1.screenRect.Width - 50) / 2, (Game1.screenRect.Height - 50) / 2, 50, 50), Color.Red);
+            car.draw(spriteBatch, carImage, new Rectangle((Game1.screenRect.Width - 225) / 2, (Game1.screenRect.Height - 150) / 2 - 50, 225, 150));
 
             //arrow
             spriteBatch.Draw(arrowText, arrowLocation, null, Color.White, arrowAngle, arrowOrigin, arrowScale, SpriteEffects.None, 0f);
@@ -221,6 +228,7 @@ namespace PapaMarti
                     angle += angleSpeed;
                 else
                     angle += angleSpeed * 2;
+                car.updateDirection(Direction.left);
             }
             if((kb.IsKeyDown(Keys.Right) || kb.IsKeyDown(Keys.D)) && canRotate())
             {
@@ -228,17 +236,21 @@ namespace PapaMarti
                     angle -= angleSpeed;
                 else
                     angle -= angleSpeed * 2;
+                car.updateDirection(Direction.right);
             }
             double movementSpeed = 0.005;
             if((kb.IsKeyDown(Keys.Up) || kb.IsKeyDown(Keys.W)) && canMove() && position > 0)
             {
                 position -= movementSpeed;
+                car.updateDirection(Direction.up);
             }
             if((kb.IsKeyDown(Keys.Down) || kb.IsKeyDown(Keys.S)) && canMove() && position < 1)
             {
                 position += movementSpeed;
+                car.updateDirection(Direction.down);
             }
 
+            car.updateTime();
             updatePosition();
             updateArrow();
         }
