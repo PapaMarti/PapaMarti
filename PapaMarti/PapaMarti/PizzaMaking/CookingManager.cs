@@ -31,7 +31,9 @@ namespace PapaMarti {
         Texture2D pixel;
         Texture2D backgroundYes;
 
-        public CookingManager(GraphicsDevice gd, ContentManager content, Texture2D baseRect, Pizza type) : base(content) {
+        List<TextCard> textCards;
+
+        public CookingManager(GraphicsDevice gd, ContentManager content, Texture2D baseRect, Pizza type, bool isTutorial) : base(content) {
             this.gd = gd;
             this.type = type;
             isTransitioning = false;
@@ -53,6 +55,15 @@ namespace PapaMarti {
             backgroundYes = content.Load<Texture2D>("CookingStageTextures/OvenTextures/Ovenbg");
             if(type.shape == PizzaShape.Circle)
                 currentStage = new CuttingScreen(type, Game1.screenRect, content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/dough"), content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/circle outline"), content.Load<Texture2D>("CookingStageTextures/circle dough"), content.Load<Texture2D>("whitePixel"));
+
+            textCards = new List<TextCard>();
+            if (isTutorial)
+            {
+                string introduction = "Welcome to Papa Marti's pizza shop! To make a pizza for the customers, first we must cut out the dough of the pizza.";
+                textCards.Add(new TextCard(content, introduction, String.Empty));
+            }
+            string cuttingInstruction = "Use the mouse to trace the outline shown on the dough. Make sure you're careful, though, because your accuracy will be kept track of, and you might even have to redo it!";
+            textCards.Add(new TextCard(content, cuttingInstruction, String.Empty));
         }
 
         public override void draw(SpriteBatch spriteBatch) {
@@ -62,7 +73,11 @@ namespace PapaMarti {
                 spriteBatch.Draw(backgroundYes, Game1.screenRect, new Rectangle(0,0,240,135), Color.White);
 
             currentStage.draw(spriteBatch);
-            if(isTransitioning) {
+
+            if (textCards.Count > 0)
+                textCards[0].draw(spriteBatch);
+
+            if (isTransitioning) {
                 spriteBatch.Draw(baseRect, Game1.screenRect, alpha);
             }
             if(waitTime > 0 && !done)
@@ -88,6 +103,15 @@ namespace PapaMarti {
 
         public override void update(GameTime time) {
             currentStage.update(time);
+
+            if(textCards.Count > 0)
+            {
+                textCards[0].update();
+
+                if (textCards[0].isDone())
+                    textCards.RemoveAt(0);
+            }
+
             MouseState mouse = Mouse.GetState();
             waitTime--;
             if(currentStage.getStage() == CookStage.Cooking && currentStage.isDone() && waitTime <= 0)
@@ -133,33 +157,28 @@ namespace PapaMarti {
                         alpha.A = 255;
                         isFadingIn = false;
                         isFadingOut = true;
-                    }
-                    
-                }
-                else if(isFadingOut)
-                {
-                    alpha.A-=3;
-                    if(alpha.A <= 2)
-                    {
-                        isFadingOut = false;
-                        isTransitioning = false;
-                        alpha.A = 0;
-                        accuracy+=currentStage.getAccuracy();
-                        if(currentStage.getStage() == CookStage.Cooking)
+
+                        accuracy += currentStage.getAccuracy();
+                        if (currentStage.getStage() == CookStage.Cooking)
                         {
-                            accuracy/=3.0;
+                            accuracy /= 3.0;
                         }
-                        switch(currentStage.getStage()) 
+                        switch (currentStage.getStage())
                         {
                             case CookStage.Cutting:
+                                string toppingsInstruction = "Now you need to add the toppings! First drag your mouse from the sauce and cheese bins across the pizza to spead them, and then add pepperoni by dragging and dropping them onto the pizza from their bowl.";
+                                textCards.Add(new TextCard(content, toppingsInstruction, String.Empty));
+
                                 List<KeyValuePair<Rectangle, Topping>> l = new List<KeyValuePair<Rectangle, Topping>>();
                                 l.Add(new KeyValuePair<Rectangle, Topping>(new Rectangle(700, 600, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), Topping.pepperoni));
-                                
+
                                 Texture2D toppings = content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings1");
                                 Color[] data = new Color[toppings.Width * toppings.Height];
                                 toppings.GetData(data);
-                                for(int i = 0; i < data.Length; i++) {
-                                    if(!(data[i].A == 0 && data[i].R == 0 && data[i].G == 0 && data[i].B == 0)) {
+                                for (int i = 0; i < data.Length; i++)
+                                {
+                                    if (!(data[i].A == 0 && data[i].R == 0 && data[i].G == 0 && data[i].B == 0))
+                                    {
                                         data[i].A = 125;
                                         //data[i].R = (byte) (data[i].R * 1.5);
                                         //data[i].G = (byte) (data[i].G * 1.5);
@@ -176,8 +195,19 @@ namespace PapaMarti {
                                 drawTable = false;
                                 break;
                         }
-                        hasWaited = false;
                     }
+                    
+                }
+            }
+            else if (isFadingOut)
+            {
+                alpha.A -= 3;
+                if (alpha.A <= 2)
+                {
+                    isFadingOut = false;
+                    isTransitioning = false;
+                    alpha.A = 0;
+                    hasWaited = false;
                 }
             }
         }

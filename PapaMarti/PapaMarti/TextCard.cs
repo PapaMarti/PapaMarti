@@ -23,6 +23,7 @@ namespace PapaMarti
         Texture2D cardTexture;
         SpriteFont nameFont;
         SpriteFont font;
+        MouseState previousMouse;
 
         /// <summary>
         /// 
@@ -67,15 +68,18 @@ namespace PapaMarti
                         lines.Add(line);
                 }
             }
+
+            previousMouse = Mouse.GetState();
         }
 
         public void update()
         {
             MouseState mouse = Mouse.GetState();
-            if(mouse.LeftButton == ButtonState.Pressed && mouse.Y > textBox.Y)
+            if(mouse.LeftButton == ButtonState.Released && previousMouse.LeftButton == ButtonState.Pressed && mouse.Y > textBox.Y)
             {
                 done = true;
             }
+            previousMouse = mouse;
         }
 
         public void draw(SpriteBatch spriteBatch)
