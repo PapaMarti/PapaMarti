@@ -30,6 +30,8 @@ namespace PapaMarti {
         bool readyToMoveOn;
         Texture2D pixel;
         Texture2D backgroundYes;
+        Texture2D white;
+        Rectangle accuracyBanner;
 
         List<TextCard> textCards;
 
@@ -64,6 +66,10 @@ namespace PapaMarti {
             }
             string cuttingInstruction = "Use the mouse to trace the outline shown on the dough. Make sure you're careful, though, because your accuracy will be kept track of, and you might even have to redo it!";
             textCards.Add(new TextCard(content, cuttingInstruction, String.Empty));
+
+            white = content.Load<Texture2D>("whitePixel");
+            int accHeight = 70;
+            accuracyBanner = new Rectangle(0, (Game1.screenRect.Height - accHeight) / 2, Game1.screenRect.Width, accHeight);
         }
 
         public override void draw(SpriteBatch spriteBatch) {
@@ -83,6 +89,7 @@ namespace PapaMarti {
             if(waitTime > 0 && !done)
             {
                 string accuracyText = "Accuracy: " + Math.Round(currentStage.getAccuracy() * 100) + "%";
+                spriteBatch.Draw(white, accuracyBanner, Color.Gray);
                 spriteBatch.DrawString(font, accuracyText, new Vector2((Game1.screenRect.Width - font.MeasureString(accuracyText).X) / 2, (Game1.screenRect.Height - font.MeasureString(accuracyText).Y) / 2), Color.Black);
             }
             if(done && !readyToMoveOn)
@@ -191,7 +198,12 @@ namespace PapaMarti {
                                 break;
 
                             case CookStage.Toppings:
-                                currentStage = new OvenScreen(type, content.Load<Texture2D>("CookingStageTextures/OvenTextures/pizza"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/Ovenbg"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/place"), 10, content.Load<SpriteFont>("SpriteFont1"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/amazing"));
+                                string cookingInstructions = "Now it's time to cook the pizza! Use the mouse to drag and drop the pizza into the oven to begin the cooking process, and drag it back to remove it. Cook the pizza for " + type.cookTime + " seconds, but be careful, you won't have a timer!";
+                                textCards.Add(new TextCard(content, cookingInstructions, String.Empty));
+                                string moreInstructions = "You can put the pizza back into the oven again after it has already been in, but pay attention to the warning at the bottom of the screen! Your current accuracy after ";
+
+
+                                currentStage = new OvenScreen(content, type, content.Load<Texture2D>("CookingStageTextures/OvenTextures/pizza"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/Ovenbg"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/place"), 10, content.Load<SpriteFont>("SpriteFont1"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/amazing"));
                                 drawTable = false;
                                 break;
                         }

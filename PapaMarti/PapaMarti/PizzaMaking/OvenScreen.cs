@@ -63,7 +63,7 @@ namespace PapaMarti
         Rectangle amazingPanel;
         Texture2D amazing;
 
-        public OvenScreen(Pizza pizza, Texture2D texture, Texture2D ovenTexture, Texture2D textbox_, int _timeUntilDone, SpriteFont _font, Texture2D amazing) : base(pizza) //Probably can eliminate some parameters later I didn't know how to access some variables in this class
+        public OvenScreen(ContentManager content, Pizza pizza, Texture2D texture, Texture2D ovenTexture, Texture2D textbox_, int _timeUntilDone, SpriteFont _font, Texture2D amazing) : base(pizza) //Probably can eliminate some parameters later I didn't know how to access some variables in this class
         {
             tempPizza = new Rectangle((Game1.screenRect.Width - 300) / 2, 750, 300, 300); //change to pizza variable
             startingLocation = new Vector2(tempPizza.X, tempPizza.Y);
@@ -77,7 +77,7 @@ namespace PapaMarti
             burnTimeSave = 10;
             realTimeTracker = 0;
 
-            splashText = "Press SPACE to put the pizza in the oven";
+            splashText = "";
             subtext = "Press ENTER to finish";
             warningText = "You can remove the pizza from the oven " + removePizzaTimes + " more time(s)";
 
@@ -87,7 +87,7 @@ namespace PapaMarti
             oven = new Rectangle(0, 0, Game1.screenRect.Width, Game1.screenRect.Height);
             cookingLocation = new Vector2((Game1.screenRect.Width - 300) / 2, 300);
             ovenText = ovenTexture;
-            instructions = true;
+            instructions = false;
             score = 0;
             animationTimer = 0;
             finished = false;
@@ -212,10 +212,10 @@ namespace PapaMarti
                 if (isBurnt)
                 {
                     splashText = "The pizza is burnt! Press BACKSPACE to restart";
-                    if (oldKB.IsKeyDown(Keys.Back) && !kb.IsKeyDown(Keys.Back))
-                    {
-                        reset();
-                    }
+                    //if (oldKB.IsKeyDown(Keys.Back) && !kb.IsKeyDown(Keys.Back))
+                    //{
+                    //    reset();
+                    //}
                 }
                 else
                 {
@@ -319,11 +319,11 @@ namespace PapaMarti
             {
                 //_spriteBatch.Draw(textbox, textBox, Color.White);
 
-                _spriteBatch.DrawString(font, textInstructions, new Vector2((Game1.screenRect.Width - 900) / 2 + 20, (Game1.screenRect.Height - 200) / 2 + 20), Color.Black);
+                //_spriteBatch.DrawString(font, textInstructions, new Vector2((Game1.screenRect.Width - 900) / 2 + 20, (Game1.screenRect.Height - 200) / 2 + 20), Color.Black);
             }
             else if (finished)
             {
-                _spriteBatch.DrawString(font, "Final Score: " + score + "pts", new Vector2((Game1.screenRect.Width - font.MeasureString("Final Score: " + score + "pts").X) / 2, 1000), Color.Gold);
+                //_spriteBatch.DrawString(font, "Final Score: " + score + "pts", new Vector2((Game1.screenRect.Width - font.MeasureString("Final Score: " + score + "pts").X) / 2, 1000), Color.Gold);
 
                 _spriteBatch.Draw(amazing, amazingPanel, Color.White);
             }
@@ -344,8 +344,8 @@ namespace PapaMarti
                 else
                 {
                     _spriteBatch.Draw(ovenText, oven, new Rectangle(0, 0, 240, 135), Color.White);
-                    _spriteBatch.DrawString(font, "Score: " + score, new Vector2(Game1.screenRect.Width - 230, Game1.screenRect.Height - 70), Color.Gold);
-                    _spriteBatch.DrawString(font, subtext, new Vector2((Game1.screenRect.Width - font.MeasureString(subtext).X) / 2, Game1.screenRect.Height - 110), Color.Black);
+                    _spriteBatch.DrawString(font, "Score: " + score, new Vector2(Game1.screenRect.Width - 230, Game1.screenRect.Height - 70), Color.White);
+                    //_spriteBatch.DrawString(font, subtext, new Vector2((Game1.screenRect.Width - font.MeasureString(subtext).X) / 2, Game1.screenRect.Height - 110), Color.Black);
                     
                 }
                 _spriteBatch.DrawString(font, warningText, new Vector2((Game1.screenRect.Width - font.MeasureString(warningText).X) / 2, Game1.screenRect.Height - 70), Color.Red);
@@ -366,13 +366,13 @@ namespace PapaMarti
                 }
                 if (finished || removePizzaTimes > 0)
                 {
-                    _spriteBatch.DrawString(font, splashText, new Vector2((Game1.screenRect.Width - font.MeasureString(splashText).X) / 2, 100), Color.Blue);
+                    //_spriteBatch.DrawString(font, splashText, new Vector2((Game1.screenRect.Width - font.MeasureString(splashText).X) / 2, 100), Color.Blue);
                 }
                 
-                if (inOven && !isPizzaDone && !isBurnt) //to be removed
-                {
-                    _spriteBatch.DrawString(font, timeUntilDone + "", new Vector2(100, Game1.screenRect.Height - 180), Color.Red);
-                }
+                //if (inOven && !isPizzaDone && !isBurnt) //to be removed
+                //{
+                //    _spriteBatch.DrawString(font, timeUntilDone + "", new Vector2(100, Game1.screenRect.Height - 180), Color.White);
+                //}
             }
 
 

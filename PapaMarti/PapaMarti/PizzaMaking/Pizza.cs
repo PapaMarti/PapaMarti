@@ -58,7 +58,7 @@ namespace PapaMarti {
         public readonly List<Rectangle> outline;
         public readonly List<Topping> toppings;
         public readonly PizzaShape shape;
-        int cookTime;
+        public int cookTime;
         int quality;
 
         /// <summary>
