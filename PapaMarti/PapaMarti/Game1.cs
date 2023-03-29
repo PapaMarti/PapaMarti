@@ -19,10 +19,10 @@ namespace PapaMarti {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         StageManager currentStage;
+        MapManager mapManager;
+        Quest currentQuest;
+        RoomData data;
 
-        CookingManager currentCookingStage; //Had to add this bc i didn't know how else to get current cooking stage
-
-        List<TextCard> cards;
         Texture2D ovenText;
 
         public Game1() {
@@ -45,7 +45,6 @@ namespace PapaMarti {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
-            cards = new List<TextCard>();
             base.Initialize();
         }
 
@@ -58,10 +57,15 @@ namespace PapaMarti {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
-            currentStage = new CookingManager(GraphicsDevice, Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0));
+            //currentStage = new CookingManager(Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0));
+
+            data = new RoomData(Content);
+
+            Task[] list = new Task[0];
+            currentQuest = new Quest(list, 0.5, 11 * Math.PI / 6);
+            mapManager = new MapManager(Content, 0, 0, currentQuest, 1, data);
+            currentStage = mapManager;
             // TODO: use this.Content to load your game content here
-            string text = "Testing the text card and making sure it works properly. Please work. Please. I'm begging.";
-            cards.Add(new TextCard(Content, text, "Ella"));
         }
 
         /// <summary>
@@ -83,13 +87,23 @@ namespace PapaMarti {
             if(Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            if(cards.Count > 0)
+            if(currentStage.getStage() == GameStage.Exploring)
             {
-                cards[0].update();
-                if (cards[0].isDone())
-                    cards.RemoveAt(0);
+                if (currentStage.isDone())
+                {
+                    Console.WriteLine("done");
+                    currentStage = new RoomManager(Content, ((MapManager)currentStage).closestLocation);
+                }
             }
-            
+
+            if(currentStage.getStage() == GameStage.Rooming)
+            {
+                if (currentStage.isDone())
+                {
+                    currentStage = mapManager;
+                }
+            }
+
             // TODO: Add your update logic here
             currentStage.update(gameTime);
             base.Update(gameTime);
@@ -104,9 +118,6 @@ namespace PapaMarti {
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
             currentStage.draw(spriteBatch);
-
-            if (cards.Count > 0)
-                cards[0].draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);
