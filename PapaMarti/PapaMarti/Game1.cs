@@ -58,7 +58,7 @@ namespace PapaMarti {
 
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
-            currentStage = new CookingManager(GraphicsDevice, Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 0), true);
+            currentStage = new CookingManager(GraphicsDevice, Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), true);
 
             data = new RoomData(Content);
 
@@ -85,6 +85,11 @@ namespace PapaMarti {
             // Allows the game to exit
             if(Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
+
+            if(currentStage.getStage() == GameStage.Cooking && currentStage.isDone())
+            {
+                currentStage = mapManager;
+            }
 
             if(currentStage.getStage() == GameStage.Exploring)
             {

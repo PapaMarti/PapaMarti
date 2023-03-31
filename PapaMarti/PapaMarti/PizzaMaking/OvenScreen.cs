@@ -63,7 +63,7 @@ namespace PapaMarti
         Rectangle amazingPanel;
         Texture2D amazing;
 
-        public OvenScreen(ContentManager content, Pizza pizza, Texture2D texture, Texture2D ovenTexture, Texture2D textbox_, int _timeUntilDone, SpriteFont _font, Texture2D amazing) : base(pizza) //Probably can eliminate some parameters later I didn't know how to access some variables in this class
+        public OvenScreen(ContentManager content, Pizza pizza, Texture2D texture, Texture2D ovenTexture, Texture2D textbox_, SpriteFont _font, Texture2D amazing) : base(pizza) //Probably can eliminate some parameters later I didn't know how to access some variables in this class
         {
             tempPizza = new Rectangle((Game1.screenRect.Width - 300) / 2, 750, 300, 300); //change to pizza variable
             startingLocation = new Vector2(tempPizza.X, tempPizza.Y);
@@ -71,8 +71,8 @@ namespace PapaMarti
             inOven = false;
             isPizzaDone = false;
             isBurnt = false;
-            timeUntilDone = _timeUntilDone;
-            cookingTimeSave = _timeUntilDone;
+            timeUntilDone = pizza.cookTime;
+            cookingTimeSave = pizza.cookTime;
             timeUntilBurnt = 10;
             burnTimeSave = 10;
             realTimeTracker = 0;
