@@ -200,7 +200,7 @@ namespace PapaMarti {
                             case CookStage.Toppings:
                                 string cookingInstructions = "Now it's time to cook the pizza! Use the mouse to drag and drop the pizza into the oven to begin the cooking process, and drag it back to remove it. Cook the pizza for " + type.cookTime + " seconds, but be careful, you won't have a timer!";
                                 textCards.Add(new TextCard(content, cookingInstructions, String.Empty));
-                                string moreInstructions = "You can put the pizza back into the oven again after it has already been in, but pay attention to the warning at the bottom of the screen! Your current accuracy after each attempt will be shown on the bottom right.";
+                                string moreInstructions = "You can put the pizza back into the oven again after it has already been in, but only once! Your current accuracy after each attempt will be shown on the bottom right of the screen. Press enter when you are satisfied with your pizza";
                                 textCards.Add(new TextCard(content, moreInstructions, String.Empty));
 
                                 currentStage = new OvenScreen(content, type, content.Load<Texture2D>("CookingStageTextures/OvenTextures/pizza"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/Ovenbg"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/place"), content.Load<SpriteFont>("SpriteFont1"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/amazing"));

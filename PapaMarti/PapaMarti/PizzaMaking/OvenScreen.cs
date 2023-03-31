@@ -339,7 +339,7 @@ namespace PapaMarti
                     {
                         _spriteBatch.Draw(ovenText, oven, new Rectangle(480, 0, 240, 135), Color.White);
                     }
-                    _spriteBatch.DrawString(font, "Score: ???", new Vector2(Game1.screenRect.Width - 230, Game1.screenRect.Height - 70), Color.Gold);
+                    //_spriteBatch.DrawString(font, "Score: ???", new Vector2(Game1.screenRect.Width - 230, Game1.screenRect.Height - 70), Color.Gold);
                 }
                 else
                 {
