@@ -295,7 +295,7 @@ namespace PapaMarti
                 difference = difference * 10;
             }
             
-            return Math.Round(difference) ;
+            return Math.Round(difference) / 1000.0;
 
         }
         private void reset()
@@ -344,7 +344,7 @@ namespace PapaMarti
                 else
                 {
                     _spriteBatch.Draw(ovenText, oven, new Rectangle(0, 0, 240, 135), Color.White);
-                    _spriteBatch.DrawString(font, "Score: " + score, new Vector2(Game1.screenRect.Width - 230, Game1.screenRect.Height - 70), Color.White);
+                    _spriteBatch.DrawString(font, "Score: " + Math.Round(score * 100) + "%", new Vector2(Game1.screenRect.Width - 230, Game1.screenRect.Height - 70), Color.White);
                     //_spriteBatch.DrawString(font, subtext, new Vector2((Game1.screenRect.Width - font.MeasureString(subtext).X) / 2, Game1.screenRect.Height - 110), Color.Black);
                     
                 }

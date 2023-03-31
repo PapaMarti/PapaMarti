@@ -43,8 +43,8 @@ namespace PapaMarti {
             isFadingOut = false;
             this.baseRect = baseRect;
             int retryWidth = Game1.screenRect.Width / 10;
-            int retryHeight = Game1.screenRect.Height / 10;
-            retryButton = new Rectangle((Game1.screenRect.Width - retryWidth) / 2, (Game1.screenRect.Height - retryHeight) / 2 + 40, retryWidth, retryHeight);
+            int retryHeight = Game1.screenRect.Height / 12;
+            retryButton = new Rectangle((Game1.screenRect.Width - retryWidth) / 2, (Game1.screenRect.Height - retryHeight) / 2 + 300, retryWidth, retryHeight);
             alpha = new Color(0, 0, 0, 0);
             accuracy = 0.0;
             waitTime = 0;
@@ -95,8 +95,13 @@ namespace PapaMarti {
             if(done && !readyToMoveOn)
             {
                 string accuracyText = "Total Accuracy: " + Math.Round(accuracy * 100) + "%";
-                spriteBatch.DrawString(font, accuracyText, new Vector2((Game1.screenRect.Width - font.MeasureString(accuracyText).X) / 2, (Game1.screenRect.Height - font.MeasureString(accuracyText).Y) / 2), Color.Black);
-                spriteBatch.Draw(pixel, retryButton, Color.Blue);
+                spriteBatch.Draw(white, accuracyBanner, Color.Gray);
+                spriteBatch.DrawString(font, accuracyText, new Vector2((Game1.screenRect.Width - font.MeasureString(accuracyText).X) / 2, (accuracyBanner.Height - font.MeasureString(accuracyText).Y) / 2 + accuracyBanner.Y), Color.Black);
+                spriteBatch.Draw(pixel, retryButton, Color.LightBlue);
+                string retry = "Retry?";
+                spriteBatch.DrawString(font, retry, new Vector2((retryButton.Width - font.MeasureString(retry).X) / 2 + retryButton.X, (retryButton.Height - font.MeasureString(retry).Y) / 2 + retryButton.Y), Color.Black);
+                string timeLeft = waitTime / 60 + "";
+                spriteBatch.DrawString(font, timeLeft, new Vector2((Game1.screenRect.Width - font.MeasureString(timeLeft).X) / 2, Game1.screenRect.Height - font.MeasureString(timeLeft).Y - 20), Color.White);
             }
         }
 
@@ -130,8 +135,22 @@ namespace PapaMarti {
                 if(mouse.LeftButton == ButtonState.Pressed && retryButton.Contains(new Point(mouse.X, mouse.Y)))
                 {
                     done = false;
+                    drawTable = true;
                     waitTime = 0;
+                    accuracy = 0.0;
+                    accuracyBanner.Y += 300;
                     currentStage = new CuttingScreen(type, Game1.screenRect, content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/dough"), content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/circle outline"), content.Load<Texture2D>("CookingStageTextures/circle dough"), content.Load<Texture2D>("whitePixel"));
+                }
+            }
+            else if(done && !hasWaited)
+            {
+                accuracyBanner.Y -= 300;
+                waitTime = 360;
+                hasWaited = true;
+                accuracy += currentStage.getAccuracy();
+                if (currentStage.getStage() == CookStage.Cooking)
+                {
+                    accuracy /= 3.0;
                 }
             }
             else if (done)
@@ -146,8 +165,6 @@ namespace PapaMarti {
                 if (!hasWaited)
                 {
                     waitTime = 120;
-                    if (done)
-                        waitTime = 180;
                     hasWaited = true;
                 }
                 else if(!isTransitioning) 
@@ -166,10 +183,6 @@ namespace PapaMarti {
                         isFadingOut = true;
 
                         accuracy += currentStage.getAccuracy();
-                        if (currentStage.getStage() == CookStage.Cooking)
-                        {
-                            accuracy /= 3.0;
-                        }
                         switch (currentStage.getStage())
                         {
                             case CookStage.Cutting:
@@ -200,7 +213,7 @@ namespace PapaMarti {
                             case CookStage.Toppings:
                                 string cookingInstructions = "Now it's time to cook the pizza! Use the mouse to drag and drop the pizza into the oven to begin the cooking process, and drag it back to remove it. Cook the pizza for " + type.cookTime + " seconds, but be careful, you won't have a timer!";
                                 textCards.Add(new TextCard(content, cookingInstructions, String.Empty));
-                                string moreInstructions = "You can put the pizza back into the oven again after it has already been in, but only once! Your current accuracy after each attempt will be shown on the bottom right of the screen. Press enter when you are satisfied with your pizza";
+                                string moreInstructions = "You can put the pizza back into the oven again after it has already been in, but only once! Your current accuracy after each attempt will be shown on the bottom right of the screen. Press the enter key when you are satisfied with your pizza. ";
                                 textCards.Add(new TextCard(content, moreInstructions, String.Empty));
 
                                 currentStage = new OvenScreen(content, type, content.Load<Texture2D>("CookingStageTextures/OvenTextures/pizza"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/Ovenbg"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/place"), content.Load<SpriteFont>("SpriteFont1"), content.Load<Texture2D>("CookingStageTextures/OvenTextures/amazing"));
