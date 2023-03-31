@@ -64,7 +64,7 @@ namespace PapaMarti
             this.angle = angle % (2 * Math.PI);
             this.position = position;
 
-            map = content.Load<Texture2D>("MapTextures/temporary map"); // REPLACE THIS LATER WITH MAP TEXTURE
+            map = content.Load<Texture2D>("MapTextures/testmap5"); // REPLACE THIS LATER WITH MAP TEXTURE
             mapSource = new Rectangle(0, 0, map.Width, map.Height);
             mapOrigin = new Vector2(map.Width / 2, map.Height / 2);
 
