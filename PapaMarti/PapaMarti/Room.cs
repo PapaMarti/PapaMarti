@@ -21,10 +21,11 @@ namespace PapaMarti
 
         public Rectangle borders;
 
-
-        public Room(Tile[,] tiles_)
+        public List<Vector2> walls; //List of locations where there is a wall
+        public Room(Tile[,] tiles_, List<Vector2> walls_)
         {
             tiles = tiles_;
+            walls = walls_;
 
             height = tiles.GetLength(0);
             width = tiles.GetLength(1);
@@ -39,10 +40,27 @@ namespace PapaMarti
             borders = new Rectangle((int)origin.X, (int)origin.Y, width * 60, height * 60);
             //tiles[(int)door.X, (int)door.Y].status = Status.Door;
         }
-        public Room(Tile[,] tiles_, Vector2 door_) : this(tiles_)
+        public Room(Tile[,] tiles_, List<Vector2> walls_, Vector2 door_) : this(tiles_, walls_)
         {
             door = door_;
-            tiles[(int)door.X, (int)door.Y].status = Status.Door;
+            tiles[(int)door.X, (int)door.Y].tilePhysics = TilePhysics.Door;
+        }
+
+        public void createWalls()
+        {
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (i == 0 || j == 0 || i == height - 1 || j == width - 1)
+                    {
+                        //Console.WriteLine(i + "" + j);
+                        //Console.WriteLine(tiles[i, j].status);
+
+                        tiles[i, j].tilePhysics = TilePhysics.Wall;
+                    }
+                }
+            }
         }
         public void draw(SpriteBatch spriteBatch)
         {
@@ -52,7 +70,13 @@ namespace PapaMarti
             {
                 for (int j = 0; j < width; j++)
                 {
-                    spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.White);
+                    tiles[i, j].coordinates = new Vector2(x, y);
+                    if (tiles[i, j].tilePhysics == TilePhysics.Wall)
+
+                        spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.Black);
+                    else
+                        spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.White);
+
 
                     x += 60;
                 }
@@ -68,75 +92,34 @@ namespace PapaMarti
             //Set player location at the entrance
         }
 
-        //METHOD TO GENERATE ROOMS FROM A TEXT FILE
-        //MOVE THIS SOMEWHERE ELSE
-
-
         /*
-         * private Room generateRoom(string path, Texture2D floorText, Texture2D objectText)
-        {
-            List<string> lines = new List<string>();
-            bool hasDoor = false;
-            Vector2 door = new Vector2(0, 0);
-            try
+         player.rect = player.update(changeX, changeY);
+            foreach (Vector2 v in room.walls) 
             {
-                using (StreamReader reader = new StreamReader(path))
+                
+                if (room.tiles[(int)v.X, (int)v.Y].getRect().Intersects(player.rect))
                 {
-                    //Sort all text into lines
-                    while (!reader.EndOfStream)
+                    
+                    Rectangle r = Rectangle.Intersect(room.tiles[(int)v.X, (int)v.Y].getRect(), player.rect);
+                    int xAxis = r.Width;
+                    int yAxis = r.Height;
+                    Console.WriteLine(yAxis);
+                    if (xAxis < yAxis)
                     {
-                        string line = reader.ReadLine();
-                        lines.Add(line);
+                        player.updateX(-changeX);
                     }
-
-                    Tile[,] tiles = new Tile[lines.Count, lines[0].Length];
-
-                    for (int i = 0; i < tiles.GetLength(0); i++)
+                    else if (yAxis < xAxis) 
                     {
-                        char[] tile = lines[i].ToCharArray();
-
-                        for (int j = 0; j < tiles.GetLength(1); j++)
-                        {
-
-                            if (tile[j] == 'o')
-                            {
-                                tiles[i, j] = new Tile(Status.Impassable, objectText, new Vector2(i, j));
-
-                            }
-                            else if (tile[j] == 'd')
-                            {
-                                tiles[i, j] = new Tile(Status.Door, floorText, new Vector2(i, j));
-                                hasDoor = true;
-                                door = new Vector2(i, j);
-                            }
-                            else
-                            {
-                                tiles[i, j] = new Tile(Status.Passable, floorText, new Vector2(i, j));
-                            }
-                        }
+                        player.updateY(-changeY);
                     }
-
-                    if (hasDoor)
+                    else if (xAxis == yAxis)
                     {
-                        Room r = new Room(tiles, door);
-                        return r;
+                        player.rect = player.update(-changeX, -changeY);
                     }
-                    else
-                    {
-                        Room r = new Room(tiles);
-                        return r;
-                    }
-
-
+                    
                 }
+                
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("The file could not be read");
-                Console.WriteLine(e.Message);
-            }
-            return new Room(new Tile[0, 0]);
-        }
-         */
+         * */
     }
 }
