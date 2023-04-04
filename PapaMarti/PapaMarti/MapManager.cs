@@ -46,6 +46,9 @@ namespace PapaMarti
         Texture2D carImage;
 
         RoomData data;
+
+        List<TextCard> textCards;
+        public bool isTutorial;
         public MapLocation closestLocation
         {
             get
@@ -59,7 +62,7 @@ namespace PapaMarti
         /// </summary>
         /// <param name="angle">Angular location on the pizza map, give radians. Typical unit circle stuff, roads are at 0, pi/3, 2pi/3, pi, 4pi/3, 5pi/3</param>
         /// <param name="position">How far up or down they are on a road, 0 for closer to the outside, 1 for the inner ring.</param>
-        public MapManager(ContentManager content, double angle, double position, Quest primaryQuest, int slicesOpen, RoomData data) : base(content)
+        public MapManager(ContentManager content, double angle, double position, Quest primaryQuest, int slicesOpen, RoomData data, bool tutorial) : base(content)
         {
             this.angle = angle % (2 * Math.PI);
             this.position = position;
@@ -97,9 +100,13 @@ namespace PapaMarti
             sliceLock = content.Load<Texture2D>("slice lock");
 
             this.data = data;
-
-            car = new Car();
-            carImage = content.Load<Texture2D>("Car");
+            isTutorial = tutorial;
+            textCards = new List<TextCard>();
+            if (isTutorial)
+            {
+                string mapTutorial = "Great job with that pizza and welcome to Santa Margherita, an island with much to explore! Use the left and right arrow keys to drive around the island and use the up and down arrow keys if you want to go down a road. You can also press the enter key to go into a building.";
+                textCards.Add(new TextCard(content, mapTutorial, String.Empty));
+            }
         }
 
         private void updateArrow()
@@ -217,9 +224,21 @@ namespace PapaMarti
 
             //arrow
             spriteBatch.Draw(arrowText, arrowLocation, null, Color.White, arrowAngle, arrowOrigin, arrowScale, SpriteEffects.None, 0f);
+
+            //text cards
+            if (textCards.Count > 0)
+                textCards[0].draw(spriteBatch);
         }
         public override void update(GameTime time)
         {
+            if (textCards.Count > 0)
+            {
+                textCards[0].update();
+
+                if (textCards[0].isDone())
+                    textCards.RemoveAt(0);
+            }
+
             KeyboardState kb = Keyboard.GetState();
             double angleSpeed = 0.005; //in radians per frame
             if ((kb.IsKeyDown(Keys.Left) || kb.IsKeyDown(Keys.A)) && canRotate())

@@ -1,4 +1,3 @@
-Content\SpriteFont1.xnb
 Content\whitePixel.xnb
 Content\CookingStageTextures\CuttingStageTextures\circle outline.xnb
 Content\CookingStageTextures\CuttingStageTextures\dough.xnb
@@ -6,35 +5,19 @@ Content\CookingStageTextures\ToppingsTextures\bowl.xnb
 Content\CookingStageTextures\ToppingsTextures\Toppings.xnb
 Content\CookingStageTextures\circle dough.xnb
 Content\CookingStageTextures\Table.xnb
-Content\CookingStageTextures\ToppingsTextures\Bowls.xnb
 Content\text01.xnb
 Content\SpriteFont1.xnb
-Content\pixil-frame-0.xnb
-Content\oven.xnb
-Content\pizza.xnb
-Content\place.xnb
+Content\MapTextures\temporary map.xnb
 Content\Arrow.xnb
 Content\marker.xnb
-Content\MapTextures\temporary map.xnb
 Content\slice lock.xnb
-Content\wall.xnb
-Content\Car.xnb
-Content\MapTextures\testmap1.xnb
-Content\MapTextures\testmap2.xnb
-Content\MapTextures\testmap3.xnb
-Content\MapTextures\testmap4.xnb
-Content\MapTextures\testmap5.xnb
-Content\MapTextures\testmap6.xnb
-Content\MapTextures\testmap7.xnb
-Content\MapTextures\Road.xnb
-Content\MapTextures\testmap8.xnb
-Content\MapTextures\testmap9.xnb
-Content\MapTextures\testmap10.xnb
-Content\MapTextures\testmap11.xnb
-Content\CookingStageTextures\ToppingsTextures\Toppings1.xnb
 Content\CookingStageTextures\OvenTextures\pixil-frame-0.xnb
 Content\CookingStageTextures\OvenTextures\oven.xnb
 Content\CookingStageTextures\OvenTextures\pizza.xnb
 Content\CookingStageTextures\OvenTextures\place.xnb
+Content\wall.xnb
+Content\CookingStageTextures\ToppingsTextures\Bowls.xnb
+Content\CookingStageTextures\ToppingsTextures\Toppings1.xnb
 Content\CookingStageTextures\OvenTextures\Ovenbg.xnb
 Content\CookingStageTextures\OvenTextures\amazing.xnb
+Content\countdown.xnb

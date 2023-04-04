@@ -26,37 +26,38 @@ namespace PapaMarti
 
             Texture2D wallTexture = content.Load<Texture2D>("wall");
             Tile wall = new Tile(TilePhysics.Impassable, wallTexture, new Vector2(0, 0));
-            Tile floor = new Tile(TilePhysics.Passable, content.Load<Texture2D>("whitePixel"), new Vector2(0, 0));
+            Tile floo = new Tile(TilePhysics.Passable, content.Load<Texture2D>("whitePixel"), new Vector2(0, 0));
 
             //slice one
             Room one = new Room(new Tile[,] {{wall, wall, wall, wall, wall, wall, wall, wall, wall },
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             { wall, wall, wall, wall, wall, wall, wall, wall, wall } });
+                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
+                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
+                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
+                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
+                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
+                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
+                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
+                                             {wall, wall, wall, wall, wall, wall, wall, wall, wall } });
+
             Room two = new Room(new Tile[,] {{wall, wall, wall, wall, wall, wall, wall, wall, wall, wall },
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             {wall, wall, wall, wall, wall, wall, floor, floor, floor, wall},
-                                             {null, null, null, null, null, wall, floor, floor, floor, wall},
-                                             {null, null, null, null, null, wall, floor, floor, floor, wall},
-                                             {null, null, null, null, null, wall, floor, floor, floor, wall},
-                                             {null, null, null, null, null, wall, floor, floor, floor, wall},
+                                             {wall, floo, floo, floo, floo, floo, floo, floo, floo, wall},
+                                             {wall, floo, floo, floo, floo, floo, floo, floo, floo, wall},
+                                             {wall, floo, floo, floo, floo, floo, floo, floo, floo, wall},
+                                             {wall, wall, wall, wall, wall, wall, floo, floo, floo, wall},
+                                             {null, null, null, null, null, wall, floo, floo, floo, wall},
+                                             {null, null, null, null, null, wall, floo, floo, floo, wall},
+                                             {null, null, null, null, null, wall, floo, floo, floo, wall},
+                                             {null, null, null, null, null, wall, floo, floo, floo, wall},
                                              {null, null, null, null, null, wall, wall, wall, wall, wall } });
             Room three = new Room(new Tile[,] {{null, null, wall, wall, wall, wall, wall, null, null },
-                                             {null, null, wall, floor, floor, floor, wall, null, null},
-                                             {wall, wall, wall, floor, floor, floor, wall, wall, wall},
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             {wall, floor, floor, floor, floor, floor, floor, floor, wall},
-                                             {wall, wall, wall, floor, floor, floor, wall, wall, wall},
-                                             {null, null, wall, floor, floor, floor, wall, null, null},
-                                             {null, null, wall, wall, wall, wall, wall, null, null } });
+                                               {null, null, wall, floo, floo, floo, wall, null, null},
+                                               {wall, wall, wall, floo, floo, floo, wall, wall, wall},
+                                               {wall, floo, floo, floo, floo, floo, floo, floo, wall},
+                                               {wall, floo, floo, floo, floo, floo, floo, floo, wall},
+                                               {wall, floo, floo, floo, floo, floo, floo, floo, wall},
+                                               {wall, wall, wall, floo, floo, floo, wall, wall, wall},
+                                               {null, null, wall, floo, floo, floo, wall, null, null},
+                                               {null, null, wall, wall, wall, wall, wall, null, null } });
             places[0] = new MapLocation(0.4, 0.78, building, Color.Blue, 1.1f, 0f, one);
             places[1] = new MapLocation(0.3, 0.47, building, Color.Red, 1f, 0f, two);
             places[2] = new MapLocation(0.15, 0.22, building, Color.Yellow, 1.2f, 0f, three);
