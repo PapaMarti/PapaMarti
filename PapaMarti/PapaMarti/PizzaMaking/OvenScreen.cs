@@ -60,7 +60,7 @@ namespace PapaMarti
 
         MouseState oldMouse;
 
-        public OvenScreen(Pizza pizza, Texture2D texture, Texture2D ovenTexture,int _timeUntilDone, SpriteFont _font) : base(pizza) //Probably can eliminate some parameters later I didn't know how to access some variables in this class
+        public OvenScreen(Pizza pizza, Texture2D texture, Texture2D ovenTexture, Texture2D backText, int _timeUntilDone, SpriteFont _font) : base(pizza) //Probably can eliminate some parameters later I didn't know how to access some variables in this class
         {
             tempPizza = new Rectangle((Game1.screenRect.Width - 300) / 2, 750, 300, 300); //change to pizza variable
             startingLocation = new Vector2(tempPizza.X, tempPizza.Y);
