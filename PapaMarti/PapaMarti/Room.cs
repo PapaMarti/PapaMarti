@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace PapaMarti
 
         readonly int SCREENWIDTH = 1920;
         readonly int SCREENHEIGHT = 1080;
+
+        readonly int MOVEMENTSPEED = 5;
 
         public Rectangle borders;
 
@@ -94,7 +97,59 @@ namespace PapaMarti
             return player;
             //Set player location at the entrance
         }
+        public Player update(Player player)
+        {
+            KeyboardState kb = Keyboard.GetState();
+            // TODO: Add your update logic here
+            int changeX = 0;
+            int changeY = 0;
 
+            if (kb.IsKeyDown(Keys.Right))
+            {
+                changeX += MOVEMENTSPEED;
+            }
+            if (kb.IsKeyDown(Keys.Left))
+            {
+                changeX -= MOVEMENTSPEED;
+            }
+            if (kb.IsKeyDown(Keys.Up))
+            {
+                changeY -= MOVEMENTSPEED;
+            }
+            if (kb.IsKeyDown(Keys.Down))
+            {
+                changeY += MOVEMENTSPEED;
+            }
+            player.rect = player.update(changeX, changeY);
+            foreach (Vector2 v in this.walls)
+            {
+
+                if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(player.rect))
+                {
+
+                    Rectangle r = Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), player.rect);
+                    int xAxis = r.Width;
+                    int yAxis = r.Height;
+                    Console.WriteLine(yAxis);
+                    if (xAxis < yAxis)
+                    {
+                        player.updateX(-changeX);
+                    }
+                    else if (yAxis < xAxis)
+                    {
+                        player.updateY(-changeY);
+                    }
+                    else if (xAxis == yAxis)
+                    {
+                        player.rect = player.update(-changeX, -changeY);
+                    }
+
+                }
+
+            }
+            return player;
+        }
+        
         /*
          player.rect = player.update(changeX, changeY);
             foreach (Vector2 v in room.walls) 

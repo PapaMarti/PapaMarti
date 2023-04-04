@@ -120,6 +120,24 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="tile.jpg">
+      <Name>tile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="wood.png">
+      <Name>wood</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="roomTest.txt">
+      <Name>roomTest</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Arrow.png">
       <Name>Arrow</Name>
       <Importer>TextureImporter</Importer>
