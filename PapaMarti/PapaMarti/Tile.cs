@@ -4,49 +4,68 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PapaMarti;
 
 namespace PapaMarti
 {
     public enum TilePhysics
     {
         Passable, //Can walk through
-        Impassable, //Cannot walk through, walls or noninteractable objects
-        Collectable //Has an object that can be picked up
+        Impassable, //Non-wall, noninteractable objects
+
+        Collectable, //Has an object that can be picked up
+        Wall,
+        Door
     }
     class Tile //Rooms will be made up of Tiles
     {
-        public TilePhysics status;
+        public TilePhysics tilePhysics;
         public Texture2D texture;
         Vector2 location;
 
+        public Vector2 coordinates;
 
         //Null unless tile is Collectable
         public Item item;
 
         //Rooms will be displayed as a 2d array of tiles. Location refers to the row/column of the tile, not the actual coordinate on the screen.
         //Tiles are 60 x 60
-        public Tile(TilePhysics status_, Texture2D texture_, Vector2 location_) //Non-collectable tiles
+        public Tile(TilePhysics tilePhysics_, Texture2D texture_, Vector2 coordinates_) //Non-collectable tiles
         {
-            status = status_;
+            tilePhysics = tilePhysics_;
             texture = texture_;
-            location = location_;
+
+
             item = null;
+
+            coordinates = coordinates_;
         }
 
-        public Tile(TilePhysics status_, Texture2D texture_, Vector2 location_, Item item_) : this(status_, texture_, location_)
+        public Tile(TilePhysics tilePhysics_, Texture2D texture_, Vector2 coordinates_, Item item_) : this(tilePhysics_, texture_, coordinates_)
         {
             item = item_;
         }
-        
+
+
+
         //Only needed for Collectable tiles
         public Item collect()
         {
-            status = TilePhysics.Passable;
+            tilePhysics = TilePhysics.Passable;
             Item itemHolder = item;
             item = null;
             return itemHolder;
         }
 
 
+        //ONLY FOR SINGLE TILES
+        public void draw(SpriteBatch spriteBatch, Color color)
+        {
+            spriteBatch.Draw(texture, getRect(), color);
+        }
+        public Rectangle getRect() //ONLY FOR SINGLE TILES
+        {
+            return new Rectangle((int)coordinates.X, (int)coordinates.Y, 60, 60);
+        }
     }
 }
