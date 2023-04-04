@@ -64,7 +64,7 @@ namespace PapaMarti
             this.angle = angle % (2 * Math.PI);
             this.position = position;
 
-            map = content.Load<Texture2D>("MapTextures/testmap5"); // REPLACE THIS LATER WITH MAP TEXTURE
+            map = content.Load<Texture2D>("MapTextures/testmap11"); // REPLACE THIS LATER WITH MAP TEXTURE
             mapSource = new Rectangle(0, 0, map.Width, map.Height);
             mapOrigin = new Vector2(map.Width / 2, map.Height / 2);
 
@@ -75,8 +75,8 @@ namespace PapaMarti
 
             minPosition = 0.005;
             maxPosition = 0.995;
-            road = content.Load<Texture2D>("whitePixel"); //REPLACE LATER WITH ROAD TEXTURE
-            int roadWidth = 30;
+            road = content.Load<Texture2D>("MapTextures/Road"); //REPLACE LATER WITH ROAD TEXTURE
+            int roadWidth = 150;
             roadRect = new Rectangle((Game1.screenRect.Width - roadWidth)/2, Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation)), roadWidth, translation - innerCircleTranslation);
             roadOrigin = new Vector2((float)road.Width / 2f, road.Height + ((float)road.Height / (translation - innerCircleTranslation) * innerCircleTranslation));
 
@@ -190,13 +190,13 @@ namespace PapaMarti
             //map
             spriteBatch.Draw(map, mapPosition, mapSource, Color.White, (float)(angle - Math.PI / 2), mapOrigin, 6f, SpriteEffects.None, 0f);
 
-            //roads
-            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle), roadOrigin, SpriteEffects.None, 0f);
-            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle - Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
-            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
-            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI), roadOrigin, SpriteEffects.None, 0f);
-            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 2 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
-            spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 4 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
+            ////roads
+            //spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle), roadOrigin, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle - Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + Math.PI), roadOrigin, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 2 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 4 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
 
             //buildings
             data.drawLocations(spriteBatch, (float)angle, mapPosition);
@@ -213,7 +213,7 @@ namespace PapaMarti
             }
 
             //car (change later for animation and actual textures)
-            car.draw(spriteBatch, carImage, new Rectangle((Game1.screenRect.Width - 225) / 2, (Game1.screenRect.Height - 150) / 2 - 50, 225, 150));
+            car.draw(spriteBatch, carImage, new Rectangle((Game1.screenRect.Width - 225) / 2, (Game1.screenRect.Height - 170) / 2 - 50, 225, 150));
 
             //arrow
             spriteBatch.Draw(arrowText, arrowLocation, null, Color.White, arrowAngle, arrowOrigin, arrowScale, SpriteEffects.None, 0f);
