@@ -28,19 +28,21 @@ namespace PapaMarti
             this.content = content;
             building = content.Load<Texture2D>("whitePixel");
 
+            loadTiles();
+
             places = new MapLocation[6];
 
             Texture2D wallTexture = content.Load<Texture2D>("wall");
-            Tile wall = new Tile(TilePhysics.Impassable, wallTexture, new Vector2(0, 0));
-            Tile floo = new Tile(TilePhysics.Passable, content.Load<Texture2D>("whitePixel"), new Vector2(0, 0));
+            //Tile wall = new Tile(TilePhysics.Impassable, wallTexture, new Vector2(0, 0));
+            //Tile floo = new Tile(TilePhysics.Passable, content.Load<Texture2D>("whitePixel"), new Vector2(0, 0));
 
             //slice one
-            places[0] = new MapLocation(0.4, 0.78, building, Color.Blue, 1.1f, 0f, generateRoom("roomTest.txt"));
-            places[1] = new MapLocation(0.3, 0.47, building, Color.Red, 1f, 0f, generateRoom("roomTest.txt"));
-            places[2] = new MapLocation(0.15, 0.22, building, Color.Yellow, 1.2f, 0f, generateRoom("roomTest.txt"));
-            places[3] = new MapLocation(0.36, 0.15, building, Color.Green, 0.9f, 0.25f, generateRoom("roomTest.txt"));
-            places[4] = new MapLocation(0.8, 0.12, building, Color.Purple, 0.8f, -0.2f, generateRoom("roomTest.txt"));
-            places[5] = new MapLocation(0.8, 0.55, building, Color.Orange, 1f, 0f, generateRoom("roomTest.txt"));
+            places[0] = new MapLocation(0.4, 0.78, building, Color.Blue, 1.1f, 0f, generateRoom(@"Content/roomTest.txt"));
+            places[1] = new MapLocation(0.3, 0.47, building, Color.Red, 1f, 0f, generateRoom(@"Content/roomTest.txt"));
+            places[2] = new MapLocation(0.15, 0.22, building, Color.Yellow, 1.2f, 0f, generateRoom(@"Content/roomTest.txt"));
+            places[3] = new MapLocation(0.36, 0.15, building, Color.Green, 0.9f, 0.25f, generateRoom(@"Content/roomTest.txt"));
+            places[4] = new MapLocation(0.8, 0.12, building, Color.Purple, 0.8f, -0.2f, generateRoom(@"Content/roomTest.txt"));
+            places[5] = new MapLocation(0.8, 0.55, building, Color.Orange, 1f, 0f, generateRoom(@"Content/roomTest.txt"));
         }
         public void drawLocations(SpriteBatch spriteBatch, float angle, Vector2 mapPosition)
         {
