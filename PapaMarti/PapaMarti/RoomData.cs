@@ -51,7 +51,7 @@ namespace PapaMarti
             {
                 location.X = (float)(mapPosition.X + ((1 - places[i].radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Sin(angle - places[i].angle));
                 location.Y = (float)(mapPosition.Y - ((1 - places[i].radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Cos(angle - places[i].angle));
-                spriteBatch.Draw(places[i].texture, location, null, places[i].color, 0, places[i].origin, places[i].scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(places[i].texture, location, null, places[i].color, angle + (float)places[i].angle, places[i].origin, places[i].scale, SpriteEffects.None, 0f);
             }
         }
 
