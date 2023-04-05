@@ -14,9 +14,13 @@ namespace PapaMarti
     class RoomManager: StageManager
     {
         MapLocation location;
+        Player player;
+        Room room;
         public RoomManager(ContentManager content, MapLocation location) : base(content)
         {
             this.location = location;
+            room = location.room;
+
         }
 
         public override GameStage getStage()
@@ -25,12 +29,12 @@ namespace PapaMarti
         }
         public override void draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(location.texture, new Rectangle(0, 0, location.texture.Width, location.texture.Height), location.color);
-            location.room.draw(spriteBatch);
+            room.draw(spriteBatch);
+            player.draw(spriteBatch);
         }
         public override void update(GameTime time)
         {
-            //location.room.update();
+            player = room.update(player);
         }
         public override bool isDone()
         {

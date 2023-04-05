@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace PapaMarti
@@ -17,6 +18,11 @@ namespace PapaMarti
         MapLocation[] places;
 
         Texture2D building;
+
+        //tile textures
+        Texture2D floorText;
+        Texture2D objectText;
+
         public RoomData(ContentManager content)
         {
             this.content = content;
@@ -29,41 +35,12 @@ namespace PapaMarti
             Tile floo = new Tile(TilePhysics.Passable, content.Load<Texture2D>("whitePixel"), new Vector2(0, 0));
 
             //slice one
-            Room one = new Room(new Tile[,] {{wall, wall, wall, wall, wall, wall, wall, wall, wall },
-                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
-                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
-                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
-                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
-                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
-                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
-                                             {wall, floo, floo, floo, floo, floo, floo, floo, wall},
-                                             {wall, wall, wall, wall, wall, wall, wall, wall, wall } });
-
-            Room two = new Room(new Tile[,] {{wall, wall, wall, wall, wall, wall, wall, wall, wall, wall },
-                                             {wall, floo, floo, floo, floo, floo, floo, floo, floo, wall},
-                                             {wall, floo, floo, floo, floo, floo, floo, floo, floo, wall},
-                                             {wall, floo, floo, floo, floo, floo, floo, floo, floo, wall},
-                                             {wall, wall, wall, wall, wall, wall, floo, floo, floo, wall},
-                                             {null, null, null, null, null, wall, floo, floo, floo, wall},
-                                             {null, null, null, null, null, wall, floo, floo, floo, wall},
-                                             {null, null, null, null, null, wall, floo, floo, floo, wall},
-                                             {null, null, null, null, null, wall, floo, floo, floo, wall},
-                                             {null, null, null, null, null, wall, wall, wall, wall, wall } });
-            Room three = new Room(new Tile[,] {{null, null, wall, wall, wall, wall, wall, null, null },
-                                               {null, null, wall, floo, floo, floo, wall, null, null},
-                                               {wall, wall, wall, floo, floo, floo, wall, wall, wall},
-                                               {wall, floo, floo, floo, floo, floo, floo, floo, wall},
-                                               {wall, floo, floo, floo, floo, floo, floo, floo, wall},
-                                               {wall, floo, floo, floo, floo, floo, floo, floo, wall},
-                                               {wall, wall, wall, floo, floo, floo, wall, wall, wall},
-                                               {null, null, wall, floo, floo, floo, wall, null, null},
-                                               {null, null, wall, wall, wall, wall, wall, null, null } });
-            places[0] = new MapLocation(0.4, 0.78, building, Color.Blue, 1.1f, 0f, one);
-            places[1] = new MapLocation(0.3, 0.47, building, Color.Red, 1f, 0f, two);
-            places[2] = new MapLocation(0.15, 0.22, building, Color.Yellow, 1.2f, 0f, three);
-            places[3] = new MapLocation(0.36, 0.15, building, Color.Green, 0.9f, 0.25f, one);
-            places[4] = new MapLocation(0.8, 0.12, building, Color.Purple, 0.8f, -0.2f, two);
-            places[5] = new MapLocation(0.8, 0.55, building, Color.Orange, 1f, 0f, three);
+            places[0] = new MapLocation(0.4, 0.78, building, Color.Blue, 1.1f, 0f, generateRoom("roomTest.txt"));
+            places[1] = new MapLocation(0.3, 0.47, building, Color.Red, 1f, 0f, generateRoom("roomTest.txt"));
+            places[2] = new MapLocation(0.15, 0.22, building, Color.Yellow, 1.2f, 0f, generateRoom("roomTest.txt"));
+            places[3] = new MapLocation(0.36, 0.15, building, Color.Green, 0.9f, 0.25f, generateRoom("roomTest.txt"));
+            places[4] = new MapLocation(0.8, 0.12, building, Color.Purple, 0.8f, -0.2f, generateRoom("roomTest.txt"));
+            places[5] = new MapLocation(0.8, 0.55, building, Color.Orange, 1f, 0f, generateRoom("roomTest.txt"));
         }
         public void drawLocations(SpriteBatch spriteBatch, float angle, Vector2 mapPosition)
         {
@@ -98,6 +75,86 @@ namespace PapaMarti
                 }
             }
             return closest;
+        }
+
+        private Room generateRoom(string path)
+        {
+            List<string> lines = new List<string>();
+            bool hasDoor = false;
+            List<Vector2> boundaries = new List<Vector2>();
+            Vector2 door = new Vector2(0, 0);
+            try
+            {
+                using (StreamReader reader = new StreamReader(path))
+                {
+                    //Sort all text into lines
+                    while (!reader.EndOfStream)
+                    {
+                        string line = reader.ReadLine();
+                        lines.Add(line);
+                    }
+
+                    Tile[,] tiles = new Tile[lines.Count, lines[0].Length];
+                    Room r = new Room(tiles, boundaries);
+                    for (int i = 0; i < tiles.GetLength(0); i++)
+                    {
+                        char[] tile = lines[i].ToCharArray();
+
+                        for (int j = 0; j < tiles.GetLength(1); j++)
+                        {
+
+                            if (tile[j] == 'o')
+                            {
+                                tiles[i, j] = new Tile(TilePhysics.Impassable, objectText, new Vector2(i, j));
+                                boundaries.Add(new Vector2(i, j));
+
+                            }
+                            else if (tile[j] == 'd')
+                            {
+                                tiles[i, j] = new Tile(TilePhysics.Door, floorText, new Vector2(i, j));
+                                hasDoor = true;
+                                door = new Vector2(i, j);
+                            }
+                            else if (tile[j] == '.')
+                            {
+                                tiles[i, j] = new Tile(TilePhysics.Passable, floorText, new Vector2(i, j));
+                            }
+                            else
+                            {
+                                tiles[i, j] = new Tile(TilePhysics.Wall, floorText, new Vector2(i, j));
+                                boundaries.Add(new Vector2(i, j));
+
+                            }
+                        }
+                    }
+
+                    if (hasDoor)
+                    {
+                        r = new Room(tiles, boundaries, door);
+
+                        return r;
+                    }
+                    else
+                    {
+                        r = new Room(tiles, boundaries);
+                        return r;
+                    }
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The file could not be read");
+                Console.WriteLine(e.Message);
+            }
+            return new Room(new Tile[0, 0], boundaries);
+        }
+
+        private void loadTiles()
+        {
+            floorText = content.Load<Texture2D>("wood");
+            objectText = content.Load<Texture2D>("tile");
         }
     }
 }

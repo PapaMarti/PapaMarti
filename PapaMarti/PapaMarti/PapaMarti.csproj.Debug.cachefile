@@ -1,7 +1,3 @@
-Content\place.xnb
-Content\SpriteFont1.xnb
-Content\oven.xnb
-Content\pizza.xnb
 Content\whitePixel.xnb
 Content\CookingStageTextures\CuttingStageTextures\circle outline.xnb
 Content\CookingStageTextures\CuttingStageTextures\dough.xnb
@@ -9,23 +5,22 @@ Content\CookingStageTextures\ToppingsTextures\bowl.xnb
 Content\CookingStageTextures\ToppingsTextures\Toppings.xnb
 Content\CookingStageTextures\circle dough.xnb
 Content\CookingStageTextures\Table.xnb
-Content\pixil-frame-0.xnb
 Content\text01.xnb
-Content\tile.xnb
-Content\wood.xnb
-Content\roomTest.txt
 Content\SpriteFont1.xnb
-Content\MapTextures\temporary map.xnb
 Content\Arrow.xnb
 Content\marker.xnb
+Content\MapTextures\temporary map.xnb
 Content\slice lock.xnb
+Content\wall.xnb
 Content\CookingStageTextures\OvenTextures\pixil-frame-0.xnb
 Content\CookingStageTextures\OvenTextures\oven.xnb
 Content\CookingStageTextures\OvenTextures\pizza.xnb
 Content\CookingStageTextures\OvenTextures\place.xnb
-Content\wall.xnb
 Content\CookingStageTextures\ToppingsTextures\Bowls.xnb
 Content\CookingStageTextures\ToppingsTextures\Toppings1.xnb
 Content\CookingStageTextures\OvenTextures\Ovenbg.xnb
 Content\CookingStageTextures\OvenTextures\amazing.xnb
 Content\countdown.xnb
+Content\tile.xnb
+Content\wood.xnb
+Content\roomTest.txt
