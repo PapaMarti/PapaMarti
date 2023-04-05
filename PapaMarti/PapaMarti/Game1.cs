@@ -64,6 +64,8 @@ namespace PapaMarti {
             Task[] list = new Task[0];
             currentQuest = new Quest(list, 0.55, 0.8);
             mapManager = new MapManager(Content, 0, 0, currentQuest, 5, data, true);
+
+            currentStage = mapManager;
         }
 
         /// <summary>
