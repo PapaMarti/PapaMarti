@@ -119,7 +119,8 @@ namespace PapaMarti {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-            
+
+            currentStage.draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);

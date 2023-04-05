@@ -107,6 +107,8 @@ namespace PapaMarti
                 string mapTutorial = "Great job with that pizza and welcome to Santa Margherita, an island with much to explore! Use the left and right arrow keys to drive around the island and use the up and down arrow keys if you want to go down a road. You can also press the enter key to go into a building.";
                 textCards.Add(new TextCard(content, mapTutorial, String.Empty));
             }
+
+            car = new Car();
         }
 
         private void updateArrow()
