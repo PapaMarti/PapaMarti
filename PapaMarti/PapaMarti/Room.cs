@@ -14,7 +14,7 @@ namespace PapaMarti
         int height;
         int width;
         Vector2 origin;
-        int tileSize;
+        public static readonly int tileSize = 75;
 
         public Vector2 door; //Provides the row and column of where the door is located
 
@@ -34,7 +34,7 @@ namespace PapaMarti
             height = tiles.GetLength(0);
             width = tiles.GetLength(1);
 
-            tileSize = 75;
+            //tileSize = 75;
 
             //Calculate origin at which to draw room
             int pixelHeight = tileSize * height;
@@ -43,7 +43,7 @@ namespace PapaMarti
 
             door = new Vector2(height / 2, width - 1);
 
-            borders = new Rectangle((int)origin.X, (int)origin.Y, width * 60, height * 60);
+            borders = new Rectangle((int)origin.X, (int)origin.Y, width * tileSize, height * tileSize);
             //tiles[(int)door.X, (int)door.Y].status = Status.Door;
         }
         public Room(Tile[,] tiles_, List<Vector2> walls_, Vector2 door_) : this(tiles_, walls_)
@@ -79,12 +79,12 @@ namespace PapaMarti
                     tiles[i, j].coordinates = new Vector2(x, y);
                     if (tiles[i, j].tilePhysics == TilePhysics.Wall)
 
-                        spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.Black);
+                        spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, tileSize, tileSize), Color.Black);
                     else
-                        spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.White);
+                        spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, tileSize, tileSize), Color.White);
 
 
-                    x += 60;
+                    x += tileSize;
                 }
                 x = (int)origin.X;
                 y += tileSize;
@@ -92,8 +92,8 @@ namespace PapaMarti
         }
         public Player enter(Player player)
         {
-            player.rect.X = (int)(origin.X + door.Y * 60);
-            player.rect.Y = (int)(origin.Y + door.X * 60);
+            player.rect.X = (int)(origin.X + door.Y * tileSize);
+            player.rect.Y = (int)(origin.Y + door.X * tileSize);
             return player;
             //Set player location at the entrance
         }

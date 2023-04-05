@@ -65,7 +65,7 @@ namespace PapaMarti
         }
         public Rectangle getRect() //ONLY FOR SINGLE TILES
         {
-            return new Rectangle((int)coordinates.X, (int)coordinates.Y, 60, 60);
+            return new Rectangle((int)coordinates.X, (int)coordinates.Y, Room.tileSize, Room.tileSize);
         }
     }
 }
