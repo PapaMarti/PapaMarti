@@ -20,7 +20,7 @@ namespace PapaMarti
         {
             this.location = location;
             room = location.room;
-
+            player = new Player();
         }
 
         public override GameStage getStage()

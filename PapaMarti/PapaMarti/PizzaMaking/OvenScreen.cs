@@ -348,7 +348,7 @@ namespace PapaMarti
                     //_spriteBatch.DrawString(font, subtext, new Vector2((Game1.screenRect.Width - font.MeasureString(subtext).X) / 2, Game1.screenRect.Height - 110), Color.Black);
                     
                 }
-                _spriteBatch.DrawString(font, warningText, new Vector2((Game1.screenRect.Width - font.MeasureString(warningText).X) / 2, Game1.screenRect.Height - 70), Color.Red);
+                //_spriteBatch.DrawString(font, warningText, new Vector2((Game1.screenRect.Width - font.MeasureString(warningText).X) / 2, Game1.screenRect.Height - 70), Color.Red);
             }
             if (!instructions)
             {

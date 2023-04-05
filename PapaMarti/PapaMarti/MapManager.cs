@@ -109,6 +109,7 @@ namespace PapaMarti
             }
 
             car = new Car();
+            carImage = content.Load<Texture2D>("Car");
         }
 
         private void updateArrow()
@@ -248,7 +249,7 @@ namespace PapaMarti
                 if (position < minPosition)
                     angle += angleSpeed;
                 else
-                    angle += angleSpeed * 2;
+                    angle += angleSpeed * 2.5;
                 car.updateDirection(Direction.left);
             }
             if((kb.IsKeyDown(Keys.Right) || kb.IsKeyDown(Keys.D)) && canRotate())
@@ -256,7 +257,7 @@ namespace PapaMarti
                 if (position < minPosition)
                     angle -= angleSpeed;
                 else
-                    angle -= angleSpeed * 2;
+                    angle -= angleSpeed * 2.5;
                 car.updateDirection(Direction.right);
             }
             double movementSpeed = 0.005;
