@@ -23,6 +23,7 @@ namespace PapaMarti
             room = location.room;
             Texture2D playerText = content.Load<Texture2D>("whitePixel");
             player = new Player(new Rectangle(1800, 500, 60, 60), playerText);
+            player = room.enter(player);
         }
 
         public override GameStage getStage()
