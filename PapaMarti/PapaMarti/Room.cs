@@ -38,7 +38,7 @@ namespace PapaMarti
             int pixelWidth = 60 * width;
             origin = new Vector2((SCREENWIDTH - pixelWidth) / 2, (SCREENHEIGHT - pixelHeight) / 2);
 
-            door = new Vector2(height / 2, width - 1);
+            door = new Vector2(height / 2, width / 2);
 
             borders = new Rectangle((int)origin.X, (int)origin.Y, width * 60, height * 60);
             //tiles[(int)door.X, (int)door.Y].status = Status.Door;
