@@ -218,7 +218,7 @@ namespace PapaMarti
             {
                 if(i > slicesOpen)
                 {
-                    spriteBatch.Draw(sliceLock, mapPosition, mapSource, Color.White, (float)angle - sliceAngle, mapOrigin, 6f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(sliceLock, mapPosition, mapSource, Color.White, (float)angle - sliceAngle, mapOrigin, mapScale, SpriteEffects.None, 0f);
                 }
                 sliceAngle += (float)Math.PI / 3;
             }

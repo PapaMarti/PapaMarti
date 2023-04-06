@@ -118,7 +118,11 @@ namespace PapaMarti {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            Color backgroundColor = Color.MediumBlue;
+            if (currentStage.getStage() == GameStage.Rooming)
+                backgroundColor = Color.Black;
+
+            GraphicsDevice.Clear(backgroundColor);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
