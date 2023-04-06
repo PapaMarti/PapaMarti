@@ -37,12 +37,12 @@ namespace PapaMarti
             //Tile floo = new Tile(TilePhysics.Passable, content.Load<Texture2D>("whitePixel"), new Vector2(0, 0));
 
             //slice one
-            places[0] = new MapLocation(0.4, 0.78, building, Color.Blue, 1.1f, 0f, generateRoom(@"Content/roomTest.txt"));
-            places[1] = new MapLocation(0.3, 0.47, building, Color.Red, 1f, 0f, generateRoom(@"Content/roomTest.txt"));
-            places[2] = new MapLocation(0.15, 0.22, building, Color.Yellow, 1.2f, 0f, generateRoom(@"Content/roomTest.txt"));
-            places[3] = new MapLocation(0.36, 0.15, building, Color.Green, 0.9f, 0.25f, generateRoom(@"Content/roomTest.txt"));
-            places[4] = new MapLocation(0.8, 0.12, building, Color.Purple, 0.8f, -0.2f, generateRoom(@"Content/roomTest.txt"));
-            places[5] = new MapLocation(0.8, 0.55, building, Color.Orange, 1f, 0f, generateRoom(@"Content/roomTest.txt"));
+            places[0] = new MapLocation(Math.PI / 6, 0.8, building, Color.Blue, 1.1f, (float)(Math.PI / 3), generateRoom(@"Content/roomTest.txt"));
+            places[1] = new MapLocation(0.22, 0.52, building, Color.Red, 1f, 0f, generateRoom(@"Content/roomOne.txt"));
+            places[2] = new MapLocation(0.2, 0.16, building, Color.Yellow, 1.2f, -0.2f, generateRoom(@"Content/roomTwo.txt"));
+            places[3] = new MapLocation(Math.PI / 6, 0.15, building, Color.Green, 0.9f, (float)(-Math.PI / 6), generateRoom(@"Content/roomTest.txt"));
+            places[4] = new MapLocation(0.85, 0.2, building, Color.Purple, 1.3f, (float)(-Math.PI / 3), generateRoom(@"Content/roomOne.txt"));
+            places[5] = new MapLocation(0.8, 0.55, building, Color.Orange, 1f, (float)(-Math.PI / 3), generateRoom(@"Content/roomTwo.txt"));
         }
         public void drawLocations(SpriteBatch spriteBatch, float angle, Vector2 mapPosition)
         {
@@ -51,7 +51,7 @@ namespace PapaMarti
             {
                 location.X = (float)(mapPosition.X + ((1 - places[i].radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Sin(angle - places[i].angle));
                 location.Y = (float)(mapPosition.Y - ((1 - places[i].radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Cos(angle - places[i].angle));
-                spriteBatch.Draw(places[i].texture, location, null, places[i].color, angle + (float)places[i].angle, places[i].origin, places[i].scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(places[i].texture, location, null, places[i].color, angle + places[i].rotation, places[i].origin, places[i].scale, SpriteEffects.None, 0f);
             }
         }
 

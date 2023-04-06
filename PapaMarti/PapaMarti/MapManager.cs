@@ -24,8 +24,9 @@ namespace PapaMarti
         Rectangle roadRect;
         Vector2 roadOrigin;
 
-        public readonly static int translation = 1725; //to calculate where the map needs to be placed on the screen
-        public readonly static int innerCircleTranslation = 260; //for inner circle calculations
+        static readonly float mapScale = 8f;
+        public readonly static int translation = 294 * (int)mapScale; //to calculate where the map needs to be placed on the screen
+        public readonly static int innerCircleTranslation = 49 * (int)mapScale; //for inner circle calculations
         double minPosition;
         double maxPosition;
 
@@ -115,7 +116,7 @@ namespace PapaMarti
         private void updateArrow()
         {
             double setAngleDistance = Math.PI / 4.6;
-            double setRadiusDistance = 0.5;
+            double setRadiusDistance = (Game1.screenRect.Height / 2.0)/(translation - innerCircleTranslation);
 
             angle = angle % (Math.PI * 2);
             if (angle < 0)
@@ -129,8 +130,8 @@ namespace PapaMarti
                 angleDiff = secondDiff;
             double radiusDiff = position - primaryQuest.radius;
 
-            if (radiusDiff < 0)
-                setRadiusDistance = 0.3;
+            //if (radiusDiff < 0)
+            //    setRadiusDistance = 0.4;
 
             if(Math.Abs(angleDiff) < setAngleDistance && Math.Abs(radiusDiff) < setRadiusDistance)
             {
@@ -198,7 +199,7 @@ namespace PapaMarti
         public override void draw(SpriteBatch spriteBatch)
         {
             //map
-            spriteBatch.Draw(map, mapPosition, mapSource, Color.White, (float)(angle - Math.PI / 2), mapOrigin, 6f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(map, mapPosition, mapSource, Color.White, (float)(angle - Math.PI / 2), mapOrigin, mapScale, SpriteEffects.None, 0f);
 
             ////roads
             //spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle), roadOrigin, SpriteEffects.None, 0f);

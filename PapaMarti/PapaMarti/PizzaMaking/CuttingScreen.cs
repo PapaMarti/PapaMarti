@@ -166,8 +166,8 @@ namespace PapaMarti
         }
         public override bool isDone()
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.X))
-                return true;
+            //if (Keyboard.GetState().IsKeyDown(Keys.X))
+            //    return true;
             return done;
         }
         public override double getAccuracy()
