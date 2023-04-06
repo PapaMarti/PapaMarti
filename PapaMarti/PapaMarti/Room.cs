@@ -76,9 +76,10 @@ namespace PapaMarti
                     if (tiles[i, j] != null)
                     {
                         tiles[i, j].coordinates = new Vector2(x, y);
-                        if (tiles[i, j].tilePhysics == TilePhysics.Wall)
+                        if (tiles[i, j].tilePhysics == TilePhysics.Wall) {
+                        }
 
-                            spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.Black);
+                            //spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.Black);
                         else
                             spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.White);
                     }
