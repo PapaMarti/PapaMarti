@@ -121,11 +121,15 @@ namespace PapaMarti
                             {
                                 tiles[i, j] = new Tile(TilePhysics.Passable, floorText, new Vector2(i, j));
                             }
-                            else
+                            else if (tile[j] == 'b')
                             {
                                 tiles[i, j] = new Tile(TilePhysics.Wall, floorText, new Vector2(i, j));
                                 boundaries.Add(new Vector2(i, j));
 
+                            }
+                            else
+                            {
+                                tiles[i, j] = null;
                             }
                         }
                     }
