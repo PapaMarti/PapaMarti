@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace PapaMarti
     {
         public TilePhysics tilePhysics;
         public Texture2D texture;
-        Vector2 location;
+        Vector2 center;
 
         public Vector2 coordinates;
 
@@ -39,6 +39,7 @@ namespace PapaMarti
             item = null;
 
             coordinates = coordinates_;
+            center = new Vector2(coordinates.X + 30, coordinates.Y + 30);
         }
 
         public Tile(TilePhysics tilePhysics_, Texture2D texture_, Vector2 coordinates_, Item item_) : this(tilePhysics_, texture_, coordinates_)
@@ -46,7 +47,10 @@ namespace PapaMarti
             item = item_;
         }
 
-
+        public void updateCenter()
+        {
+            center = new Vector2(coordinates.X + 30, coordinates.Y + 30);
+        }
 
         //Only needed for Collectable tiles
         public Item collect()
@@ -65,7 +69,7 @@ namespace PapaMarti
         }
         public Rectangle getRect() //ONLY FOR SINGLE TILES
         {
-            return new Rectangle((int)coordinates.X, (int)coordinates.Y, Room.tileSize, Room.tileSize);
+            return new Rectangle((int)coordinates.X, (int)coordinates.Y, 60, 60);
         }
     }
 }
