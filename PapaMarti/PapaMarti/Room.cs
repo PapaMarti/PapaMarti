@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -14,7 +14,6 @@ namespace PapaMarti
         int height;
         int width;
         Vector2 origin;
-        public static readonly int tileSize = 75;
 
         public Vector2 door; //Provides the row and column of where the door is located
 
@@ -34,16 +33,14 @@ namespace PapaMarti
             height = tiles.GetLength(0);
             width = tiles.GetLength(1);
 
-            //tileSize = 75;
-
             //Calculate origin at which to draw room
-            int pixelHeight = tileSize * height;
-            int pixelWidth = tileSize * width;
+            int pixelHeight = 60 * height;
+            int pixelWidth = 60 * width;
             origin = new Vector2((SCREENWIDTH - pixelWidth) / 2, (SCREENHEIGHT - pixelHeight) / 2);
 
             door = new Vector2(height / 2, width - 1);
 
-            borders = new Rectangle((int)origin.X, (int)origin.Y, width * tileSize, height * tileSize);
+            borders = new Rectangle((int)origin.X, (int)origin.Y, width * 60, height * 60);
             //tiles[(int)door.X, (int)door.Y].status = Status.Door;
         }
         public Room(Tile[,] tiles_, List<Vector2> walls_, Vector2 door_) : this(tiles_, walls_)
@@ -76,24 +73,28 @@ namespace PapaMarti
             {
                 for (int j = 0; j < width; j++)
                 {
-                    tiles[i, j].coordinates = new Vector2(x, y);
-                    if (tiles[i, j].tilePhysics == TilePhysics.Wall)
+                    if (tiles[i, j] != null)
+                    {
+                        tiles[i, j].coordinates = new Vector2(x, y);
+                        if (tiles[i, j].tilePhysics == TilePhysics.Wall)
 
-                        spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, tileSize, tileSize), Color.Black);
-                    else
-                        spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, tileSize, tileSize), Color.White);
+                            spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.Black);
+                        else
+                            spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.White);
+                    }
 
 
-                    x += tileSize;
+
+                    x += 60;
                 }
                 x = (int)origin.X;
-                y += tileSize;
+                y += 60;
             }
         }
         public Player enter(Player player)
         {
-            player.rect.X = (int)(origin.X + door.Y * tileSize);
-            player.rect.Y = (int)(origin.Y + door.X * tileSize);
+            player.rect.X = (int)(origin.X + door.Y * 60);
+            player.rect.Y = (int)(origin.Y + door.X * 60);
             return player;
             //Set player location at the entrance
         }
@@ -120,28 +121,48 @@ namespace PapaMarti
             {
                 changeY += MOVEMENTSPEED;
             }
-            player.rect = player.update(changeX, changeY);
-            foreach (Vector2 v in this.walls)
-            {
 
-                if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(player.rect))
+
+            if (changeY != 0)
+            {
+                player.updateY(changeY);
+
+                foreach (Vector2 v in this.walls)
                 {
 
-                    Rectangle r = Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), player.rect);
-                    int xAxis = r.Width;
-                    int yAxis = r.Height;
-                    Console.WriteLine(yAxis);
-                    if (xAxis < yAxis)
+                    if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(player.rect))
                     {
-                        player.updateX(-changeX);
+
+
+                        if (player.rect.Bottom > this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
+                        {
+                            player.updateY(-changeY);
+                        }
+                        else if (player.rect.Top < this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
+                        {
+                            player.updateY(-changeY);
+                        }
+
                     }
-                    else if (yAxis < xAxis)
+
+                }
+            }
+
+            if (changeX != 0)
+            {
+                player.updateX(changeX);
+                foreach (Vector2 v in this.walls)
+                {
+                    if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(player.rect))
                     {
-                        player.updateY(-changeY);
-                    }
-                    else if (xAxis == yAxis)
-                    {
-                        player.rect = player.update(-changeX, -changeY);
+                        if (player.rect.Right > this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
+                        {
+                            player.updateX(-changeX);
+                        }
+                        else if (player.rect.Left < this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
+                        {
+                            player.updateX(-changeX);
+                        }
                     }
 
                 }
@@ -149,7 +170,7 @@ namespace PapaMarti
             }
             return player;
         }
-        
+
         /*
          player.rect = player.update(changeX, changeY);
             foreach (Vector2 v in room.walls) 
