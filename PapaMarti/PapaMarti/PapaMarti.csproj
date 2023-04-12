@@ -56,32 +56,32 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Car.cs" />
-    <Compile Include="MapLocation.cs" />
-    <Compile Include="MapManager.cs" />
-    <Compile Include="MovementTask.cs" />
-    <Compile Include="Item.cs" />
+    <Compile Include="MapStuff\Car.cs" />
+    <Compile Include="MapStuff\MapLocation.cs" />
+    <Compile Include="MapStuff\MapManager.cs" />
+    <Compile Include="RoomStuff\MovementTask.cs" />
+    <Compile Include="RoomStuff\Item.cs" />
     <Compile Include="PizzaMaking\OvenScreen.cs" />
     <Compile Include="PizzaMaking\CookingManager.cs" />
     <Compile Include="PizzaMaking\Pizza.cs" />
     <Compile Include="PizzaMaking\CuttingScreen.cs" />
     <Compile Include="PizzaMaking\CookingStage.cs" />
     <Compile Include="Animations.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="RoomStuff\Player.cs" />
     <Compile Include="PizzaMaking\ToppingList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="Quest.cs" />
-    <Compile Include="RoomData.cs" />
-    <Compile Include="RoomManager.cs" />
+    <Compile Include="QuestStuff\Quest.cs" />
+    <Compile Include="RoomStuff\RoomData.cs" />
+    <Compile Include="RoomStuff\RoomManager.cs" />
     <Compile Include="PizzaMaking\ToppingContainer.cs" />
     <Compile Include="PizzaMaking\ToppingScreen.cs" />
-    <Compile Include="Task.cs" />
-    <Compile Include="Room.cs" />
+    <Compile Include="QuestStuff\Task.cs" />
+    <Compile Include="RoomStuff\Room.cs" />
     <Compile Include="StageManager.cs" />
     <Compile Include="TextCard.cs" />
-    <Compile Include="Tile.cs" />
+    <Compile Include="RoomStuff\Tile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
