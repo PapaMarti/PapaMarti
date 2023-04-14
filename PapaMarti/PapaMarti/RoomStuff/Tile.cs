@@ -17,7 +17,7 @@ namespace PapaMarti
         Wall,
         Door
     }
-    class Tile //Rooms will be made up of Tiles
+    public class Tile //Rooms will be made up of Tiles
     {
         public TilePhysics tilePhysics;
         public Texture2D texture;

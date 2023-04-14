@@ -11,9 +11,8 @@ using System.Linq;
 
 namespace PapaMarti
 {
-    class MapLocation
+    public class MapLocation
     {
-        public Room room;
         public double angle;
         public double radius;
         public Texture2D texture;
@@ -21,7 +20,8 @@ namespace PapaMarti
         public float scale;
         public Vector2 origin;
         public float rotation;
-        public MapLocation(double angle, double radius, Texture2D texture, Color color, float scale, float rotation, Room room)
+
+        public MapLocation(double angle, double radius, Texture2D texture, Color color, float scale, float rotation)
         {
             //this.room = room;
             this.angle = angle;
@@ -31,7 +31,13 @@ namespace PapaMarti
             this.scale = scale;
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
             this.rotation = rotation;
-            this.room = room;
+        }
+
+        public void draw(SpriteBatch spriteBatch, float mapAngle, Vector2 mapPosition) {
+            Vector2 location = new Vector2();
+            location.X = (float) (mapPosition.X + ((1 - radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Sin(mapAngle - angle));
+            location.Y = (float) (mapPosition.Y - ((1 - radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Cos(mapAngle - angle));
+            spriteBatch.Draw(texture, location, null, color, mapAngle + rotation, origin, scale, SpriteEffects.None, 0f);
         }
     }
 }

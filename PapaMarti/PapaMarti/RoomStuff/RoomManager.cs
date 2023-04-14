@@ -11,19 +11,17 @@ using System.Linq;
 
 namespace PapaMarti
 {
-    class RoomManager: StageManager
+    public class RoomManager: StageManager
     {
-        MapLocation location;
         Player player;
-        Room room;
+        Quest quest;
 
-        public RoomManager(ContentManager content, MapLocation location) : base(content)
+        public RoomManager(ContentManager content, Task task) : base(content)
         {
-            this.location = location;
-            room = location.room;
+            this.task = task;
             Texture2D playerText = content.Load<Texture2D>("whitePixel");
             player = new Player(new Rectangle(1800, 500, 60, 60), playerText);
-            player = room.enter(player);
+            player = task.room.enter(player);
         }
 
         public override GameStage getStage()
@@ -32,12 +30,12 @@ namespace PapaMarti
         }
         public override void draw(SpriteBatch spriteBatch)
         {
-            room.draw(spriteBatch);
+            task.room.draw(spriteBatch);
             player.draw(spriteBatch);
         }
         public override void update(GameTime time)
         {
-            player = room.update(player);
+            player = task.room.update(player);
         }
         public override bool isDone()
         {

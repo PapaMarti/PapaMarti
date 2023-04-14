@@ -8,7 +8,7 @@ using System.Text;
 
 namespace PapaMarti
 {
-    class Room
+    public class Room
     {
         public Tile[,] tiles;
         int height;
@@ -16,9 +16,6 @@ namespace PapaMarti
         Vector2 origin;
 
         public Vector2 door; //Provides the row and column of where the door is located
-
-        readonly int SCREENWIDTH = 1920;
-        readonly int SCREENHEIGHT = 1080;
 
         readonly int MOVEMENTSPEED = 5;
 
@@ -36,7 +33,7 @@ namespace PapaMarti
             //Calculate origin at which to draw room
             int pixelHeight = 60 * height;
             int pixelWidth = 60 * width;
-            origin = new Vector2((SCREENWIDTH - pixelWidth) / 2, (SCREENHEIGHT - pixelHeight) / 2);
+            origin = new Vector2((Game1.screenRect.Width - pixelWidth) / 2, (Game1.screenRect.Height - pixelHeight) / 2);
 
             door = new Vector2(height / 2, width / 2);
 

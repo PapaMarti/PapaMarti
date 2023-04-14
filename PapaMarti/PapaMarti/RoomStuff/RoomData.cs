@@ -44,16 +44,6 @@ namespace PapaMarti
             places[4] = new MapLocation(0.85, 0.2, building, Color.Purple, 1.3f, (float)(-Math.PI / 3), generateRoom(@"Content/roomOne.txt"));
             places[5] = new MapLocation(0.8, 0.55, building, Color.Orange, 1f, (float)(-Math.PI / 3), generateRoom(@"Content/roomTwo.txt"));
         }
-        public void drawLocations(SpriteBatch spriteBatch, float angle, Vector2 mapPosition)
-        {
-            Vector2 location = new Vector2(0, 0);
-            for(int i = 0; i < places.Length; i++)
-            {
-                location.X = (float)(mapPosition.X + ((1 - places[i].radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Sin(angle - places[i].angle));
-                location.Y = (float)(mapPosition.Y - ((1 - places[i].radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Cos(angle - places[i].angle));
-                spriteBatch.Draw(places[i].texture, location, null, places[i].color, angle + places[i].rotation, places[i].origin, places[i].scale, SpriteEffects.None, 0f);
-            }
-        }
 
         /// <summary>
         /// Get the location on the map that is closest to the given position

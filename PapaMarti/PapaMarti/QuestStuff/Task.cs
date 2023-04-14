@@ -12,14 +12,11 @@ using System.Text;
 
 namespace PapaMarti
 {
-    abstract class Task
-    {
-        public bool taskComplete;
+    public abstract class Task {
+        public Room room;
 
-        public abstract void check();
+        public abstract void update();
+        public abstract void draw(SpriteBatch spriteBatch);
+        public abstract bool isDone();
     }
-    /*Types of tasks include
-     * Movement: Player must go to a certain area
-     * 
-    */
 }

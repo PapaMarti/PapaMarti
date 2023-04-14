@@ -57,8 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MapStuff\Car.cs" />
-    <Compile Include="MapStuff\MapLocation.cs" />
+    <Compile Include="QuestStuff\MapLocation.cs" />
     <Compile Include="MapStuff\MapManager.cs" />
+    <Compile Include="QuestStuff\QuestPersistantData\AllQuests.cs" />
+    <Compile Include="QuestStuff\QuestPersistantData\MapLocationQuestData.cs" />
+    <Compile Include="QuestStuff\QuestTracker.cs" />
     <Compile Include="RoomStuff\MovementTask.cs" />
     <Compile Include="RoomStuff\Item.cs" />
     <Compile Include="PizzaMaking\OvenScreen.cs" />
