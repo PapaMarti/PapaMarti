@@ -83,6 +83,7 @@
     <Compile Include="StageManager.cs" />
     <Compile Include="TextCard.cs" />
     <Compile Include="RoomStuff\Tile.cs" />
+    <Compile Include="WeaponStuff\PizzaFrisbee.cs" />
     <Compile Include="WeaponStuff\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>

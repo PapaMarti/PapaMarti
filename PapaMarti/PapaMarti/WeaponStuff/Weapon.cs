@@ -12,6 +12,7 @@ using System.Linq;
 
 namespace PapaMarti.WeaponStuff
 {
+    //different types of weapons
     public enum WeaponType
     {
         Throw,
@@ -22,16 +23,34 @@ namespace PapaMarti.WeaponStuff
         Cheeser,
         Mace
     }
+
     public abstract class Weapon
     {
+        //type of weapon
         public WeaponType weaponType;
 
-        //a way to calculate the area in which an enemy should be hurt by an attack
+        //a way to calculate the area in which an enemy should be hurt by an attack, if it is null then the weapon is not being used and nothing can take damage
         public Circle areaOfEffect;
 
-        public Weapon(WeaponType type)
+        //used to calculate circle (in pixels)
+        protected double attackRadius;
+
+        //amount of damage done when something is in the area of effect
+        public int damage;
+
+        //the player that is using the weapon
+        public Player player;
+
+        //for loading textures
+        ContentManager content;
+
+        public Weapon(ContentManager content, Player player, WeaponType type, int damage, double radius)
         {
+            this.content = content;
+            this.player = player;
             weaponType = type;
+            this.damage = damage;
+            this.attackRadius = radius;
             areaOfEffect = null;
         }
 

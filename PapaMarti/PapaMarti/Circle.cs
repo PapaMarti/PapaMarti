@@ -14,13 +14,16 @@ namespace PapaMarti
 {
     public class Circle
     {
-        public double angle;
         public double radius;
         public Vector2 location;
 
-        public Circle(double angle, double radius, Vector2 location)
+        public Circle(double radius)
         {
-            this.angle = angle;
+            this.radius = radius;
+            location = new Vector2(0, 0);
+        }
+        public Circle(double radius, Vector2 location)
+        {
             this.radius = radius;
             this.location = location;
         }
