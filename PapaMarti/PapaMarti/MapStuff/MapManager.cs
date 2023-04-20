@@ -46,6 +46,11 @@ namespace PapaMarti
         Car car;
         Texture2D carImage;
 
+        Texture2D ocean;
+        Rectangle[] oceanSource;
+        int oceanIndex;
+        int oceanTimer;
+
         RoomData data;
 
         List<TextCard> textCards;
@@ -110,7 +115,10 @@ namespace PapaMarti
             }
 
             car = new Car();
-            carImage = content.Load<Texture2D>("Car");
+            carImage = content.Load<Texture2D>("MapTextures/Car");
+
+            ocean = content.Load<Texture2D>("MapTextures/Ocean");
+            oceanSource = new Rectangle[] { new Rectangle(0,0,300,169), new Rectangle(300,0,300,169), new Rectangle(600,0,300,169) };
         }
 
         private void updateArrow()
@@ -198,6 +206,9 @@ namespace PapaMarti
         }
         public override void draw(SpriteBatch spriteBatch)
         {
+            //ocean
+            spriteBatch.Draw(ocean, Game1.screenRect, oceanSource[oceanIndex], Color.White);
+
             //map
             spriteBatch.Draw(map, mapPosition, mapSource, Color.White, (float)(angle - Math.PI / 2), mapOrigin, mapScale, SpriteEffects.None, 0f);
 
@@ -276,11 +287,28 @@ namespace PapaMarti
             car.updateTime();
             updatePosition();
             updateArrow();
+            updateOcean();
         }
         public override bool isDone()
         {
             KeyboardState kb = Keyboard.GetState();
             return kb.IsKeyDown(Keys.Enter);
+        }
+
+        public void updateOcean()
+        {
+            if (oceanTimer > 40)
+            {
+                oceanTimer = 0;
+                if (oceanIndex >= 2)
+                    oceanIndex = 0;
+                else
+                    oceanIndex++;
+            }
+            else
+            {
+                oceanTimer++;
+            }
         }
 
         private bool canRotate()
