@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace PapaMarti.WeaponStuff
+namespace PapaMarti
 {
     //different types of weapons
     public enum WeaponType
@@ -55,6 +55,7 @@ namespace PapaMarti.WeaponStuff
         }
 
         public abstract void draw(SpriteBatch spriteBatch);
-        public abstract void update(GameTime time);
+        public abstract void update();
+        public abstract void reset();
     }
 }

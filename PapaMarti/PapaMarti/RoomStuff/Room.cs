@@ -1,10 +1,14 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace PapaMarti
 {
@@ -17,10 +21,10 @@ namespace PapaMarti
 
         public Vector2 door; //Provides the row and column of where the door is located
 
-        readonly int SCREENWIDTH = 1920;
-        readonly int SCREENHEIGHT = 1080;
+        readonly int SCREENWIDTH = Game1.screenRect.Width;
+        readonly int SCREENHEIGHT = Game1.screenRect.Height;
 
-        readonly int MOVEMENTSPEED = 5;
+        public static readonly int MOVEMENTSPEED = 5;
 
         public Rectangle borders;
 

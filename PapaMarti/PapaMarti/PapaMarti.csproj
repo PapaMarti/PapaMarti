@@ -80,11 +80,12 @@
     <Compile Include="PizzaMaking\ToppingScreen.cs" />
     <Compile Include="QuestStuff\Task.cs" />
     <Compile Include="RoomStuff\Room.cs" />
+    <Compile Include="RoomStuff\Weapons\Bomb.cs" />
     <Compile Include="StageManager.cs" />
     <Compile Include="TextCard.cs" />
     <Compile Include="RoomStuff\Tile.cs" />
-    <Compile Include="WeaponStuff\PizzaFrisbee.cs" />
-    <Compile Include="WeaponStuff\Weapon.cs" />
+    <Compile Include="RoomStuff\Weapons\PizzaFrisbee.cs" />
+    <Compile Include="RoomStuff\Weapons\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
