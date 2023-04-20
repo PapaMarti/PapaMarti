@@ -44,6 +44,7 @@ namespace PapaMarti
         //for loading textures
         ContentManager content;
 
+        //used to display weapon on hotbar
         public Texture2D displayTexture;
 
         public Weapon(ContentManager content, Player player, WeaponType type, int damage, double radius)

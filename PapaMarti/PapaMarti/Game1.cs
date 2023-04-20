@@ -30,7 +30,7 @@ namespace PapaMarti {
             Content.RootDirectory = "Content"; 
             graphics.PreferredBackBufferWidth = screenRect.Width;
             graphics.PreferredBackBufferHeight = screenRect.Height;
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             IsMouseVisible = true;
             graphics.ApplyChanges();
         }
@@ -56,8 +56,7 @@ namespace PapaMarti {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Texture2D playerText = Content.Load<Texture2D>("whitePixel");
-            player = new Player(Content, new Rectangle(1800, 500, 60, 60), playerText);
+            player = new Player(Content, new Rectangle(1800, 500, 60, 60));
 
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
@@ -141,11 +140,11 @@ namespace PapaMarti {
         private void testAddWeapon()
         {
             KeyboardState kb = Keyboard.GetState();
-            if (kb.IsKeyDown(Keys.NumPad1))
+            if (kb.IsKeyDown(Keys.Z))
             {
                 ((PizzaFrisbee)player.weapons[0]).upgrade();
             }
-            else if (kb.IsKeyDown(Keys.NumPad2))
+            else if (kb.IsKeyDown(Keys.X))
             {
                 player.addWeapon(new PizzaFrisbee(Content, player, WeaponType.Throw));
             }

@@ -21,24 +21,37 @@ namespace PapaMarti
         public List<Rectangle> weaponHotbar;
         int selectedWeapon;
 
-        static Color shade = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+        static Color shade = new Color(0.2f, 0.2f, 0.2f, 0.5f);
+        Texture2D whiteSquare;
 
         public Vector2 directionFacing;
 
-        public Player(ContentManager content, Rectangle rect_, Texture2D texture_)
+        static int hotbarHeight = 80;
+        static int buffer = 10;
+
+        public Player(ContentManager content, Rectangle rect_)
         {
             rect = rect_;
-            texture = texture_;
+            texture = content.Load<Texture2D>("whitePixel");
+
             weapon = new PizzaFrisbee(content, this, WeaponType.Throw);
             weapons = new List<Weapon>();
+
+            weaponHotbar = new List<Rectangle>();
+
             weapons.Add(weapon);
+            weaponHotbar.Add(new Rectangle(buffer, Game1.screenRect.Height - buffer - hotbarHeight, hotbarHeight, hotbarHeight));
+
             selectedWeapon = 0;
 
             directionFacing = new Vector2(-Room.MOVEMENTSPEED, 0);
+
+            whiteSquare = content.Load<Texture2D>("whitePixel");
         }
 
         public void addWeapon(Weapon weapon)
         {
+            weaponHotbar.Add(new Rectangle(weaponHotbar[weaponHotbar.Count - 1].X + hotbarHeight + buffer, Game1.screenRect.Height - buffer - hotbarHeight, hotbarHeight, hotbarHeight));
             weapons.Add(weapon);
         }
 
@@ -106,11 +119,12 @@ namespace PapaMarti
         {
             for(int i = 0; i < weapons.Count; i++)
             {
+                spriteBatch.Draw(whiteSquare, weaponHotbar[i], Color.White);
                 spriteBatch.Draw(weapons[i].displayTexture, weaponHotbar[i], Color.White);
                 if(i != selectedWeapon)
                 {
                     //draw shaded square
-
+                    spriteBatch.Draw(whiteSquare, weaponHotbar[i], shade);
                 }
             }
         }
