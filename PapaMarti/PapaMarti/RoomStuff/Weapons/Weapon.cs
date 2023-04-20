@@ -44,6 +44,8 @@ namespace PapaMarti
         //for loading textures
         ContentManager content;
 
+        public Texture2D displayTexture;
+
         public Weapon(ContentManager content, Player player, WeaponType type, int damage, double radius)
         {
             this.content = content;
@@ -56,6 +58,6 @@ namespace PapaMarti
 
         public abstract void draw(SpriteBatch spriteBatch);
         public abstract void update();
-        public abstract void reset();
+        public abstract void reset(); //resets the weapon to its default unused state
     }
 }

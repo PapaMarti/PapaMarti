@@ -40,6 +40,7 @@ namespace PapaMarti
         public PizzaFrisbee(ContentManager content, Player player, WeaponType type): base(content, player, type, frisbeeDamage, frisbeeRadius)
         {
             texture = content.Load<Texture2D>("whitePixel");
+            displayTexture = texture;
             angle = 0f;
 
             isInFlight = false;
@@ -86,10 +87,12 @@ namespace PapaMarti
                     
                     currentDistance = speed;
 
+                    //calculating direction of flight
                     direction = Math.Atan(player.directionFacing.Y / player.directionFacing.X);
                     if (player.directionFacing.X < 0)
                         direction += Math.PI;
 
+                    //circle used to calculate damage
                     areaOfEffect = new Circle( attackRadius, new Vector2( (int)(player.rect.X + player.rect.Width / 2.0 + getX()), (int)(player.rect.Y + player.rect.Height / 2.0 + getY()) ) );
                 }
             }
@@ -106,6 +109,7 @@ namespace PapaMarti
             }
         }
 
+        //resets weapon to not be firing
         public override void reset()
         {
             areaOfEffect = null;
@@ -115,6 +119,7 @@ namespace PapaMarti
             currentDistance = 0;
         }
 
+        //gets the x and y velocities based on flight direction
         private float getX()
         {
             return (float)(Math.Cos(direction) * speed);

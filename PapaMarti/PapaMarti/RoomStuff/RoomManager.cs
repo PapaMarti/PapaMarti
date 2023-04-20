@@ -17,12 +17,11 @@ namespace PapaMarti
         Player player;
         Room room;
 
-        public RoomManager(ContentManager content, MapLocation location) : base(content)
+        public RoomManager(ContentManager content, MapLocation location, Player player) : base(content)
         {
             this.location = location;
             room = location.room;
-            Texture2D playerText = content.Load<Texture2D>("whitePixel");
-            player = new Player(content, new Rectangle(1800, 500, 60, 60), playerText);
+            this.player = player;
             player = room.enter(player);
         }
 

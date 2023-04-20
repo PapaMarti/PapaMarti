@@ -16,9 +16,12 @@ namespace PapaMarti
     {
         public Rectangle rect;
         Texture2D texture;
-        Weapon weapon;
-        List<Weapon> weapons;
+        public Weapon weapon;
+        public List<Weapon> weapons;
+        public List<Rectangle> weaponHotbar;
         int selectedWeapon;
+
+        static Color shade = new Color(0.5f, 0.5f, 0.5f, 0.5f);
 
         public Vector2 directionFacing;
 
@@ -97,6 +100,19 @@ namespace PapaMarti
         {
             spriteBatch.Draw(texture, rect, Color.Red);
             weapon.draw(spriteBatch);
+            drawHotbar(spriteBatch);
+        }
+        private void drawHotbar(SpriteBatch spriteBatch)
+        {
+            for(int i = 0; i < weapons.Count; i++)
+            {
+                spriteBatch.Draw(weapons[i].displayTexture, weaponHotbar[i], Color.White);
+                if(i != selectedWeapon)
+                {
+                    //draw shaded square
+
+                }
+            }
         }
 
         private void resetWeapons()
