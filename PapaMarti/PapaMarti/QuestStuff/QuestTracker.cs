@@ -10,5 +10,7 @@ namespace PapaMarti {
     public class QuestTracker {
         static Queue<Quest> mainlineQuest;
         static Queue<Quest> sidelineQuest;
+
+
     }
 }
