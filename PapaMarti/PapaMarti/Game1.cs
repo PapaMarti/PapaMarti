@@ -66,7 +66,7 @@ namespace PapaMarti {
             mapManager = new MapManager(Content, 0, 0, currentQuest, 5, data, true);
 
             //UNCOMMENT THIS TO GO DIRECTLY TO THE MAP
-            //currentStage = mapManager;
+            currentStage = mapManager;
         }
 
         /// <summary>
