@@ -7,25 +7,21 @@ using System.Text;
 
 namespace PapaMarti
 {
-    class Player : Life
+    class Enemy : Life
     {
         public Rectangle rect;
         Texture2D texture;
 
-        Texture2D lifeTexture;
-
-        public Player(Rectangle rect_, Texture2D texture_, int maxLife_, Texture2D lifeTexture_) : base()
+        public Enemy(Rectangle rect_, Texture2D texture_, int maxLife_) : base()
         {
             rect = rect_;
             texture = texture_;
             maxLife = maxLife_;
             currentLife = maxLife;
-            lifeTexture = lifeTexture_;
 
-            lifeMeter = new Rectangle(20, 20, maxLife * 2, 50);
-            lifeRemaining = new Rectangle(20, 20, currentLife * 2, 50);
+
+
         }
-
         public Rectangle update(int changeX, int changeY)
         {
             return new Rectangle(rect.X + changeX, rect.Y + changeY, rect.Width, rect.Height);
@@ -38,14 +34,9 @@ namespace PapaMarti
         {
             this.rect.Y += changeY;
         }
-        
         public override void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, rect, Color.Red);
-
-            spriteBatch.Draw(lifeTexture, lifeMeter, Color.Red);
-            spriteBatch.Draw(lifeTexture, lifeRemaining, Color.Green);
-            Console.WriteLine("hello");
+            spriteBatch.Draw(texture, rect, Color.Blue);
         }
     }
 }

@@ -25,6 +25,8 @@ namespace PapaMarti
         public Rectangle borders;
 
         public List<Vector2> walls; //List of locations where there is a wall
+
+        KeyboardState oldKB;
         public Room(Tile[,] tiles_, List<Vector2> walls_)
         {
             tiles = tiles_;
@@ -42,6 +44,7 @@ namespace PapaMarti
 
             borders = new Rectangle((int)origin.X, (int)origin.Y, width * 60, height * 60);
             //tiles[(int)door.X, (int)door.Y].status = Status.Door;
+            oldKB = Keyboard.GetState();
         }
         public Room(Tile[,] tiles_, List<Vector2> walls_, Vector2 door_) : this(tiles_, walls_)
         {
@@ -106,6 +109,17 @@ namespace PapaMarti
             int changeX = 0;
             int changeY = 0;
 
+            //HEALTH SYSTEM TESTING PURPOSES ONLY
+            if (oldKB.IsKeyDown(Keys.D) && !kb.IsKeyDown(Keys.D))
+            {
+                player.takeDamage(20);
+            }
+            if (oldKB.IsKeyDown(Keys.H) && !kb.IsKeyDown(Keys.H))
+            {
+                player.heal(10);
+            }
+            //ends here
+
             if (kb.IsKeyDown(Keys.Right))
             {
                 changeX += MOVEMENTSPEED;
@@ -169,6 +183,7 @@ namespace PapaMarti
                 }
 
             }
+            oldKB = kb;
             return player;
         }
 

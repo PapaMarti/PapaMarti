@@ -13,17 +13,20 @@ namespace PapaMarti
 {
     class RoomManager: StageManager
     {
-        MapLocation location;
-        Player player;
-        Room room;
+        public MapLocation location;
+        public Room room;
+        public Player player;
+        
 
-        public RoomManager(ContentManager content, MapLocation location) : base(content)
+        public RoomManager(ContentManager content, MapLocation location, Player player_) : base(content)
         {
             this.location = location;
             room = location.room;
             Texture2D playerText = content.Load<Texture2D>("whitePixel");
-            player = new Player(new Rectangle(1800, 500, 60, 60), playerText);
-            player = room.enter(player);
+            Texture2D lifeBarText = content.Load<Texture2D>("whitePixel");
+            player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, lifeBarText);
+            //player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, playerText);
+            //player = room.enter(player);
         }
 
         public override GameStage getStage()

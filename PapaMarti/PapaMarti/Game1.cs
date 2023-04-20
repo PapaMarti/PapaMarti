@@ -21,8 +21,12 @@ namespace PapaMarti {
         SpriteBatch spriteBatch;
         StageManager currentStage;
         MapManager mapManager;
+        RoomManager roomManager;
         Quest currentQuest;
         RoomData data;
+        Player player;
+        
+        //Player player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, playerText);
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -44,6 +48,7 @@ namespace PapaMarti {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
+            
             base.Initialize();
         }
 
@@ -64,9 +69,11 @@ namespace PapaMarti {
             Task[] list = new Task[0];
             currentQuest = new Quest(list, 0.55, 0.8);
             mapManager = new MapManager(Content, 0, 0, currentQuest, 5, data, true);
+            
 
             //UNCOMMENT THIS TO GO DIRECTLY TO THE MAP
-            //currentStage = mapManager;
+            currentStage = mapManager;
+            roomManager = new RoomManager(Content, ((MapManager)currentStage).closestLocation, player);
         }
 
         /// <summary>
@@ -95,9 +102,15 @@ namespace PapaMarti {
 
             if(currentStage.getStage() == GameStage.Exploring)
             {
+
                 if (currentStage.isDone())
                 {
-                    currentStage = new RoomManager(Content, ((MapManager)currentStage).closestLocation);
+                    roomManager.location = ((MapManager)currentStage).closestLocation;
+                    roomManager.room = roomManager.location.room;
+                    roomManager.player = roomManager.room.enter(roomManager.player);
+                    currentStage = roomManager;
+
+                    //currentStage = new RoomManager(Content, ((MapManager)currentStage).closestLocation);
                 }
             }
 
