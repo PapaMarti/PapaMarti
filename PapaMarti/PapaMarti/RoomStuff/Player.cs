@@ -77,7 +77,7 @@ namespace PapaMarti
             {
                 selectedWeapon = 6;
             }
-            if ((WeaponType)selectedWeapon != weapon.weaponType)
+            if (weapons[selectedWeapon].weaponType != weapon.weaponType)
             {
                 resetWeapons();
                 weapon = weapons[selectedWeapon];
