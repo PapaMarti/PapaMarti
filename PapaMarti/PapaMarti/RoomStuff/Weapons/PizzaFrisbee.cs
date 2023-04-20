@@ -23,7 +23,7 @@ namespace PapaMarti
         double speed;
         static float angleSpeed = 0.01f;
 
-        public PizzaFrisbee(ContentManager content, Player player, WeaponType type): base(content, player, type, 50, 50)
+        public PizzaFrisbee(ContentManager content, Player player, WeaponType type): base(content, player, type, 50, 20)
         {
             texture = content.Load<Texture2D>("whitePixel");
             angle = 0f;
@@ -31,14 +31,14 @@ namespace PapaMarti
             isInFlight = false;
 
             maxDistance = 600;
-            speed = 6;
+            speed = 10;
 
             direction = 0;
 
             //making it less strong if it isnt a frisbee
             if(type == WeaponType.Throw)
             {
-                speed = 5;
+                speed = 9;
                 damage = 40;
                 maxDistance = 500;
             }
@@ -89,6 +89,8 @@ namespace PapaMarti
 
         private float getX()
         {
+            Console.WriteLine(direction);
+            Console.WriteLine(Math.Cos(direction));
             return (float)(Math.Cos(direction) * speed);
         }
         private float getY()

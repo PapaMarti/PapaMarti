@@ -173,6 +173,7 @@ namespace PapaMarti
                 }
 
             }
+            player.update(changeX, changeY);
             return player;
         }
 

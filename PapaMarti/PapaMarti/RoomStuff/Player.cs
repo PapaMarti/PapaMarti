@@ -39,7 +39,7 @@ namespace PapaMarti
             weapons.Add(weapon);
         }
 
-        public Rectangle update(int changeX, int changeY)
+        public void update(int changeX, int changeY)
         {
             KeyboardState kb = Keyboard.GetState();
 
@@ -84,8 +84,6 @@ namespace PapaMarti
             }
 
             weapon.update();
-
-            return new Rectangle(rect.X + changeX, rect.Y + changeY, rect.Width, rect.Height);
         }
         public void updateX(int changeX)
         {
