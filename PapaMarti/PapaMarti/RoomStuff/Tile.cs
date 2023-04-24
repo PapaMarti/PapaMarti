@@ -22,6 +22,7 @@ namespace PapaMarti
         public TilePhysics tilePhysics;
         public Texture2D texture;
         Vector2 center;
+        public int tileSize;
 
         public Vector2 coordinates;
 
@@ -29,17 +30,17 @@ namespace PapaMarti
         public Item item;
 
         //Rooms will be displayed as a 2d array of tiles. Location refers to the row/column of the tile, not the actual coordinate on the screen.
-        //Tiles are 60 x 60
+        //Tiles are 99 x 99
         public Tile(TilePhysics tilePhysics_, Texture2D texture_, Vector2 coordinates_) //Non-collectable tiles
         {
             tilePhysics = tilePhysics_;
             texture = texture_;
-
+            tileSize = 98;
 
             item = null;
 
             coordinates = coordinates_;
-            center = new Vector2(coordinates.X + 30, coordinates.Y + 30);
+            center = new Vector2(coordinates.X + (tileSize / 2), coordinates.Y + (tileSize / 2));
         }
 
         public Tile(TilePhysics tilePhysics_, Texture2D texture_, Vector2 coordinates_, Item item_) : this(tilePhysics_, texture_, coordinates_)
@@ -49,7 +50,7 @@ namespace PapaMarti
 
         public void updateCenter()
         {
-            center = new Vector2(coordinates.X + 30, coordinates.Y + 30);
+            center = new Vector2(coordinates.X + (tileSize/2), coordinates.Y + (tileSize / 2));
         }
 
         //Only needed for Collectable tiles
@@ -69,7 +70,7 @@ namespace PapaMarti
         }
         public Rectangle getRect() //ONLY FOR SINGLE TILES
         {
-            return new Rectangle((int)coordinates.X, (int)coordinates.Y, 60, 60);
+            return new Rectangle((int)coordinates.X, (int)coordinates.Y, tileSize, tileSize);
         }
     }
 }

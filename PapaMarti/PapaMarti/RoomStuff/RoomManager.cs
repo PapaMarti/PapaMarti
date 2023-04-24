@@ -19,10 +19,12 @@ namespace PapaMarti
 
         public RoomManager(ContentManager content, MapLocation location) : base(content)
         {
+            int playerHeight = 80;
+            int playerWidth = 60;
             this.location = location;
             room = location.room;
             Texture2D playerText = content.Load<Texture2D>("whitePixel");
-            player = new Player(new Rectangle(1800, 500, 60, 60), playerText);
+            player = new Player(new Rectangle(1800, 500, playerWidth, playerHeight), playerText);
             player = room.enter(player);
         }
 
