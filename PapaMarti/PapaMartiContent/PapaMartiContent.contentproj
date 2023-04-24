@@ -132,6 +132,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonTitle.spritefont">
+      <Name>ButtonTitle</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="roomTest.txt">
       <Name>roomTest</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

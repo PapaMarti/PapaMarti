@@ -56,9 +56,12 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Button.cs" />
     <Compile Include="MapStuff\Car.cs" />
     <Compile Include="MapStuff\MapLocation.cs" />
     <Compile Include="MapStuff\MapManager.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="QuestMenu.cs" />
     <Compile Include="RoomStuff\MovementTask.cs" />
     <Compile Include="RoomStuff\Item.cs" />
     <Compile Include="PizzaMaking\OvenScreen.cs" />
