@@ -14,14 +14,14 @@ namespace PapaMarti
     public class RoomManager: StageManager
     {
         Player player;
-        Quest quest;
+        Room room;
 
-        public RoomManager(ContentManager content, Task task) : base(content)
+        public RoomManager(ContentManager content, Room room) : base(content)
         {
-            this.task = task;
+            this.room = room;
             Texture2D playerText = content.Load<Texture2D>("whitePixel");
             player = new Player(new Rectangle(1800, 500, 60, 60), playerText);
-            player = task.room.enter(player);
+            player = room.enter(player);
         }
 
         public override GameStage getStage()
@@ -30,15 +30,17 @@ namespace PapaMarti
         }
         public override void draw(SpriteBatch spriteBatch)
         {
-            task.room.draw(spriteBatch);
+            room.draw(spriteBatch);
             player.draw(spriteBatch);
         }
         public override void update(GameTime time)
         {
-            player = task.room.update(player);
+            player = room.update(player);
         }
         public override bool isDone()
         {
+            if(room.isDone())
+                QuestTracker.advanceMainquest();
             KeyboardState kb = Keyboard.GetState();
             return kb.IsKeyDown(Keys.Tab);
         }

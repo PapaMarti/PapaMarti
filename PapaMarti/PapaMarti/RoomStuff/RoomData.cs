@@ -69,7 +69,7 @@ namespace PapaMarti
             return closest;
         }
 
-        private Room generateRoom(string path)
+        public static Room generateRoom(string path, MapLocation location)
         {
             List<string> lines = new List<string>();
             bool hasDoor = false;
@@ -87,7 +87,7 @@ namespace PapaMarti
                     }
 
                     Tile[,] tiles = new Tile[lines.Count, lines[0].Length];
-                    Room r = new Room(tiles, boundaries);
+                    Room r = new Room(tiles, boundaries, location);
                     for (int i = 0; i < tiles.GetLength(0); i++)
                     {
                         char[] tile = lines[i].ToCharArray();

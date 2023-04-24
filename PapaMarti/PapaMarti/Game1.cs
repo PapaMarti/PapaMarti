@@ -60,9 +60,7 @@ namespace PapaMarti {
             currentStage = new CookingManager(GraphicsDevice, Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), true);
 
             data = new RoomData(Content);
-
-            Task[] list = new Task[0];
-            currentQuest = new Quest(list, 0.55, 0.8);
+            QuestTracker.initializeTextures(Content);
             mapManager = new MapManager(Content, 0, 0, currentQuest, 5, data, true);
 
             //UNCOMMENT THIS TO GO DIRECTLY TO THE MAP
@@ -97,7 +95,7 @@ namespace PapaMarti {
             {
                 if (currentStage.isDone())
                 {
-                    currentStage = new RoomManager(Content, ((MapManager)currentStage).closestLocation);
+                    currentStage = QuestTracker.enterRoom(Content, ((MapManager) currentStage).closestLocation);
                 }
             }
 

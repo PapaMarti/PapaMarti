@@ -59,8 +59,7 @@
     <Compile Include="MapStuff\Car.cs" />
     <Compile Include="QuestStuff\MapLocation.cs" />
     <Compile Include="MapStuff\MapManager.cs" />
-    <Compile Include="QuestStuff\QuestPersistantData\AllQuests.cs" />
-    <Compile Include="QuestStuff\QuestPersistantData\MapLocationQuestData.cs" />
+    <Compile Include="QuestStuff\QuestPersistantData\TempRoom.cs" />
     <Compile Include="QuestStuff\QuestTracker.cs" />
     <Compile Include="RoomStuff\MovementTask.cs" />
     <Compile Include="RoomStuff\Item.cs" />
@@ -80,7 +79,6 @@
     <Compile Include="RoomStuff\RoomManager.cs" />
     <Compile Include="PizzaMaking\ToppingContainer.cs" />
     <Compile Include="PizzaMaking\ToppingScreen.cs" />
-    <Compile Include="QuestStuff\Task.cs" />
     <Compile Include="RoomStuff\Room.cs" />
     <Compile Include="StageManager.cs" />
     <Compile Include="TextCard.cs" />
@@ -98,6 +96,7 @@
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

@@ -17,43 +17,29 @@ namespace PapaMarti
      *Moving to a certain location
      */
     public class Quest {
-        private Task[] tasks; //All "taskComplete" must be true for status to be Completed
+        private Room[] rooms; //All "taskComplete" must be true for status to be Completed
         private int currentTask;
 
-        public Quest(params Task[] tasks) {
-            this.tasks = tasks;
+        public Quest(params Room[] rooms) {
+            this.rooms = rooms;
         }
 
         public bool isQuestDone() {
             return getCurrentTask() == null;
         }
 
-        public Task nextTask() {
+        public Room nextTask() {
             currentTask++;
-            if(currentTask < tasks.Length)
-                return tasks[currentTask];
+            if(currentTask < rooms.Length)
+                return rooms[currentTask];
             return null;
         }
 
-        public Task getCurrentTask() {
-            if(currentTask < tasks.Length)
-                return tasks[currentTask];
+        public Room getCurrentTask() {
+            if(currentTask < rooms.Length)
+                return rooms[currentTask];
             return null;
         }
-
-        public void update() {
-            if(getCurrentTask() == null)
-                return;
-            getCurrentTask().update();
-            if(getCurrentTask().isDone())
-                nextTask();
-        }
-
-        public void draw(SpriteBatch spriteBatch) {
-            if(getCurrentTask() == null)
-                return;
-            getCurrentTask().draw(spriteBatch);
-        }
-        
+                
     }
 }

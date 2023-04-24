@@ -5,15 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Content;
+using System.IO;
 
 namespace PapaMarti
 {
-    public class Room
+    public abstract class Room
     {
         public Tile[,] tiles;
         int height;
         int width;
         Vector2 origin;
+        public readonly MapLocation location;
 
         public Vector2 door; //Provides the row and column of where the door is located
 
@@ -22,8 +25,9 @@ namespace PapaMarti
         public Rectangle borders;
 
         public List<Vector2> walls; //List of locations where there is a wall
-        public Room(Tile[,] tiles_, List<Vector2> walls_)
+        public Room(Tile[,] tiles_, List<Vector2> walls_, MapLocation location)
         {
+            this.location = location;
             tiles = tiles_;
             walls = walls_;
 
@@ -40,7 +44,7 @@ namespace PapaMarti
             borders = new Rectangle((int)origin.X, (int)origin.Y, width * 60, height * 60);
             //tiles[(int)door.X, (int)door.Y].status = Status.Door;
         }
-        public Room(Tile[,] tiles_, List<Vector2> walls_, Vector2 door_) : this(tiles_, walls_)
+        public Room(Tile[,] tiles_, List<Vector2> walls_, Vector2 door_, MapLocation location) : this(tiles_, walls_, location)
         {
             door = door_;
             tiles[(int)door.X, (int)door.Y].tilePhysics = TilePhysics.Door;
@@ -167,6 +171,71 @@ namespace PapaMarti
 
             }
             return player;
+        }
+
+        public abstract bool isDone();
+
+        public static Texture2D[] roomTextures = new Texture2D[2];
+
+        public static void initializeTextures(ContentManager content) {
+            roomTextures[0] = content.Load<Texture2D>("wood");
+            roomTextures[1] = content.Load<Texture2D>("tile");
+        }
+
+        struct ThreeValuePair<A, B, C> {
+            A a;
+            B b;
+            C c;
+        }
+
+        public static ThreeValuePair<Tile[,], List<Vector2>, Vector2> parseRoomFile(string file) {
+            List<string> lines = new List<string>();
+            bool hasDoor = false;
+            List<Vector2> boundaries = new List<Vector2>();
+            Vector2 door = new Vector2(0, 0);
+
+            try {
+                using(StreamReader r = new StreamReader(file)) {
+                    while(!r.EndOfStream)
+                        lines.Add(r.ReadLine());
+                }
+
+                Tile[,] tiles = new Tile[lines.Count, lines[0].Length];
+
+                for(int i = 0; i < tiles.GetLength(0); i++) {
+                    char[] tile = lines[i].ToCharArray();
+
+                    for(int j = 0; j < tiles.GetLength(1); j++) {
+                        if(tile[j] == 'o') {
+                            tiles[i, j] = new Tile(TilePhysics.Impassable, roomTextures[1], new Vector2(i, j));
+                            boundaries.Add(new Vector2(i, j));
+
+                        }
+                        else if(tile[j] == 'd') {
+                            tiles[i, j] = new Tile(TilePhysics.Door, roomTextures[0], new Vector2(i, j));
+                            hasDoor = true;
+                            door = new Vector2(i, j);
+                        }
+                        else if(tile[j] == '.') {
+                            tiles[i, j] = new Tile(TilePhysics.Passable, roomTextures[0], new Vector2(i, j));
+                        }
+                        else if(tile[j] == 'b') {
+                            tiles[i, j] = new Tile(TilePhysics.Wall, roomTextures[0], new Vector2(i, j));
+                            boundaries.Add(new Vector2(i, j));
+
+                        }
+                        else {
+                            tiles[i, j] = null;
+                        }
+                    }
+                }
+
+                if(hasDoor) 
+            } catch(Exception e) {
+                Console.WriteLine("Error parsing room file " + file);
+                Console.WriteLine(e.Message);
+                Environment.Exit(-1);
+            }
         }
 
         /*
