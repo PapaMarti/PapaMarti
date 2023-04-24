@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Enemy.cs" />
     <Compile Include="Life.cs" />
+    <Compile Include="Mafia.cs" />
     <Compile Include="MapStuff\Car.cs" />
     <Compile Include="MapStuff\MapLocation.cs" />
     <Compile Include="MapStuff\MapManager.cs" />

@@ -14,6 +14,8 @@ namespace PapaMarti
 
         Texture2D lifeTexture;
 
+        public Vector2 center;
+
         public Player(Rectangle rect_, Texture2D texture_, int maxLife_, Texture2D lifeTexture_) : base()
         {
             rect = rect_;
@@ -21,6 +23,7 @@ namespace PapaMarti
             maxLife = maxLife_;
             currentLife = maxLife;
             lifeTexture = lifeTexture_;
+            center = new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
 
             lifeMeter = new Rectangle(20, 20, maxLife * 2, 50);
             lifeRemaining = new Rectangle(20, 20, currentLife * 2, 50);
@@ -33,19 +36,20 @@ namespace PapaMarti
         public void updateX(int changeX)
         {
             this.rect.X += changeX;
+            center = new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
         }
         public void updateY(int changeY)
         {
             this.rect.Y += changeY;
+            center = new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
         }
         
-        public override void draw(SpriteBatch spriteBatch)
+        public override void draw(SpriteBatch spriteBatch, Texture2D texture_)
         {
             spriteBatch.Draw(texture, rect, Color.Red);
 
             spriteBatch.Draw(lifeTexture, lifeMeter, Color.Red);
             spriteBatch.Draw(lifeTexture, lifeRemaining, Color.Green);
-            Console.WriteLine("hello");
         }
     }
 }

@@ -16,19 +16,36 @@ namespace PapaMarti
         public MapLocation location;
         public Room room;
         public Player player;
-        
+        List<Vector2> enemySpots;
+        public List<Enemy> enemies;
+        Texture2D enemyText;
+        Texture2D playerText;
 
         public RoomManager(ContentManager content, MapLocation location, Player player_) : base(content)
         {
             this.location = location;
             room = location.room;
-            Texture2D playerText = content.Load<Texture2D>("whitePixel");
+            enemySpots = room.enemySpots;
+            enemies = room.enemies;
+            playerText = content.Load<Texture2D>("whitePixel");
             Texture2D lifeBarText = content.Load<Texture2D>("whitePixel");
+            enemyText = content.Load<Texture2D>("whitePixel");
+
             player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, lifeBarText);
             //player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, playerText);
-            //player = room.enter(player);
+            player = room.enter(player);
         }
 
+        /*public void transition(ContentManager content, MapLocation location, Player player_)
+        {
+            this.location = location;
+            room = location.room;
+            //Texture2D playerText = content.Load<Texture2D>("whitePixel");
+            //Texture2D lifeBarText = content.Load<Texture2D>("whitePixel");
+            Texture2D enemyText = content.Load<Texture2D>("whitePixel");
+            //player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, lifeBarText);
+            player = room.enter(player);
+        }*/
         public override GameStage getStage()
         {
             return GameStage.Rooming;
@@ -36,7 +53,11 @@ namespace PapaMarti
         public override void draw(SpriteBatch spriteBatch)
         {
             room.draw(spriteBatch);
-            player.draw(spriteBatch);
+            player.draw(spriteBatch, playerText);
+            foreach (Mafia m in enemies)
+            {
+                m.draw(spriteBatch, enemyText);
+            }
         }
         public override void update(GameTime time)
         {

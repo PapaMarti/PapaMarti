@@ -26,11 +26,16 @@ namespace PapaMarti
 
         public List<Vector2> walls; //List of locations where there is a wall
 
+        public List<Vector2> enemySpots; //List of enemy locations in room
+
+        public List<Enemy> enemies;
+
         KeyboardState oldKB;
-        public Room(Tile[,] tiles_, List<Vector2> walls_)
+        public Room(Tile[,] tiles_, List<Vector2> walls_, List<Vector2> enemySpots_)
         {
             tiles = tiles_;
             walls = walls_;
+            enemySpots = enemySpots_;
 
             height = tiles.GetLength(0);
             width = tiles.GetLength(1);
@@ -43,13 +48,44 @@ namespace PapaMarti
             door = new Vector2(height / 2, width / 2);
 
             borders = new Rectangle((int)origin.X, (int)origin.Y, width * 60, height * 60);
+            enemies = new List<Enemy>();
+            createEnemies(enemySpots_);
             //tiles[(int)door.X, (int)door.Y].status = Status.Door;
             oldKB = Keyboard.GetState();
         }
-        public Room(Tile[,] tiles_, List<Vector2> walls_, Vector2 door_) : this(tiles_, walls_)
+        public Room(Tile[,] tiles_, List<Vector2> walls_, List<Vector2> enemySpots_, Vector2 door_) : this(tiles_, walls_, enemySpots_)
         {
             door = door_;
             tiles[(int)door.X, (int)door.Y].tilePhysics = TilePhysics.Door;
+        }
+
+        public void createEnemies(List<Vector2> enemySpots_)
+        {
+            int x = (int)origin.X;
+            int y = (int)origin.Y;
+            int counter = 0;
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (counter < enemySpots_.Count)
+                    {
+                        if ((int)enemySpots_[counter].X == i && (int)enemySpots_[counter].Y == j)
+                        {
+                            enemies.Add(new Mafia(new Rectangle(x, y, 60, 60), 100, 3, 3));
+                            counter++;
+                        }
+                    }
+                    
+                    
+
+
+
+                    x += 60;
+                }
+                x = (int)origin.X;
+                y += 60;
+            }
         }
 
         public void createWalls()
@@ -68,6 +104,8 @@ namespace PapaMarti
                 }
             }
         }
+
+
         public void draw(SpriteBatch spriteBatch)
         {
             int x = (int)origin.X;
@@ -79,10 +117,11 @@ namespace PapaMarti
                     if (tiles[i, j] != null)
                     {
                         tiles[i, j].coordinates = new Vector2(x, y);
-                        if (tiles[i, j].tilePhysics == TilePhysics.Wall) {
+                        if (tiles[i, j].tilePhysics == TilePhysics.Wall)
+                        {
                         }
 
-                            //spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.Black);
+                        //spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.Black);
                         else
                             spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.White);
                     }
@@ -94,7 +133,9 @@ namespace PapaMarti
                 x = (int)origin.X;
                 y += 60;
             }
+
         }
+        
         public Player enter(Player player)
         {
             player.rect.X = (int)(origin.X + door.Y * 60);

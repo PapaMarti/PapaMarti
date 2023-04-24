@@ -84,6 +84,7 @@ namespace PapaMarti
             List<string> lines = new List<string>();
             bool hasDoor = false;
             List<Vector2> boundaries = new List<Vector2>();
+            List<Vector2> enemySpots = new List<Vector2>();
             Vector2 door = new Vector2(0, 0);
             try
             {
@@ -97,7 +98,7 @@ namespace PapaMarti
                     }
 
                     Tile[,] tiles = new Tile[lines.Count, lines[0].Length];
-                    Room r = new Room(tiles, boundaries);
+                    Room r = new Room(tiles, boundaries, enemySpots);
                     for (int i = 0; i < tiles.GetLength(0); i++)
                     {
                         char[] tile = lines[i].ToCharArray();
@@ -127,6 +128,12 @@ namespace PapaMarti
                                 boundaries.Add(new Vector2(i, j));
 
                             }
+                            else if (tile[j] == 'e')
+                            {
+                                tiles[i, j] = new Tile(TilePhysics.Passable, floorText, new Vector2(i, j));
+                                enemySpots.Add(new Vector2(i, j));
+
+                            }
                             else
                             {
                                 tiles[i, j] = null;
@@ -136,13 +143,13 @@ namespace PapaMarti
 
                     if (hasDoor)
                     {
-                        r = new Room(tiles, boundaries, door);
+                        r = new Room(tiles, boundaries, enemySpots, door);
 
                         return r;
                     }
                     else
                     {
-                        r = new Room(tiles, boundaries);
+                        r = new Room(tiles, boundaries, enemySpots);
                         return r;
                     }
 
@@ -154,7 +161,7 @@ namespace PapaMarti
                 Console.WriteLine("The file could not be read");
                 Console.WriteLine(e.Message);
             }
-            return new Room(new Tile[0, 0], boundaries);
+            return new Room(new Tile[0, 0], boundaries, enemySpots);
         }
 
         private void loadTiles()

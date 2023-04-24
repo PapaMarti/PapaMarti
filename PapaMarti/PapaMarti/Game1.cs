@@ -108,6 +108,7 @@ namespace PapaMarti {
                     roomManager.location = ((MapManager)currentStage).closestLocation;
                     roomManager.room = roomManager.location.room;
                     roomManager.player = roomManager.room.enter(roomManager.player);
+                    //roomManager.transition(Content, ((MapManager)currentStage).closestLocation, player);
                     currentStage = roomManager;
 
                     //currentStage = new RoomManager(Content, ((MapManager)currentStage).closestLocation);

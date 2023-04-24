@@ -58,6 +58,6 @@ namespace PapaMarti
             return currentLife;
         }
 
-        public abstract void draw(SpriteBatch spriteBatch);
+        public abstract void draw(SpriteBatch spriteBatch, Texture2D texture);
     }
 }

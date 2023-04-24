@@ -7,6 +7,6 @@ bbbbbbb.....b
 b........o..b
 b...........b
 b.o.........b
-b...........b
+b......e....b
 b..........ob
 bbbbbbbbbbbbb
