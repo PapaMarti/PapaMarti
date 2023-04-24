@@ -47,5 +47,7 @@ namespace PapaMarti
         {
             spriteBatch.Draw(enemyText, rect, Color.Blue);
         }
+        public abstract void bounceOffX();
+        public abstract void bounceOffY();
     }
 }

@@ -21,7 +21,7 @@ namespace PapaMarti
             final /= 2;
             return Math.Sqrt(final);
         }
-        public void bounceOffX()
+        public override void bounceOffX()
         {
             xVel *= -1;
             /*
@@ -79,7 +79,7 @@ namespace PapaMarti
             
             
         }
-        public void bounceOffY()
+        public override void bounceOffY()
         {
             yVel *= -1;
         }

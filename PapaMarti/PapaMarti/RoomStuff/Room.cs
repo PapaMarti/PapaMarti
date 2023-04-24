@@ -150,7 +150,7 @@ namespace PapaMarti
             foreach (Enemy e in enemies)
             {
                 
-                e.updateX(e.xVel);
+                
                 e.updateY(e.yVel);
 
                 
@@ -164,16 +164,39 @@ namespace PapaMarti
 
                         if (e.rect.Bottom > this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
                         {
-                            
+                            e.updateY(-e.yVel);
+                            e.bounceOffY();
                         }
                         else if (e.rect.Top < this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
                         {
-                            
+                            e.updateY(-e.yVel);
+                            e.bounceOffY();
                         }
 
                     }
 
                 }
+                e.updateX(e.xVel);
+                foreach (Vector2 v in this.walls)
+                    {
+                        if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(e.rect))
+                        {
+                            if (e.rect.Right > this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
+                            {
+                            e.updateX(-e.xVel);
+                            e.bounceOffX();
+                            }
+                            else if (player.rect.Left < this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
+                            {
+                            e.updateX(-e.xVel);
+                            e.bounceOffX();
+                            }
+                        }
+
+                    }
+
+                
+
             }
             return enemies;
         }
