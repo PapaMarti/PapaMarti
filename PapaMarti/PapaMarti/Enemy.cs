@@ -32,7 +32,7 @@ namespace PapaMarti
         {
             return new Rectangle(rect.X + xVel, rect.Y + yVel, rect.Width, rect.Height);
         }
-        public abstract void homing(Player p);
+        public abstract void trajectory(Player p);
         public void updateX(int changeX)
         {
             this.rect.X += changeX;

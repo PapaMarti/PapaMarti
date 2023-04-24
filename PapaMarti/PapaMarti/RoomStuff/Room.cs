@@ -140,8 +140,42 @@ namespace PapaMarti
         {
             player.rect.X = (int)(origin.X + door.Y * 60);
             player.rect.Y = (int)(origin.Y + door.X * 60);
+            player.updateCenter();
             return player;
             //Set player location at the entrance
+        }
+
+        public List<Enemy> updateEnemies(Player player)
+        {
+            foreach (Enemy e in enemies)
+            {
+                
+                e.updateX(e.xVel);
+                e.updateY(e.yVel);
+
+                
+
+                foreach (Vector2 v in this.walls)
+                {
+
+                    if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(e.rect))
+                    {
+
+
+                        if (e.rect.Bottom > this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
+                        {
+                            
+                        }
+                        else if (e.rect.Top < this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
+                        {
+                            
+                        }
+
+                    }
+
+                }
+            }
+            return enemies;
         }
         public Player update(Player player)
         {

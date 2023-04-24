@@ -62,6 +62,7 @@ namespace PapaMarti
         public override void update(GameTime time)
         {
             player = room.update(player);
+            enemies = room.updateEnemies(player);
         }
         public override bool isDone()
         {
