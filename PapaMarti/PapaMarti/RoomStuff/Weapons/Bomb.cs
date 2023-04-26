@@ -26,6 +26,8 @@ namespace PapaMarti
         double currentDistance;
         double direction;
         int time;
+        Rectangle bombRect;
+        Vector2 location;
 
         public Bomb(ContentManager content, Player player, WeaponType type) : base(content, player, type, dam, rad)
         {
@@ -37,17 +39,19 @@ namespace PapaMarti
             currentDistance = 0;
             direction = 0;
             time = 0;
+            bombRect = new Rectangle(0, 0, 50, 50);
+            location = new Vector2(0, 0);
         }
 
         public override void draw(SpriteBatch spriteBatch)
         {
             if(isInFlight)
             {
-
+                spriteBatch.Draw(bombText, bombRect, Color.White);
             }
-            else
+            else if(time > 0)
             {
-
+                spriteBatch.Draw(bombText, new Rectangle((int)(areaOfEffect.location.X - attackRadius), (int)(areaOfEffect.location.Y - attackRadius), (int)(attackRadius * 2), (int)(attackRadius * 2)), Color.White);
             }
         }
         public override void update()
@@ -65,6 +69,10 @@ namespace PapaMarti
                     direction = Math.Atan(player.directionFacing.Y / player.directionFacing.X);
                     if (player.directionFacing.X < 0)
                         direction += Math.PI;
+                    location.X = player.rect.X + player.rect.Width / 2.0f + getX();
+                    location.Y = player.rect.Y + player.rect.Height / 2.0f + getY();
+                    bombRect.X = (int)(location.X - bombRect.Width / 2.0);
+                    bombRect.Y = (int)(location.Y - bombRect.Height / 2.0);
                 }
             }
             else if (!isInFlight) //bomb is exploding
@@ -82,29 +90,38 @@ namespace PapaMarti
             else
             {
                 currentDistance += speed;
-                areaOfEffect.location.X += getX();
-                areaOfEffect.location.Y += getY();
+                location.X += getX();
+                location.Y += getY();
+                bombRect.X = (int)(location.X - bombRect.Width / 2.0);
+                bombRect.Y = (int)(location.Y - bombRect.Height / 2.0);
             }
         }
         public override void reset()
         {
             areaOfEffect = null;
             isInFlight = false;
+            location = new Vector2(0, 0);
             direction = 0;
             currentDistance = 0;
             time = 0;
+            bombRect.X = 0;
+            bombRect.Y = 0;
+            location = new Vector2(0, 0);
         }
 
         private void explode()
         {
+            //circle used to calculate damage
+            areaOfEffect = new Circle(attackRadius, new Vector2(location.X, location.Y));
+
             currentDistance = 0;
             direction = 0;
             isInFlight = false;
+            location = new Vector2(0, 0);
+            bombRect.X = 0;
+            bombRect.Y = 0;
 
             time = explosionTime;
-
-            //circle used to calculate damage
-            areaOfEffect = new Circle(attackRadius, new Vector2((int)(player.rect.X + player.rect.Width / 2.0 + getX()), (int)(player.rect.Y + player.rect.Height / 2.0 + getY())));
         }
 
         private float getX()
