@@ -152,6 +152,10 @@ namespace PapaMarti {
             {
                 player.addWeapon(new PizzaFrisbee(Content, player, WeaponType.Throw));
             }
+            else if (kb.IsKeyDown(Keys.C))
+            {
+                player.addWeapon(new Bomb(Content, player, WeaponType.Bomb));
+            }
         }
     }
 }

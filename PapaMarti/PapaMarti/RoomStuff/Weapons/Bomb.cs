@@ -41,7 +41,14 @@ namespace PapaMarti
 
         public override void draw(SpriteBatch spriteBatch)
         {
+            if(isInFlight)
+            {
 
+            }
+            else
+            {
+
+            }
         }
         public override void update()
         {
