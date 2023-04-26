@@ -86,6 +86,7 @@ namespace PapaMarti
             List<Vector2> boundaries = new List<Vector2>();
             List<Vector2> enemySpots = new List<Vector2>();
             Vector2 door = new Vector2(0, 0);
+            Vector2 exit = new Vector2(0, 0);
             try
             {
                 using (StreamReader reader = new StreamReader(path))
@@ -134,6 +135,11 @@ namespace PapaMarti
                                 enemySpots.Add(new Vector2(i, j));
 
                             }
+                            else if(tile[j] == 'm')
+                            {
+                                tiles[i, j] = new Tile(TilePhysics.Wall, floorText, new Vector2(i, j));
+                                exit = new Vector2(j, i);
+                            }
                             else
                             {
                                 tiles[i, j] = null;
@@ -143,8 +149,7 @@ namespace PapaMarti
 
                     if (hasDoor)
                     {
-                        r = new Room(tiles, boundaries, enemySpots, door);
-
+                        r = new Room(tiles, boundaries, enemySpots, door, exit);
                         return r;
                     }
                     else

@@ -67,8 +67,7 @@ namespace PapaMarti
         }
         public override bool isDone()
         {
-            KeyboardState kb = Keyboard.GetState();
-            return kb.IsKeyDown(Keys.Tab);
+            return room.isTouchingDoor();
         }
     }
 }

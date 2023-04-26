@@ -34,9 +34,15 @@ namespace PapaMarti
 
         public List<Enemy> enemies;
 
+        Rectangle exit;
+        bool exitToMap;
+
         KeyboardState oldKB;
         public Room(Tile[,] tiles_, List<Vector2> walls_, List<Vector2> enemySpots_)
         {
+            exitToMap = false;
+            exit = new Rectangle(0, 0, 60, 60);
+
             tiles = tiles_;
             walls = walls_;
             enemySpots = enemySpots_;
@@ -48,6 +54,8 @@ namespace PapaMarti
             int pixelHeight = 60 * height;
             int pixelWidth = 60 * width;
             origin = new Vector2((SCREENWIDTH - pixelWidth) / 2, (SCREENHEIGHT - pixelHeight) / 2);
+            exit.X += (int)origin.X;
+            exit.Y += (int)origin.Y;
 
             door = new Vector2(height / 2, width / 2);
 
@@ -57,9 +65,12 @@ namespace PapaMarti
             //tiles[(int)door.X, (int)door.Y].status = Status.Door;
             oldKB = Keyboard.GetState();
         }
-        public Room(Tile[,] tiles_, List<Vector2> walls_, List<Vector2> enemySpots_, Vector2 door_) : this(tiles_, walls_, enemySpots_)
+        public Room(Tile[,] tiles_, List<Vector2> walls_, List<Vector2> enemySpots_, Vector2 door_, Vector2 exit) : this(tiles_, walls_, enemySpots_)
         {
             door = door_;
+            this.exit.X += (int)exit.X * 60;
+            this.exit.Y += (int)exit.Y * 60;
+            //Console.WriteLine(origin + ", " + exit + ", " + this.exit + ", " + exit.X * 60 + ", " + exit.Y * 60);
             tiles[(int)door.X, (int)door.Y].tilePhysics = TilePhysics.Door;
         }
 
@@ -142,6 +153,7 @@ namespace PapaMarti
         
         public Player enter(Player player)
         {
+            exitToMap = false;
             player.rect.X = (int)(origin.X + door.Y * 60);
             player.rect.Y = (int)(origin.Y + door.X * 60);
             player.updateCenter();
@@ -286,8 +298,23 @@ namespace PapaMarti
 
             }
             player.update(changeX, changeY);
+
+            if (player.rect.Intersects(exit))
+                exitToMap = true;
+            //Console.WriteLine(player.rect + ", " + exit + ", " + exitToMap);
+
             oldKB = kb;
             return player;
+        }
+
+        public bool isTouchingDoor()
+        {
+            if (exitToMap)
+            {
+                exitToMap = false;
+                return true;
+            }
+            return exitToMap;
         }
 
         /*
