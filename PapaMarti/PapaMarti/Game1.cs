@@ -58,7 +58,7 @@ namespace PapaMarti {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            player = new Player(Content, new Rectangle(1800, 500, 60, 60));
+            player = new Player(Content, new Rectangle(1800, 500, 60, 60), 300);
 
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
