@@ -20,6 +20,8 @@ namespace PapaMarti
         public List<Enemy> enemies;
         Texture2D enemyText;
         Texture2D playerText;
+        List<Projectile> projectiles;
+        Texture2D projectileText;
 
         public RoomManager(ContentManager content, MapLocation location, Player player) : base(content)
         {
@@ -27,10 +29,11 @@ namespace PapaMarti
             room = location.room;
             enemySpots = room.enemySpots;
             enemies = room.enemies;
+            projectiles = room.projectiles;
             playerText = content.Load<Texture2D>("whitePixel");
             Texture2D lifeBarText = content.Load<Texture2D>("whitePixel");
             enemyText = content.Load<Texture2D>("whitePixel");
-
+            projectileText = content.Load<Texture2D>("whitePixel");
             //player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, lifeBarText);
             //player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, playerText);
             this.player = player;
@@ -59,11 +62,16 @@ namespace PapaMarti
             {
                 m.draw(spriteBatch, enemyText);
             }
+            foreach(Projectile p in projectiles)
+            {
+                p.draw(spriteBatch, projectileText);
+            }
         }
         public override void update(GameTime time)
         {
             player = room.update(player);
             enemies = room.updateEnemies(player);
+            projectiles = room.updateProjectiles(player);
         }
         public override bool isDone()
         {

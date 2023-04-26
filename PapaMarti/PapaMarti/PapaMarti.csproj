@@ -63,6 +63,7 @@
     <Compile Include="MapStuff\Car.cs" />
     <Compile Include="MapStuff\MapLocation.cs" />
     <Compile Include="MapStuff\MapManager.cs" />
+    <Compile Include="Projectile.cs" />
     <Compile Include="RoomStuff\MovementTask.cs" />
     <Compile Include="RoomStuff\Item.cs" />
     <Compile Include="PizzaMaking\OvenScreen.cs" />
