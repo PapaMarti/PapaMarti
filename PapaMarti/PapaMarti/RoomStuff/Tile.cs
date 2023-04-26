@@ -17,10 +17,10 @@ namespace PapaMarti
         Wall,
         Door
     }
-    class Tile //Rooms will be made up of Tiles
+    public class Tile //Rooms will be made up of Tiles
     {
         public TilePhysics tilePhysics;
-        public Texture2D texture;
+        public int textureid;
         Vector2 center;
         public int tileSize;
 
@@ -30,20 +30,19 @@ namespace PapaMarti
         public Item item;
 
         //Rooms will be displayed as a 2d array of tiles. Location refers to the row/column of the tile, not the actual coordinate on the screen.
-        //Tiles are 99 x 99
-        public Tile(TilePhysics tilePhysics_, Texture2D texture_, Vector2 coordinates_) //Non-collectable tiles
+        //Tiles are 60 x 60
+        public Tile(TilePhysics tilePhysics_, int textureid, Vector2 coordinates_) //Non-collectable tiles
         {
             tilePhysics = tilePhysics_;
-            texture = texture_;
-            tileSize = 98;
-
+            this.textureid = textureid;
+            tileSize = Room.tileSize;
             item = null;
 
             coordinates = coordinates_;
             center = new Vector2(coordinates.X + (tileSize / 2), coordinates.Y + (tileSize / 2));
         }
 
-        public Tile(TilePhysics tilePhysics_, Texture2D texture_, Vector2 coordinates_, Item item_) : this(tilePhysics_, texture_, coordinates_)
+        public Tile(TilePhysics tilePhysics_, int textureid, Vector2 coordinates_, Item item_) : this(tilePhysics_, textureid, coordinates_)
         {
             item = item_;
         }
@@ -66,7 +65,7 @@ namespace PapaMarti
         //ONLY FOR SINGLE TILES
         public void draw(SpriteBatch spriteBatch, Color color)
         {
-            spriteBatch.Draw(texture, getRect(), color);
+            spriteBatch.Draw(Room.roomTextures[textureid], getRect(), color);
         }
         public Rectangle getRect() //ONLY FOR SINGLE TILES
         {

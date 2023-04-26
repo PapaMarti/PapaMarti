@@ -5,51 +5,54 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Content;
+using System.IO;
 
 namespace PapaMarti
 {
-    class Room
+    public abstract class Room
     {
         public Tile[,] tiles;
         int height;
         int width;
-        int tileSize;
+        public static int tileSize;
         Vector2 origin;
+        public readonly MapLocation location;
 
         public Vector2 door; //Provides the row and column of where the door is located
-
-        readonly int SCREENWIDTH = 1920;
-        readonly int SCREENHEIGHT = 1080;
 
         readonly int MOVEMENTSPEED = 5;
 
         public Rectangle borders;
 
         public List<Vector2> walls; //List of locations where there is a wall
-        public Room(Tile[,] tiles_, List<Vector2> walls_)
+        public Room(Tile[,] tiles_, List<Vector2> walls_, MapLocation location)
         {
+            this.location = location;
             tiles = tiles_;
             walls = walls_;
 
             height = tiles.GetLength(0);
             width = tiles.GetLength(1);
-            tileSize = 98;
+            tileSize = 85;
 
             //Calculate origin at which to draw room
             int pixelHeight = tileSize * height;
             int pixelWidth = tileSize * width;
-            origin = new Vector2((SCREENWIDTH - pixelWidth) / 2, (SCREENHEIGHT - pixelHeight) / 2);
+            origin = new Vector2((Game1.screenRect.Width - pixelWidth) / 2, (Game1.screenRect.Height - pixelHeight) / 2);
 
             door = new Vector2(height / 2, width / 2);
 
             borders = new Rectangle((int)origin.X, (int)origin.Y, width * tileSize, height * tileSize);
             //tiles[(int)door.X, (int)door.Y].status = Status.Door;
         }
-        public Room(Tile[,] tiles_, List<Vector2> walls_, Vector2 door_) : this(tiles_, walls_)
+        public Room(Tile[,] tiles_, List<Vector2> walls_, Vector2 door_, MapLocation location) : this(tiles_, walls_, location)
         {
             door = door_;
             tiles[(int)door.X, (int)door.Y].tilePhysics = TilePhysics.Door;
         }
+
+        public Room(ThreeValuePair<Tile[,], List<Vector2>, Vector2> data, MapLocation location) : this(data.a, data.b, data.c, location) {}
 
         public void createWalls()
         {
@@ -81,9 +84,8 @@ namespace PapaMarti
                         if (tiles[i, j].tilePhysics == TilePhysics.Wall) {
                         }
 
-                        //spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, tileSize, tileSize), Color.Black);
                         else
-                            spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, tileSize, tileSize), Color.White);
+                            spriteBatch.Draw(roomTextures[tiles[i, j].textureid], new Rectangle(x, y, tileSize, tileSize), Color.White);
                     }
 
 
@@ -172,6 +174,85 @@ namespace PapaMarti
 
             }
             return player;
+        }
+
+        public abstract bool isDone();
+
+        public static Texture2D[] roomTextures = new Texture2D[2];
+
+        public static void initializeTextures(ContentManager content) {
+            roomTextures[0] = content.Load<Texture2D>("wood");
+            roomTextures[1] = content.Load<Texture2D>("tile");
+        }
+
+        public class ThreeValuePair<A, B, C> {
+            public A a {
+                get; set;
+            }
+
+            public B b {
+                get; set;
+            }
+
+            public C c {
+                get; set;
+            }
+
+            public ThreeValuePair(A a, B b, C c) {
+                this.a = a;
+                this.b = b;
+                this.c = c;
+            }
+        }
+
+        public static ThreeValuePair<Tile[,], List<Vector2>, Vector2> parseRoomFile(string file) {
+            //foreach(Texture2D t in roomTextures) if(t == null) throw new Exception("Room textures have not been initialized!!");
+            List<string> lines = new List<string>();
+            List<Vector2> boundaries = new List<Vector2>();
+            Vector2 door = new Vector2(0, 0);
+
+            try {
+                using(StreamReader r = new StreamReader(file)) {
+                    while(!r.EndOfStream)
+                        lines.Add(r.ReadLine());
+                }
+
+                Tile[,] tiles = new Tile[lines.Count, lines[0].Length];
+
+                for(int i = 0; i < tiles.GetLength(0); i++) {
+                    char[] tile = lines[i].ToCharArray();
+
+                    for(int j = 0; j < tiles.GetLength(1); j++) {
+                        if(tile[j] == 'o') {
+                            tiles[i, j] = new Tile(TilePhysics.Impassable, 1, new Vector2(i, j));
+                            boundaries.Add(new Vector2(i, j));
+
+                        }
+                        else if(tile[j] == 'd') {
+                            tiles[i, j] = new Tile(TilePhysics.Door, 0, new Vector2(i, j));
+                            door = new Vector2(i, j);
+                        }
+                        else if(tile[j] == '.') {
+                            tiles[i, j] = new Tile(TilePhysics.Passable, 0, new Vector2(i, j));
+                        }
+                        else if(tile[j] == 'b') {
+                            tiles[i, j] = new Tile(TilePhysics.Wall, 0, new Vector2(i, j));
+                            boundaries.Add(new Vector2(i, j));
+
+                        }
+                        else {
+                            tiles[i, j] = null;
+                        }
+                    }
+                }
+
+                return new ThreeValuePair<Tile[,], List<Vector2>, Vector2>(tiles, boundaries, door);
+            } catch(Exception e) {
+                Console.WriteLine("Error parsing room file " + file);
+                Console.WriteLine(e.Message);
+                Environment.Exit(-1);
+                return null; // This statement will never be reached because of the above statement
+            }
         }
 
         /*

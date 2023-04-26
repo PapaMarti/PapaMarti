@@ -12,45 +12,34 @@ using System.Text;
 
 namespace PapaMarti
 {
-    public enum QuestStatus {
-        Unknown,
-        Obtained,
-        Completed
-    }
 
     /*Quest types accounted for include:
      *Moving to a certain location
      */
-    class Quest //Create a Quest array in a different class to progress the story
-    {
-        public QuestStatus status;
-        public Task[] tasks; //All "taskComplete" must be true for status to be Completed
-        public double radius;
-        public double angle;
+    public class Quest {
+        private Room[] rooms; //All "taskComplete" must be true for status to be Completed
+        private int currentTask;
 
-        public Quest(Task[] tasks_, double radius_, double angle_)
-        {
-            status = QuestStatus.Unknown;
-            tasks = tasks_;
-            radius = radius_;
-            angle = angle_;
+        public Quest(params Room[] rooms) {
+            this.rooms = rooms;
         }
 
-        public void obtain()
-        {
-            status = QuestStatus.Obtained;
+        public bool isQuestDone() {
+            return getCurrentTask() == null;
         }
-        public void update()
-        {
-            status = QuestStatus.Completed;
-            for (int i = 0; i < tasks.Length; i++)
-            {
-                tasks[i].check();
-                if (!tasks[i].taskComplete)
-                {
-                    status = QuestStatus.Obtained;
-                }
-            }
+
+        public Room nextTask() {
+            currentTask++;
+            if(currentTask < rooms.Length)
+                return rooms[currentTask];
+            return null;
         }
+
+        public Room getCurrentTask() {
+            if(currentTask < rooms.Length)
+                return rooms[currentTask];
+            return null;
+        }
+                
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PapaMarti
 {
-    class Item //TO DO
+    public class Item //TO DO
     {
     }
 }

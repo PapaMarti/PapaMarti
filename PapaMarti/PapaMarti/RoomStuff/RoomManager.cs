@@ -11,18 +11,16 @@ using System.Linq;
 
 namespace PapaMarti
 {
-    class RoomManager: StageManager
+    public class RoomManager: StageManager
     {
-        MapLocation location;
         Player player;
         Room room;
 
-        public RoomManager(ContentManager content, MapLocation location) : base(content)
+        public RoomManager(ContentManager content, Room room) : base(content)
         {
-            int playerHeight = 80;
-            int playerWidth = 60;
-            this.location = location;
-            room = location.room;
+            this.room = room;
+            int playerHeight = 85;
+            int playerWidth = 65;
             Texture2D playerText = content.Load<Texture2D>("whitePixel");
             player = new Player(new Rectangle(1800, 500, playerWidth, playerHeight), playerText);
             player = room.enter(player);
@@ -43,6 +41,8 @@ namespace PapaMarti
         }
         public override bool isDone()
         {
+            if(room.isDone())
+                QuestTracker.advanceMainquest();
             KeyboardState kb = Keyboard.GetState();
             return kb.IsKeyDown(Keys.Tab);
         }

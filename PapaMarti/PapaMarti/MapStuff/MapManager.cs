@@ -37,21 +37,18 @@ namespace PapaMarti
         float arrowScale;
         float markerTextScale;
         float arrowTextScale;
-
-        Quest primaryQuest;
+        Texture2D carImage;
 
         Texture2D sliceLock;
         int slicesOpen;
 
         Car car;
-        Texture2D carImage;
+        Texture2D carImag;
 
         Texture2D ocean;
         Rectangle[] oceanSource;
         int oceanIndex;
         int oceanTimer;
-
-        RoomData data;
 
         List<TextCard> textCards;
         public bool isTutorial;
@@ -59,7 +56,7 @@ namespace PapaMarti
         {
             get
             {
-                return data.getClosestLocation(angle, position);
+                return QuestTracker.getClosestLocation(angle, position);
             }
         }
 
@@ -68,7 +65,7 @@ namespace PapaMarti
         /// </summary>
         /// <param name="angle">Angular location on the pizza map, give radians. Typical unit circle stuff, roads are at 0, pi/3, 2pi/3, pi, 4pi/3, 5pi/3</param>
         /// <param name="position">How far up or down they are on a road, 0 for closer to the outside, 1 for the inner ring.</param>
-        public MapManager(ContentManager content, double angle, double position, Quest primaryQuest, int slicesOpen, RoomData data, bool tutorial) : base(content)
+        public MapManager(ContentManager content, double angle, double position, int slicesOpen, bool tutorial) : base(content)
         {
             this.angle = angle % (2 * Math.PI);
             this.position = position;
@@ -89,8 +86,6 @@ namespace PapaMarti
             roadRect = new Rectangle((Game1.screenRect.Width - roadWidth)/2, Game1.screenRect.Height / 2 + (int)(translation - position * (translation - innerCircleTranslation)), roadWidth, translation - innerCircleTranslation);
             roadOrigin = new Vector2((float)road.Width / 2f, road.Height + ((float)road.Height / (translation - innerCircleTranslation) * innerCircleTranslation));
 
-            this.primaryQuest = primaryQuest;
-
             arrow = content.Load<Texture2D>("Arrow");
             marker = content.Load<Texture2D>("marker");
             arrowText = arrow;
@@ -105,7 +100,6 @@ namespace PapaMarti
             this.slicesOpen = slicesOpen;
             sliceLock = content.Load<Texture2D>("slice lock");
 
-            this.data = data;
             isTutorial = tutorial;
             textCards = new List<TextCard>();
             if (isTutorial)
@@ -129,14 +123,15 @@ namespace PapaMarti
             angle = angle % (Math.PI * 2);
             if (angle < 0)
                 angle += Math.PI * 2;
-            double angleDiff = angle - primaryQuest.angle;
-            double secondDiff = -2 * Math.PI + angle - primaryQuest.angle;
-            double thirdDiff = 2 * Math.PI - primaryQuest.angle + angle;
+            MapLocation maploc = QuestTracker.mainlineQuest.Peek().getCurrentTask().location;
+            double angleDiff = angle - maploc.angle;
+            double secondDiff = -2 * Math.PI + angle - maploc.angle;
+            double thirdDiff = 2 * Math.PI - maploc.angle + angle;
             if (Math.Abs(thirdDiff) < Math.Abs(secondDiff))
                 secondDiff = thirdDiff;
             if (Math.Abs(secondDiff) < Math.Abs(angleDiff))
                 angleDiff = secondDiff;
-            double radiusDiff = position - primaryQuest.radius;
+            double radiusDiff = position - maploc.radius;
 
             //if (radiusDiff < 0)
             //    setRadiusDistance = 0.4;
@@ -146,8 +141,8 @@ namespace PapaMarti
                 arrowText = marker;
                 arrowScale = markerTextScale;
                 arrowAngle = (float)angle;
-                arrowLocation.X = (float)(mapPosition.X + ((1 - primaryQuest.radius) * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Sin(angleDiff));
-                arrowLocation.Y = (float)(mapPosition.Y - ((1 - primaryQuest.radius) * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Cos(angleDiff));
+                arrowLocation.X = (float)(mapPosition.X + ((1 - maploc.radius) * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Sin(angleDiff));
+                arrowLocation.Y = (float)(mapPosition.Y - ((1 - maploc.radius) * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Cos(angleDiff));
             }
             else if(Math.Abs(angleDiff) < setAngleDistance)
             {
@@ -195,10 +190,6 @@ namespace PapaMarti
         /// A method to update the quest displayed on the map
         /// </summary>
         /// <param name="newQuest">The quest object of the quest that needs to have an arrow pointing to it</param>
-        public void updatePrimaryQuest(Quest newQuest)
-        {
-            primaryQuest = newQuest;
-        }
 
         public override GameStage getStage()
         {
@@ -221,7 +212,6 @@ namespace PapaMarti
             //spriteBatch.Draw(road, roadRect, null, Color.White, (float)(angle + 4 * Math.PI / 3), roadOrigin, SpriteEffects.None, 0f);
 
             //buildings
-            data.drawLocations(spriteBatch, (float)angle, mapPosition);
 
             //locked slices
             float sliceAngle = (float)Math.PI / 6;
@@ -232,6 +222,10 @@ namespace PapaMarti
                     spriteBatch.Draw(sliceLock, mapPosition, mapSource, Color.White, (float)angle - sliceAngle, mapOrigin, mapScale, SpriteEffects.None, 0f);
                 }
                 sliceAngle += (float)Math.PI / 3;
+            }
+
+            foreach(MapLocation m in QuestTracker.mapLocations) {
+                m.draw(spriteBatch, (float) angle, mapPosition);
             }
 
             //car (change later for animation and actual textures)

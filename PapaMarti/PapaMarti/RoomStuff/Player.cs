@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PapaMarti
 {
-    class Player
+    public class Player
     {
         public Rectangle rect;
         Texture2D texture;
