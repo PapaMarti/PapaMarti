@@ -21,15 +21,13 @@ namespace PapaMarti {
         SpriteBatch spriteBatch;
         StageManager currentStage;
         MapManager mapManager;
-        Quest currentQuest;
-        RoomData data;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content"; 
             graphics.PreferredBackBufferWidth = screenRect.Width;
             graphics.PreferredBackBufferHeight = screenRect.Height;
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             IsMouseVisible = true;
             graphics.ApplyChanges();
         }
@@ -59,9 +57,10 @@ namespace PapaMarti {
             baseRect.SetData(new Color[] { Color.White });
             currentStage = new CookingManager(GraphicsDevice, Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), true);
 
-            data = new RoomData(Content);
             QuestTracker.initializeTextures(Content);
-            mapManager = new MapManager(Content, 0, 0, currentQuest, 5, data, true);
+            Room.initializeTextures(Content);
+
+            mapManager = new MapManager(Content, 0, 0, 5, true);
 
             //UNCOMMENT THIS TO GO DIRECTLY TO THE MAP
             //currentStage = mapManager;

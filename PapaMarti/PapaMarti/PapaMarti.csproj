@@ -59,9 +59,8 @@
     <Compile Include="MapStuff\Car.cs" />
     <Compile Include="QuestStuff\MapLocation.cs" />
     <Compile Include="MapStuff\MapManager.cs" />
-    <Compile Include="QuestStuff\QuestPersistantData\TempRoom.cs" />
+    <Compile Include="QuestStuff\QuestPersistantData\EmptyRoom.cs" />
     <Compile Include="QuestStuff\QuestTracker.cs" />
-    <Compile Include="RoomStuff\MovementTask.cs" />
     <Compile Include="RoomStuff\Item.cs" />
     <Compile Include="PizzaMaking\OvenScreen.cs" />
     <Compile Include="PizzaMaking\CookingManager.cs" />

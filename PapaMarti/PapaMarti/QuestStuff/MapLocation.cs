@@ -20,8 +20,11 @@ namespace PapaMarti
         public float scale;
         public Vector2 origin;
         public float rotation;
+        public EmptyRoom emptyQuest {
+            get; private set;
+        }
 
-        public MapLocation(double angle, double radius, string texturestring, Color color, float scale, float rotation)
+        public MapLocation(double angle, double radius, string texturestring, Color color, float scale, float rotation, string roomString)
         {
             //this.room = room;
             this.angle = angle;
@@ -29,12 +32,15 @@ namespace PapaMarti
             this.texturestring = texturestring;
             this.color = color;
             this.scale = scale;
-            origin = new Vector2(texture.Width / 2, texture.Height / 2);
+            origin = new Vector2();
             this.rotation = rotation;
+            emptyQuest = new EmptyRoom(roomString, this);
         }
 
         public void loadTexture(ContentManager content) {
             texture = content.Load<Texture2D>(texturestring);
+
+            origin = new Vector2(texture.Width / 2, texture.Height / 2);
         }
 
         public void draw(SpriteBatch spriteBatch, float mapAngle, Vector2 mapPosition) {

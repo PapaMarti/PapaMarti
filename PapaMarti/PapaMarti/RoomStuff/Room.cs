@@ -50,6 +50,8 @@ namespace PapaMarti
             tiles[(int)door.X, (int)door.Y].tilePhysics = TilePhysics.Door;
         }
 
+        public Room(ThreeValuePair<Tile[,], List<Vector2>, Vector2> data, MapLocation location) : this(data.a, data.b, data.c, location) {}
+
         public void createWalls()
         {
             for (int i = 0; i < height; i++)
@@ -82,7 +84,7 @@ namespace PapaMarti
 
                             //spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.Black);
                         else
-                            spriteBatch.Draw(tiles[i, j].texture, new Rectangle(x, y, 60, 60), Color.White);
+                            spriteBatch.Draw(roomTextures[tiles[i, j].textureid], new Rectangle(x, y, 60, 60), Color.White);
                     }
 
 
@@ -182,15 +184,29 @@ namespace PapaMarti
             roomTextures[1] = content.Load<Texture2D>("tile");
         }
 
-        struct ThreeValuePair<A, B, C> {
-            A a;
-            B b;
-            C c;
+        public class ThreeValuePair<A, B, C> {
+            public A a {
+                get; set;
+            }
+
+            public B b {
+                get; set;
+            }
+
+            public C c {
+                get; set;
+            }
+
+            public ThreeValuePair(A a, B b, C c) {
+                this.a = a;
+                this.b = b;
+                this.c = c;
+            }
         }
 
         public static ThreeValuePair<Tile[,], List<Vector2>, Vector2> parseRoomFile(string file) {
+            //foreach(Texture2D t in roomTextures) if(t == null) throw new Exception("Room textures have not been initialized!!");
             List<string> lines = new List<string>();
-            bool hasDoor = false;
             List<Vector2> boundaries = new List<Vector2>();
             Vector2 door = new Vector2(0, 0);
 
@@ -207,20 +223,19 @@ namespace PapaMarti
 
                     for(int j = 0; j < tiles.GetLength(1); j++) {
                         if(tile[j] == 'o') {
-                            tiles[i, j] = new Tile(TilePhysics.Impassable, roomTextures[1], new Vector2(i, j));
+                            tiles[i, j] = new Tile(TilePhysics.Impassable, 1, new Vector2(i, j));
                             boundaries.Add(new Vector2(i, j));
 
                         }
                         else if(tile[j] == 'd') {
-                            tiles[i, j] = new Tile(TilePhysics.Door, roomTextures[0], new Vector2(i, j));
-                            hasDoor = true;
+                            tiles[i, j] = new Tile(TilePhysics.Door, 0, new Vector2(i, j));
                             door = new Vector2(i, j);
                         }
                         else if(tile[j] == '.') {
-                            tiles[i, j] = new Tile(TilePhysics.Passable, roomTextures[0], new Vector2(i, j));
+                            tiles[i, j] = new Tile(TilePhysics.Passable, 0, new Vector2(i, j));
                         }
                         else if(tile[j] == 'b') {
-                            tiles[i, j] = new Tile(TilePhysics.Wall, roomTextures[0], new Vector2(i, j));
+                            tiles[i, j] = new Tile(TilePhysics.Wall, 0, new Vector2(i, j));
                             boundaries.Add(new Vector2(i, j));
 
                         }
@@ -230,11 +245,12 @@ namespace PapaMarti
                     }
                 }
 
-                if(hasDoor) 
+                return new ThreeValuePair<Tile[,], List<Vector2>, Vector2>(tiles, boundaries, door);
             } catch(Exception e) {
                 Console.WriteLine("Error parsing room file " + file);
                 Console.WriteLine(e.Message);
                 Environment.Exit(-1);
+                return null; // This statement will never be reached because of the above statement
             }
         }
 
