@@ -25,8 +25,6 @@ namespace PapaMarti {
         Quest currentQuest;
         RoomData data;
         Player player;
-        
-        //Player player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, playerText);
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -60,6 +58,8 @@ namespace PapaMarti {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            player = new Player(Content, new Rectangle(1800, 500, 60, 60));
+
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
             currentStage = new CookingManager(GraphicsDevice, Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), true);
@@ -73,7 +73,6 @@ namespace PapaMarti {
 
             //UNCOMMENT THIS TO GO DIRECTLY TO THE MAP
             currentStage = mapManager;
-            roomManager = new RoomManager(Content, ((MapManager)currentStage).closestLocation, player);
         }
 
         /// <summary>
@@ -105,13 +104,7 @@ namespace PapaMarti {
 
                 if (currentStage.isDone())
                 {
-                    roomManager.location = ((MapManager)currentStage).closestLocation;
-                    roomManager.room = roomManager.location.room;
-                    roomManager.player = roomManager.room.enter(roomManager.player);
-                    //roomManager.transition(Content, ((MapManager)currentStage).closestLocation, player);
-                    currentStage = roomManager;
-
-                    //currentStage = new RoomManager(Content, ((MapManager)currentStage).closestLocation);
+                    currentStage = new RoomManager(Content, ((MapManager)currentStage).closestLocation, player);
                 }
             }
 
@@ -124,6 +117,7 @@ namespace PapaMarti {
             }
             // TODO: Add your update logic here
             currentStage.update(gameTime);
+            testAddWeapon();
 
             base.Update(gameTime);
         }
@@ -145,6 +139,19 @@ namespace PapaMarti {
 
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        private void testAddWeapon()
+        {
+            KeyboardState kb = Keyboard.GetState();
+            if (kb.IsKeyDown(Keys.Z))
+            {
+                ((PizzaFrisbee)player.weapons[0]).upgrade();
+            }
+            else if (kb.IsKeyDown(Keys.X))
+            {
+                player.addWeapon(new PizzaFrisbee(Content, player, WeaponType.Throw));
+            }
         }
     }
 }

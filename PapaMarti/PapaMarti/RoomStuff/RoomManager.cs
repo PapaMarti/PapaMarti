@@ -21,7 +21,7 @@ namespace PapaMarti
         Texture2D enemyText;
         Texture2D playerText;
 
-        public RoomManager(ContentManager content, MapLocation location, Player player_) : base(content)
+        public RoomManager(ContentManager content, MapLocation location, Player player) : base(content)
         {
             this.location = location;
             room = location.room;
@@ -31,8 +31,9 @@ namespace PapaMarti
             Texture2D lifeBarText = content.Load<Texture2D>("whitePixel");
             enemyText = content.Load<Texture2D>("whitePixel");
 
-            player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, lifeBarText);
+            //player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, lifeBarText);
             //player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, playerText);
+            this.player = player;
             player = room.enter(player);
         }
 
