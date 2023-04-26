@@ -151,6 +151,7 @@ namespace PapaMarti
 
         public List<Enemy> updateEnemies(Player player)
         {
+            List<Enemy> remove = new List<Enemy>();
             foreach (Enemy e in enemies)
             {
                 
@@ -199,9 +200,18 @@ namespace PapaMarti
 
                     }
 
-                
+                e.takeDamage(player.enemyDamage(e.center));
+                if (e.isDead)
+                {
+                    remove.Add(e);
+                }
 
             }
+            foreach(Enemy e in remove)
+            {
+                enemies.Remove(e);
+            }
+
             return enemies;
         }
         public Player update(Player player)

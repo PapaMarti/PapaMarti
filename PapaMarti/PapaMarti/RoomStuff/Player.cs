@@ -159,5 +159,17 @@ namespace PapaMarti
             }
 
         }
+
+        public int enemyDamage(Vector2 enemyCenter)
+        {
+            if(weapon.areaOfEffect != null)
+            {
+                if (weapon.areaOfEffect.isInCircle(enemyCenter))
+                {
+                    return weapon.damage;
+                }
+            }
+            return 0;
+        }
     }
 }
