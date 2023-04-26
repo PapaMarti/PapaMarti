@@ -21,13 +21,17 @@ namespace PapaMarti {
         SpriteBatch spriteBatch;
         StageManager currentStage;
         MapManager mapManager;
+        Menu menu;
+        bool isInMenu;
+
+        public static Color shaded = new Color(0.2f, 0.2f, 0.2f, 0.5f);
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content"; 
             graphics.PreferredBackBufferWidth = screenRect.Width;
             graphics.PreferredBackBufferHeight = screenRect.Height;
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             IsMouseVisible = true;
             graphics.ApplyChanges();
         }
@@ -42,6 +46,7 @@ namespace PapaMarti {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
+            isInMenu = false;
             base.Initialize();
         }
 
@@ -52,6 +57,8 @@ namespace PapaMarti {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            menu = new Menu(this, Content, true);
 
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
@@ -82,8 +89,19 @@ namespace PapaMarti {
         protected override void Update(GameTime gameTime) {
             KeyboardState kb = Keyboard.GetState();
             // Allows the game to exit
-            if(Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if(kb.IsKeyDown(Keys.L))
                 this.Exit();
+
+
+            if (isInMenu && menu.isDone())
+            {
+                isInMenu = false;
+            }
+            if (kb.IsKeyDown(Keys.Escape) && !isInMenu)
+            {
+                isInMenu = true;
+                menu.reset();
+            }
 
             if(currentStage.getStage() == GameStage.Cooking && currentStage.isDone())
             {
@@ -106,7 +124,11 @@ namespace PapaMarti {
                 }
             }
             // TODO: Add your update logic here
-            currentStage.update(gameTime);
+
+            if (!isInMenu)
+                currentStage.update(gameTime);
+            else
+                menu.update();
 
             base.Update(gameTime);
         }
@@ -125,6 +147,9 @@ namespace PapaMarti {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
             currentStage.draw(spriteBatch);
+
+            if (isInMenu)
+                menu.draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);
