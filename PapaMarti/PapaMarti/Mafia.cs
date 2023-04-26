@@ -10,10 +10,10 @@ namespace PapaMarti
     //MAXSPEED of mafia is 
     class Mafia : Enemy
     {
-        public Mafia(Rectangle rect_, int maxLife_, int maxXVel_, int maxYVel_) : base(rect_, maxLife_, maxXVel_, maxYVel_)
+        public Mafia(Rectangle rect_, int maxLife_, int maxXVel_, int maxYVel_, int fireSpeed_, int frequency_) : base(rect_, maxLife_, maxXVel_, maxYVel_, fireSpeed_, frequency_)
         {
-            xVel = maxXVel;
-            yVel = maxYVel;
+            xVel = 0;
+            yVel = 0;
         }
         private double baseComponent(double velocity)
         {
@@ -84,9 +84,16 @@ namespace PapaMarti
             yVel *= -1;
         }
 
-        public override void trajectory(Player p)
+        public override Vector2 trajectory(Player p)
         {
-            throw new NotImplementedException();
+            int xDist = p.rect.Center.X - this.rect.Center.X;
+            int yDist = p.rect.Center.Y - this.rect.Center.Y;
+            int xFactor = xDist / Math.Abs(xDist);
+            int yFactor = yDist / Math.Abs(yDist);
+            double theta = Math.Abs(Math.Atan((yDist * 1.0) / xDist));
+            //Console.WriteLine(Math.Cos(theta));
+            //Console.WriteLine(Math.Sin(theta));
+            return new Vector2((float)(fireSpeed * Math.Cos(theta) * xFactor), (float)(fireSpeed * Math.Sin(theta) * yFactor));
         }
     }
 }

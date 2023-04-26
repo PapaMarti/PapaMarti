@@ -34,6 +34,9 @@ namespace PapaMarti
 
         public List<Enemy> enemies;
 
+        public List<Projectile> projectiles;
+
+        int timer;
         Rectangle exit;
         bool exitToMap;
 
@@ -61,7 +64,10 @@ namespace PapaMarti
 
             borders = new Rectangle((int)origin.X, (int)origin.Y, width * 60, height * 60);
             enemies = new List<Enemy>();
+            projectiles = new List<Projectile>();
             createEnemies(enemySpots_);
+
+            timer = 0;
             //tiles[(int)door.X, (int)door.Y].status = Status.Door;
             oldKB = Keyboard.GetState();
         }
@@ -87,7 +93,7 @@ namespace PapaMarti
                     {
                         if ((int)enemySpots_[counter].X == i && (int)enemySpots_[counter].Y == j)
                         {
-                            enemies.Add(new Mafia(new Rectangle(x, y, 60, 60), 100, 3, 3));
+                            enemies.Add(new Mafia(new Rectangle(x, y, 60, 60), 100, 3, 3, 10, 3));
                             counter++;
                         }
                     }
@@ -163,12 +169,52 @@ namespace PapaMarti
 
         public List<Enemy> updateEnemies(Player player)
         {
+            timer++;
+
+            bool moveDown = false;
+            bool moveRight = false;
+            int xMovement = 0;
+            int yMovement = 0;
             List<Enemy> remove = new List<Enemy>();
             foreach (Enemy e in enemies)
             {
-                
-                
-                e.updateY(e.yVel);
+                /*
+                if (player.rect.Intersects(e.rect))
+                {
+                    if (e.rect.Bottom > player.rect.Center.Y)
+                    {
+                        yMovement = Rectangle.Intersect(player.rect, e.rect).Height;
+                       
+                        //e.updateY(Rectangle.Intersect(player.rect, e.rect).Height);
+                        //e.bounceOffY();
+                    }
+                    else if (e.rect.Top < player.rect.Center.Y)
+                    {
+                        
+                        yMovement = -Rectangle.Intersect(player.rect, e.rect).Height;
+                        //e.updateY(-Rectangle.Intersect(player.rect, e.rect).Height);
+                        //e.bounceOffY();
+                    }
+
+                    if (e.rect.Right > player.rect.Center.X)
+                    {
+                        xMovement = Rectangle.Intersect(player.rect, e.rect).Width;
+                        //e.updateX(Rectangle.Intersect(player.rect, e.rect).Width);
+                        //e.bounceOffX();
+                    }
+                    else if (player.rect.Left < player.rect.Center.X)
+                    {
+                        xMovement = -Rectangle.Intersect(player.rect, e.rect).Width;
+                        //moveRight = false;
+                        //e.updateX(-Rectangle.Intersect(player.rect, e.rect).Width);
+                        //e.bounceOffX();
+                    }
+                    e.updateX(xMovement);
+                    e.updateY(yMovement);
+                    
+                }
+            */
+                //e.updateY(e.yVel);
 
                 
 
@@ -181,36 +227,42 @@ namespace PapaMarti
 
                         if (e.rect.Bottom > this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
                         {
-                            e.updateY(-e.yVel);
-                            e.bounceOffY();
+                            e.updateY(Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Height);
+                            //e.bounceOffY();
                         }
                         else if (e.rect.Top < this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
                         {
-                            e.updateY(-e.yVel);
-                            e.bounceOffY();
+                            e.updateY(-Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Height);
+                            //e.bounceOffY();
                         }
 
                     }
 
                 }
-                e.updateX(e.xVel);
+                
+                //e.updateX(e.xVel);
                 foreach (Vector2 v in this.walls)
                     {
                         if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(e.rect))
                         {
                             if (e.rect.Right > this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
                             {
-                            e.updateX(-e.xVel);
-                            e.bounceOffX();
+                            e.updateX(Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Width);
+                            //e.bounceOffX();
                             }
                             else if (player.rect.Left < this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
                             {
-                            e.updateX(-e.xVel);
-                            e.bounceOffX();
+                            e.updateX(-Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Width);
+                            //e.bounceOffX();
                             }
                         }
 
                     }
+
+                if (timer % (e.frequency * 60) == 0)
+                {
+                    projectiles.Add(new Projectile(new Rectangle(e.rect.Center.X, e.rect.Center.Y, 10, 10), (int)e.trajectory(player).X, (int)e.trajectory(player).Y, 20));
+                }
 
                 e.takeDamage(player.enemyDamage(e.center));
                 if (e.isDead)
@@ -224,6 +276,11 @@ namespace PapaMarti
                 enemies.Remove(e);
             }
 
+            }
+            foreach(Projectile p in projectiles)
+            {
+                p.update();
+            }
             return enemies;
         }
         public Player update(Player player)
@@ -314,19 +371,52 @@ namespace PapaMarti
             //Console.WriteLine(player.rect + ", " + exit + ", " + exitToMap);
 
             oldKB = kb;
+
+            
+
+            if (player.isDead)
+            {
+                Environment.Exit(-1);
+            }
             return player;
         }
-
-        public bool isTouchingDoor()
+        public List<Projectile> updateProjectiles(Player player)
         {
-            if (exitToMap)
+            for (int i = 0; i < projectiles.Count; i++)
             {
-                exitToMap = false;
-                return true;
-            }
-            return exitToMap;
-        }
+                if (player.rect.Intersects(projectiles[i].rect))
+                {
+                    //Environment.Exit(0);
+                    player.takeDamage(projectiles[i].strength);
+                    projectiles.RemoveAt(i);
+                    i--;
+                }
 
+            }
+            foreach (Projectile p in projectiles) { 
+            /*foreach (Vector2 v in this.walls)
+            {
+
+                if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(p.rect))
+                {
+                        projectiles.Remove(p);
+                }
+
+        
+
+            }*/
+        }
+            return projectiles;
+        }
+public bool isTouchingDoor()
+{
+    if (exitToMap)
+    {
+        exitToMap = false;
+        return true;
+    }
+    return exitToMap;
+}
         /*
          player.rect = player.update(changeX, changeY);
             foreach (Vector2 v in room.walls) 

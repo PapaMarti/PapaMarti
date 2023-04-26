@@ -14,10 +14,11 @@ namespace PapaMarti
         public int maxYVel;
         public int xVel;
         public int yVel;
-
+        public int fireSpeed;
+        public int frequency;
         public Vector2 center;
 
-        public Enemy(Rectangle rect_, int maxLife_, int maxXVel_, int maxYVel_) : base()
+        public Enemy(Rectangle rect_, int maxLife_, int maxXVel_, int maxYVel_, int fireSpeed_, int frequency_) : base()
         {
             rect = rect_;
             maxLife = maxLife_;
@@ -26,13 +27,15 @@ namespace PapaMarti
             maxYVel = maxYVel_;
             xVel = 0;
             yVel = 0;
+            fireSpeed = fireSpeed_;
+            frequency = frequency_;
             center = new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
         }
         public Rectangle update() //for tests
         {
             return new Rectangle(rect.X + xVel, rect.Y + yVel, rect.Width, rect.Height);
         }
-        public abstract void trajectory(Player p);
+        public abstract Vector2 trajectory(Player p);
         public void updateX(int changeX)
         {
             this.rect.X += changeX;
