@@ -33,12 +33,12 @@ namespace PapaMarti
 
         public Vector2 center;
 
-        public Player(ContentManager content, Rectangle rect_, int maxLife_, Texture2D lifeTexture_) : base()
+        public Player(ContentManager content, Rectangle rect_, int maxLife_) : base()
         {
             rect = rect_;
             maxLife = maxLife_;
             currentLife = maxLife;
-            lifeTexture = lifeTexture_;
+            lifeTexture = content.Load<Texture2D>("whitePixel");
             center = new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
 
             lifeMeter = new Rectangle(20, 20, maxLife * 2, 50);

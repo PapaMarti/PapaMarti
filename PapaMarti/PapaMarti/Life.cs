@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PapaMarti
 {
-    abstract class Life
+    public abstract class Life
     {
         public Rectangle lifeRemaining;
         public Rectangle lifeMeter;
