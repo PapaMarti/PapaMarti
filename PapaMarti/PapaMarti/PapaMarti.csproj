@@ -82,7 +82,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="QuestStuff\Quest.cs" />
-    <Compile Include="RoomStuff\RoomData.cs" />
     <Compile Include="RoomStuff\RoomManager.cs" />
     <Compile Include="PizzaMaking\ToppingContainer.cs" />
     <Compile Include="PizzaMaking\ToppingScreen.cs" />
