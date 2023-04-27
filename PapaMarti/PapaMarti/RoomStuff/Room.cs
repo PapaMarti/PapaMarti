@@ -1,12 +1,14 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Content;
 using System.IO;
+using System.Linq;
 
 namespace PapaMarti
 {
@@ -21,16 +23,29 @@ namespace PapaMarti
 
         public Vector2 door; //Provides the row and column of where the door is located
 
-        readonly int MOVEMENTSPEED = 5;
+        public readonly static int MOVEMENTSPEED = 5;
 
         public Rectangle borders;
 
         public List<Vector2> walls; //List of locations where there is a wall
-        public Room(Tile[,] tiles_, List<Vector2> walls_, MapLocation location)
+
+        public List<Vector2> enemySpots; //List of enemy locations in room
+
+        public List<Enemy> enemies;
+
+        public List<Projectile> projectiles;
+
+        int timer;
+        Rectangle exit;
+        bool exitToMap;
+
+        KeyboardState oldKB;
+        public Room(Tile[,] tiles_, List<Vector2> walls_, List<Vector2> enemySpots_, MapLocation location)
         {
             this.location = location;
             tiles = tiles_;
             walls = walls_;
+            enemySpots = enemySpots_;
 
             height = tiles.GetLength(0);
             width = tiles.GetLength(1);
@@ -40,19 +55,62 @@ namespace PapaMarti
             int pixelHeight = tileSize * height;
             int pixelWidth = tileSize * width;
             origin = new Vector2((Game1.screenRect.Width - pixelWidth) / 2, (Game1.screenRect.Height - pixelHeight) / 2);
+            exit = new Rectangle(0, 0, tileSize, tileSize);
+            exit.X += (int)origin.X;
+            exit.Y += (int)origin.Y;
+
 
             door = new Vector2(height / 2, width / 2);
 
             borders = new Rectangle((int)origin.X, (int)origin.Y, width * tileSize, height * tileSize);
+            enemies = new List<Enemy>();
+            projectiles = new List<Projectile>();
+            createEnemies(enemySpots_);
+
+            timer = 0;
             //tiles[(int)door.X, (int)door.Y].status = Status.Door;
+            oldKB = Keyboard.GetState();
         }
-        public Room(Tile[,] tiles_, List<Vector2> walls_, Vector2 door_, MapLocation location) : this(tiles_, walls_, location)
+        public Room(Tile[,] tiles_, List<Vector2> walls_, List<Vector2> enemySpots_, Vector2 door_, Vector2 exit, MapLocation location) : this(tiles_, walls_, enemySpots_, location)
         {
             door = door_;
+            this.exit = new Rectangle(0, 0, tileSize, tileSize);
+            this.exit.X += (int) (origin.X + (exit.X * tileSize));
+            this.exit.Y += (int) (origin.Y + (exit.Y * tileSize));
+            //Console.WriteLine(origin + ", " + exit + ", " + this.exit + ", " + exit.X * 60 + ", " + exit.Y * 60);
             tiles[(int)door.X, (int)door.Y].tilePhysics = TilePhysics.Door;
         }
 
-        public Room(ThreeValuePair<Tile[,], List<Vector2>, Vector2> data, MapLocation location) : this(data.a, data.b, data.c, location) {}
+        public Room(FiveValuePair<Tile[,], List<Vector2>, Vector2, List<Vector2>, Vector2> data, MapLocation location) : this(data.a, data.b, data.d, data.c, data.e, location) { }
+
+        public void createEnemies(List<Vector2> enemySpots_)
+        {
+            int x = (int)origin.X;
+            int y = (int)origin.Y;
+            int counter = 0;
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (counter < enemySpots_.Count)
+                    {
+                        if ((int)enemySpots_[counter].X == i && (int)enemySpots_[counter].Y == j)
+                        {
+                            enemies.Add(new Mafia(new Rectangle(x, y, 60, 60), 100, 3, 3, 10, 3));
+                            counter++;
+                        }
+                    }
+
+
+
+
+
+                    x += 60;
+                }
+                x = (int)origin.X;
+                y += 60;
+            }
+        }
 
         public void createWalls()
         {
@@ -70,6 +128,8 @@ namespace PapaMarti
                 }
             }
         }
+
+
         public void draw(SpriteBatch spriteBatch)
         {
             int x = (int)origin.X;
@@ -81,7 +141,8 @@ namespace PapaMarti
                     if (tiles[i, j] != null)
                     {
                         tiles[i, j].coordinates = new Vector2(x, y);
-                        if (tiles[i, j].tilePhysics == TilePhysics.Wall) {
+                        if (tiles[i, j].tilePhysics == TilePhysics.Wall)
+                        {
                         }
 
                         else
@@ -95,20 +156,155 @@ namespace PapaMarti
                 x = (int)origin.X;
                 y += tileSize;
             }
+
+            spriteBatch.Draw(roomTextures[0], exit, Color.Blue);
+
         }
+
         public Player enter(Player player)
         {
-            player.rect.X = (int)(origin.X + door.Y * tileSize);
-            player.rect.Y = (int)(origin.Y + door.X * tileSize);
+            exitToMap = false;
+            player.rect.X = (int)(origin.X + door.Y * 60);
+            player.rect.Y = (int)(origin.Y + door.X * 60);
+            player.updateCenter();
             return player;
             //Set player location at the entrance
         }
+
+        public List<Enemy> updateEnemies(Player player)
+        {
+            timer++;
+
+            bool moveDown = false;
+            bool moveRight = false;
+            int xMovement = 0;
+            int yMovement = 0;
+            List<Enemy> remove = new List<Enemy>();
+            foreach (Enemy e in enemies)
+            {
+                /*
+                if (player.rect.Intersects(e.rect))
+                {
+                    if (e.rect.Bottom > player.rect.Center.Y)
+                    {
+                        yMovement = Rectangle.Intersect(player.rect, e.rect).Height;
+                       
+                        //e.updateY(Rectangle.Intersect(player.rect, e.rect).Height);
+                        //e.bounceOffY();
+                    }
+                    else if (e.rect.Top < player.rect.Center.Y)
+                    {
+                        
+                        yMovement = -Rectangle.Intersect(player.rect, e.rect).Height;
+                        //e.updateY(-Rectangle.Intersect(player.rect, e.rect).Height);
+                        //e.bounceOffY();
+                    }
+
+                    if (e.rect.Right > player.rect.Center.X)
+                    {
+                        xMovement = Rectangle.Intersect(player.rect, e.rect).Width;
+                        //e.updateX(Rectangle.Intersect(player.rect, e.rect).Width);
+                        //e.bounceOffX();
+                    }
+                    else if (player.rect.Left < player.rect.Center.X)
+                    {
+                        xMovement = -Rectangle.Intersect(player.rect, e.rect).Width;
+                        //moveRight = false;
+                        //e.updateX(-Rectangle.Intersect(player.rect, e.rect).Width);
+                        //e.bounceOffX();
+                    }
+                    e.updateX(xMovement);
+                    e.updateY(yMovement);
+                    
+                }
+            */
+                //e.updateY(e.yVel);
+
+
+
+                foreach (Vector2 v in this.walls)
+                {
+
+                    if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(e.rect))
+                    {
+
+
+                        if (e.rect.Bottom > this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
+                        {
+                            e.updateY(Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Height);
+                            //e.bounceOffY();
+                        }
+                        else if (e.rect.Top < this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
+                        {
+                            e.updateY(-Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Height);
+                            //e.bounceOffY();
+                        }
+
+                    }
+
+                }
+
+                //e.updateX(e.xVel);
+                foreach (Vector2 v in this.walls)
+                {
+                    if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(e.rect))
+                    {
+                        if (e.rect.Right > this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
+                        {
+                            e.updateX(Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Width);
+                            //e.bounceOffX();
+                        }
+                        else if (player.rect.Left < this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
+                        {
+                            e.updateX(-Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Width);
+                            //e.bounceOffX();
+                        }
+                    }
+
+                }
+
+                if (timer % (e.frequency * 60) == 0)
+                {
+                    projectiles.Add(new Projectile(new Rectangle(e.rect.Center.X, e.rect.Center.Y, 10, 10), (int)e.trajectory(player).X, (int)e.trajectory(player).Y, 20));
+                }
+
+                e.takeDamage(player.enemyDamage(e.center));
+                if (e.isDead)
+                {
+                    remove.Add(e);
+                }
+
+            }
+            foreach (Enemy e in remove)
+            {
+                enemies.Remove(e);
+            }
+
+
+            foreach (Projectile p in projectiles)
+            {
+                p.update();
+            }
+            return enemies;
+        }
+
         public Player update(Player player)
         {
             KeyboardState kb = Keyboard.GetState();
             // TODO: Add your update logic here
             int changeX = 0;
             int changeY = 0;
+
+            //HEALTH SYSTEM TESTING PURPOSES ONLY
+            if (oldKB.IsKeyDown(Keys.D) && !kb.IsKeyDown(Keys.D))
+            {
+                player.takeDamage(20);
+            }
+            if (oldKB.IsKeyDown(Keys.H) && !kb.IsKeyDown(Keys.H))
+            {
+                player.heal(10);
+            }
+            //ends here
 
             if (kb.IsKeyDown(Keys.Right))
             {
@@ -173,7 +369,59 @@ namespace PapaMarti
                 }
 
             }
+            player.update(changeX, changeY);
+
+            if (player.rect.Intersects(exit))
+                exitToMap = true;
+            Console.WriteLine(player.rect + ", " + exit + ", " + exitToMap);
+
+            oldKB = kb;
+
+
+
+            if (player.isDead)
+            {
+                Environment.Exit(-1);
+            }
             return player;
+        }
+        public List<Projectile> updateProjectiles(Player player)
+        {
+            for (int i = 0; i < projectiles.Count; i++)
+            {
+                if (player.rect.Intersects(projectiles[i].rect))
+                {
+                    //Environment.Exit(0);
+                    player.takeDamage(projectiles[i].strength);
+                    projectiles.RemoveAt(i);
+                    i--;
+                }
+
+            }
+            foreach (Projectile p in projectiles) {
+                /*foreach (Vector2 v in this.walls)
+                {
+
+                    if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(p.rect))
+                    {
+                            projectiles.Remove(p);
+                    }
+
+
+
+                }*/
+            }
+            return projectiles;
+        }
+
+        public bool isTouchingDoor()
+        {
+            if (exitToMap)
+            {
+                exitToMap = false;
+                return true;
+            }
+            return exitToMap;
         }
 
         public abstract bool isDone();
@@ -185,7 +433,7 @@ namespace PapaMarti
             roomTextures[1] = content.Load<Texture2D>("tile");
         }
 
-        public class ThreeValuePair<A, B, C> {
+        public class FiveValuePair<A, B, C, D, E> {
             public A a {
                 get; set;
             }
@@ -198,18 +446,32 @@ namespace PapaMarti
                 get; set;
             }
 
-            public ThreeValuePair(A a, B b, C c) {
+            public D d
+            {
+                get; set;
+            }
+
+            public E e
+            {
+                get; set;
+            }
+
+            public FiveValuePair(A a, B b, C c, D d, E e) {
                 this.a = a;
                 this.b = b;
                 this.c = c;
+                this.d = d;
+                this.e = e;
             }
         }
 
-        public static ThreeValuePair<Tile[,], List<Vector2>, Vector2> parseRoomFile(string file) {
+        public static FiveValuePair<Tile[,], List<Vector2>, Vector2, List<Vector2>, Vector2> parseRoomFile(string file) {
             //foreach(Texture2D t in roomTextures) if(t == null) throw new Exception("Room textures have not been initialized!!");
             List<string> lines = new List<string>();
             List<Vector2> boundaries = new List<Vector2>();
-            Vector2 door = new Vector2(0, 0);
+            List<Vector2> enemySpots = new List<Vector2>();
+            Vector2 door = new Vector2();
+            Vector2 exit = new Vector2();
 
             try {
                 using(StreamReader r = new StreamReader(file)) {
@@ -223,30 +485,45 @@ namespace PapaMarti
                     char[] tile = lines[i].ToCharArray();
 
                     for(int j = 0; j < tiles.GetLength(1); j++) {
-                        if(tile[j] == 'o') {
-                            tiles[i, j] = new Tile(TilePhysics.Impassable, 1, new Vector2(i, j));
-                            boundaries.Add(new Vector2(i, j));
+                        switch(tile[j])
+                        {
+                            case 'o':
+                                tiles[i, j] = new Tile(TilePhysics.Impassable, 1, new Vector2(i, j));
+                                boundaries.Add(new Vector2(i, j));
+                                break;
 
-                        }
-                        else if(tile[j] == 'd') {
-                            tiles[i, j] = new Tile(TilePhysics.Door, 0, new Vector2(i, j));
-                            door = new Vector2(i, j);
-                        }
-                        else if(tile[j] == '.') {
-                            tiles[i, j] = new Tile(TilePhysics.Passable, 0, new Vector2(i, j));
-                        }
-                        else if(tile[j] == 'b') {
-                            tiles[i, j] = new Tile(TilePhysics.Wall, 0, new Vector2(i, j));
-                            boundaries.Add(new Vector2(i, j));
+                            case 'd':
+                                tiles[i, j] = new Tile(TilePhysics.Door, 0, new Vector2(i, j));
+                                door = new Vector2(i, j);
+                                break;
 
-                        }
-                        else {
-                            tiles[i, j] = null;
+                            case '.':
+                                tiles[i, j] = new Tile(TilePhysics.Passable, 0, new Vector2(i, j));
+                                break;
+
+                            case 'b':
+                                tiles[i, j] = new Tile(TilePhysics.Wall, 0, new Vector2(i, j));
+                                boundaries.Add(new Vector2(i, j));
+                                break;
+
+                            case 'e':
+                                tiles[i, j] = new Tile(TilePhysics.Passable, 0, new Vector2(i, j));
+                                enemySpots.Add(new Vector2(i, j));
+                                break;
+
+                            case 'm':
+                                tiles[i, j] = new Tile(TilePhysics.Wall, 0, new Vector2(i, j));
+                                exit = new Vector2(j, i);
+                                break;
+
+                            default:
+                                tiles[i, j] = null;
+                                break;
                         }
                     }
                 }
 
-                return new ThreeValuePair<Tile[,], List<Vector2>, Vector2>(tiles, boundaries, door);
+                return new FiveValuePair<Tile[,], List<Vector2>, Vector2, List<Vector2>, Vector2>(tiles, boundaries, door, enemySpots, exit);
             } catch(Exception e) {
                 Console.WriteLine("Error parsing room file " + file);
                 Console.WriteLine(e.Message);

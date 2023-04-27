@@ -13,19 +13,40 @@ namespace PapaMarti
 {
     public class RoomManager: StageManager
     {
-        Player player;
-        Room room;
+        public MapLocation location;
+        public Room room;
+        public Player player;
+        List<Vector2> enemySpots;
+        public List<Enemy> enemies;
+        Texture2D enemyText;
+        Texture2D playerText;
+        List<Projectile> projectiles;
+        Texture2D projectileText;
 
-        public RoomManager(ContentManager content, Room room) : base(content)
+        public RoomManager(ContentManager content, Room room, Player player) : base(content)
         {
             this.room = room;
-            int playerHeight = 85;
-            int playerWidth = 65;
-            Texture2D playerText = content.Load<Texture2D>("whitePixel");
-            player = new Player(new Rectangle(1800, 500, playerWidth, playerHeight), playerText);
+            enemySpots = room.enemySpots;
+            enemies = room.enemies;
+            projectiles = room.projectiles;
+            playerText = content.Load<Texture2D>("whitePixel");
+            Texture2D lifeBarText = content.Load<Texture2D>("whitePixel");
+            enemyText = content.Load<Texture2D>("whitePixel");
+            projectileText = content.Load<Texture2D>("whitePixel");
+            this.player = player;
             player = room.enter(player);
         }
 
+        /*public void transition(ContentManager content, MapLocation location, Player player_)
+        {
+            this.location = location;
+            room = location.room;
+            //Texture2D playerText = content.Load<Texture2D>("whitePixel");
+            //Texture2D lifeBarText = content.Load<Texture2D>("whitePixel");
+            Texture2D enemyText = content.Load<Texture2D>("whitePixel");
+            //player = new Player(new Rectangle(1800, 500, 60, 60), playerText, 300, lifeBarText);
+            player = room.enter(player);
+        }*/
         public override GameStage getStage()
         {
             return GameStage.Rooming;
@@ -33,18 +54,26 @@ namespace PapaMarti
         public override void draw(SpriteBatch spriteBatch)
         {
             room.draw(spriteBatch);
-            player.draw(spriteBatch);
+            player.draw(spriteBatch, playerText);
+            foreach (Mafia m in enemies)
+            {
+                m.draw(spriteBatch, enemyText);
+            }
+            foreach(Projectile p in projectiles)
+            {
+                p.draw(spriteBatch, projectileText);
+            }
         }
         public override void update(GameTime time)
         {
             player = room.update(player);
+            enemies = room.updateEnemies(player);
+            projectiles = room.updateProjectiles(player);
         }
         public override bool isDone()
         {
-            if(room.isDone())
-                QuestTracker.advanceMainquest();
-            KeyboardState kb = Keyboard.GetState();
-            return kb.IsKeyDown(Keys.Tab);
+            if (room.isDone()) QuestTracker.advanceMainquest();
+            return room.isTouchingDoor();
         }
     }
 }

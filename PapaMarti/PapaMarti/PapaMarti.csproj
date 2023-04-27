@@ -56,10 +56,15 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enemy.cs" />
+    <Compile Include="Life.cs" />
+    <Compile Include="Mafia.cs" />
+    <Compile Include="Circle.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="MapStuff\Car.cs" />
     <Compile Include="QuestStuff\MapLocation.cs" />
     <Compile Include="MapStuff\MapManager.cs" />
+    <Compile Include="Projectile.cs" />
     <Compile Include="QuestStuff\QuestPersistantData\EmptyRoom.cs" />
     <Compile Include="QuestStuff\QuestTracker.cs" />
     <Compile Include="Menu.cs" />
@@ -82,9 +87,12 @@
     <Compile Include="PizzaMaking\ToppingContainer.cs" />
     <Compile Include="PizzaMaking\ToppingScreen.cs" />
     <Compile Include="RoomStuff\Room.cs" />
+    <Compile Include="RoomStuff\Weapons\Bomb.cs" />
     <Compile Include="StageManager.cs" />
     <Compile Include="TextCard.cs" />
     <Compile Include="RoomStuff\Tile.cs" />
+    <Compile Include="RoomStuff\Weapons\PizzaFrisbee.cs" />
+    <Compile Include="RoomStuff\Weapons\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

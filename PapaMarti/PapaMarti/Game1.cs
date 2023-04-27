@@ -23,6 +23,7 @@ namespace PapaMarti {
         MapManager mapManager;
         Menu menu;
         bool isInMenu;
+        Player player;
 
         public static Color shaded = new Color(0.2f, 0.2f, 0.2f, 0.5f);
 
@@ -31,7 +32,7 @@ namespace PapaMarti {
             Content.RootDirectory = "Content"; 
             graphics.PreferredBackBufferWidth = screenRect.Width;
             graphics.PreferredBackBufferHeight = screenRect.Height;
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             IsMouseVisible = true;
             graphics.ApplyChanges();
         }
@@ -62,6 +63,8 @@ namespace PapaMarti {
             Room.initializeTextures(Content);
 
             menu = new Menu(this, Content, true);
+
+            player = new Player(Content, new Rectangle(1800, 500, 60, 60), 300);
 
             Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
             baseRect.SetData(new Color[] { Color.White });
@@ -111,9 +114,10 @@ namespace PapaMarti {
 
             if(currentStage.getStage() == GameStage.Exploring)
             {
+
                 if (currentStage.isDone())
                 {
-                    currentStage = QuestTracker.enterRoom(Content, ((MapManager) currentStage).closestLocation);
+                    currentStage = QuestTracker.enterRoom(Content, player, ((MapManager) currentStage).closestLocation);
                 }
             }
 
@@ -130,6 +134,7 @@ namespace PapaMarti {
                 currentStage.update(gameTime);
             else
                 menu.update();
+            testAddWeapon();
 
             base.Update(gameTime);
         }
@@ -154,6 +159,23 @@ namespace PapaMarti {
 
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        private void testAddWeapon()
+        {
+            KeyboardState kb = Keyboard.GetState();
+            if (kb.IsKeyDown(Keys.Z))
+            {
+                ((PizzaFrisbee)player.weapons[0]).upgrade();
+            }
+            else if (kb.IsKeyDown(Keys.X))
+            {
+                player.addWeapon(new PizzaFrisbee(Content, player, WeaponType.Throw));
+            }
+            else if (kb.IsKeyDown(Keys.C))
+            {
+                player.addWeapon(new Bomb(Content, player, WeaponType.Bomb));
+            }
         }
     }
 }
