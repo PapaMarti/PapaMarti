@@ -74,10 +74,12 @@ namespace PapaMarti
         public Room(Tile[,] tiles_, List<Vector2> walls_, List<Vector2> enemySpots_, Vector2 door_, Vector2 exit, MapLocation location) : this(tiles_, walls_, enemySpots_, location)
         {
             door = door_;
+
             this.exit = new Rectangle(0, 0, tileSize, tileSize);
             this.exit.X += (int) (origin.X + (exit.X * tileSize));
             this.exit.Y += (int) (origin.Y + (exit.Y * tileSize));
             //Console.WriteLine(origin + ", " + exit + ", " + this.exit + ", " + exit.X * 60 + ", " + exit.Y * 60);
+
             tiles[(int)door.X, (int)door.Y].tilePhysics = TilePhysics.Door;
         }
 
@@ -166,6 +168,7 @@ namespace PapaMarti
             exitToMap = false;
             player.rect.X = (int)(origin.X + door.Y * 60);
             player.rect.Y = (int)(origin.Y + door.X * 60);
+            Console.WriteLine(player.rect + ", " + door);
             player.updateCenter();
             return player;
             //Set player location at the entrance
@@ -373,7 +376,7 @@ namespace PapaMarti
 
             if (player.rect.Intersects(exit))
                 exitToMap = true;
-            Console.WriteLine(player.rect + ", " + exit + ", " + exitToMap);
+            //Console.WriteLine(player.rect + ", " + exit + ", " + exitToMap);
 
             oldKB = kb;
 

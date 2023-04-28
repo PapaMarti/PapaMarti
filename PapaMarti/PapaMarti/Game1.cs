@@ -32,7 +32,7 @@ namespace PapaMarti {
             Content.RootDirectory = "Content"; 
             graphics.PreferredBackBufferWidth = screenRect.Width;
             graphics.PreferredBackBufferHeight = screenRect.Height;
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             IsMouseVisible = true;
             graphics.ApplyChanges();
         }
@@ -92,9 +92,9 @@ namespace PapaMarti {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
             KeyboardState kb = Keyboard.GetState();
-            // Allows the game to exit
-            if(kb.IsKeyDown(Keys.L))
-                this.Exit();
+            // Allows the game to exit in case of emergency
+            //if(kb.IsKeyDown(Keys.L))
+            //    this.Exit();
 
 
             if (isInMenu && menu.isDone())
