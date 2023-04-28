@@ -156,6 +156,9 @@ namespace PapaMarti
                 x = (int)origin.X;
                 y += tileSize;
             }
+
+            spriteBatch.Draw(roomTextures[0], exit, Color.Blue);
+
         }
 
         public Player enter(Player player)
