@@ -24,30 +24,31 @@ namespace PapaMarti
             get; private set;
         }
 
+
         public MapLocation(double angle, double radius, string texturestring, Color color, float scale, float rotation, string roomString)
         {
             //this.room = room;
             this.angle = angle;
             this.radius = radius;
-            this.texturestring = texturestring;
-            this.color = color;
-            this.scale = scale;
+            this.texturestring = texturestring;//g is generic type, b is boss type, p is the pizza shop
+            this.color = Color.White;
+            this.scale = 8;//standard is 2
             origin = new Vector2();
             this.rotation = rotation;
             emptyQuest = new EmptyRoom(roomString, this);
         }
 
         public void loadTexture(ContentManager content) {
-            texture = content.Load<Texture2D>(texturestring);
+            texture = content.Load<Texture2D>($"Buildings/{texturestring}");
 
-            origin = new Vector2(texture.Width / 2, texture.Height / 2);
+            origin = new Vector2(texture.Width / 2, texture.Height * 4 / 5);
         }
 
         public void draw(SpriteBatch spriteBatch, float mapAngle, Vector2 mapPosition) {
             Vector2 location = new Vector2();
             location.X = (float) (mapPosition.X + ((1 - radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Sin(mapAngle - angle));
             location.Y = (float) (mapPosition.Y - ((1 - radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Cos(mapAngle - angle));
-            spriteBatch.Draw(texture, location, null, color, mapAngle + rotation, origin, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, location, null, color, 0, origin, scale, SpriteEffects.None, 0f);
         }
 
         public static bool operator==(MapLocation m1, MapLocation m2) {
