@@ -24,6 +24,7 @@ namespace PapaMarti {
         Menu menu;
         bool isInMenu;
         Player player;
+        KeyboardState oldKB;
 
         public static Color shaded = new Color(0.2f, 0.2f, 0.2f, 0.5f);
 
@@ -48,6 +49,7 @@ namespace PapaMarti {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
             isInMenu = false;
+            oldKB = Keyboard.GetState();
             base.Initialize();
         }
 
@@ -135,7 +137,7 @@ namespace PapaMarti {
             else
                 menu.update();
             testAddWeapon();
-
+            oldKB = kb;
             base.Update(gameTime);
         }
 
@@ -164,15 +166,15 @@ namespace PapaMarti {
         private void testAddWeapon()
         {
             KeyboardState kb = Keyboard.GetState();
-            if (kb.IsKeyDown(Keys.Z))
+            if (kb.IsKeyDown(Keys.Z) && oldKB.IsKeyUp(Keys.Z))
             {
                 ((PizzaFrisbee)player.weapons[0]).upgrade();
             }
-            else if (kb.IsKeyDown(Keys.X))
+            else if (kb.IsKeyDown(Keys.X) && oldKB.IsKeyUp(Keys.X))
             {
                 player.addWeapon(new PizzaFrisbee(Content, player, WeaponType.Throw));
             }
-            else if (kb.IsKeyDown(Keys.C))
+            else if (kb.IsKeyDown(Keys.C) && oldKB.IsKeyUp(Keys.C))
             {
                 player.addWeapon(new Bomb(Content, player, WeaponType.Bomb));
             }
