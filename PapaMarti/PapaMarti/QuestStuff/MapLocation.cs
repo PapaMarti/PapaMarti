@@ -24,17 +24,16 @@ namespace PapaMarti
             get; private set;
         }
 
-
         public MapLocation(double angle, double radius, string texturestring, Color color, float scale, float rotation, string roomString)
         {
             //this.room = room;
             this.angle = angle;
             this.radius = radius;
-            this.texturestring = texturestring;//g is generic type, b is boss type, p is the pizza shop
-            this.color = Color.White;
-            this.scale = 5;//standard is 2
+            this.texturestring = texturestring;
+            this.color = color;
+            this.scale = 4.5F;
             origin = new Vector2();
-            this.rotation = rotation;
+            this.rotation = (float) -angle;
             emptyQuest = new EmptyRoom(roomString, this);
         }
 
@@ -48,7 +47,7 @@ namespace PapaMarti
             Vector2 location = new Vector2();
             location.X = (float) (mapPosition.X + ((1 - radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Sin(mapAngle - angle));
             location.Y = (float) (mapPosition.Y - ((1 - radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Cos(mapAngle - angle));
-            spriteBatch.Draw(texture, location, null, color, 0, origin, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, location, null, color, mapAngle + rotation, origin, scale, SpriteEffects.None, 0f);
         }
 
         public static bool operator==(MapLocation m1, MapLocation m2) {

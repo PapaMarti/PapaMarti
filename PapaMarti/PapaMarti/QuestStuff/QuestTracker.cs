@@ -9,12 +9,36 @@ using Microsoft.Xna.Framework;
 namespace PapaMarti {
     public class QuestTracker {
         public static MapLocation[] mapLocations = new MapLocation[] {
-            new MapLocation(Math.PI / 6, 0.75, "p", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI / 12, 0.3, "g5", Color.Red, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 3 / 12, 0.35, "g1", Color.Yellow, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            //new MapLocation(Math.PI / 6, 0.15, "wood", Color.Green, 0.9f, (float)(-Math.PI / 6), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            //new MapLocation(0.85, 0.2, "wood", Color.Purple, 1.3f, (float)(-Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            /*new MapLocation(0.8, 0.55, "wood", Color.Orange, 1f, (float)(-Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt")*/};
+
+            //slice 1
+            new MapLocation(Math.PI * 2 / 12, 0.75, "p", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 1 / 12, 0.3, "g5", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 3 / 12, 0.35, "g1", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+
+            //slice 2
+            new MapLocation(Math.PI * 6 / 12, 0.75, "b1", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 5 / 12, 0.3, "g4", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 7 / 12, 0.35, "g3", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+        
+            //slice 3
+            new MapLocation(Math.PI * 10/ 12, 0.75, "b2", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 9 / 12, 0.3, "g2", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 11 / 12, 0.35, "g1", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+        
+            //slice 4
+            new MapLocation(Math.PI * 14 / 12, 0.75, "b3", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 13 / 12, 0.3, "g7", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 15 / 12, 0.35, "g6", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+        
+            //slice 5
+            new MapLocation(Math.PI * 18 / 12, 0.75, "b4", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 17 / 12, 0.3, "g3", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 19 / 12, 0.35, "g2", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+        
+            //slice 6
+            new MapLocation(Math.PI * 22 / 12, 0.75, "b5", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 21 / 12, 0.3, "g4", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 23 / 12, 0.35, "g7", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),};
 
         public static Queue<Quest> mainlineQuest;
         public static List<Quest> activeSideQuests;
