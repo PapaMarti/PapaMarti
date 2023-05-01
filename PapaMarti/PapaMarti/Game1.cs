@@ -59,19 +59,14 @@ namespace PapaMarti {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            QuestTracker.initializeTextures(Content);
+            QuestTracker.initializeTextures(Content, player);
             Room.initializeTextures(Content);
 
             menu = new Menu(this, Content, true);
 
             player = new Player(Content, new Rectangle(1800, 500, 60, 60), 300);
 
-            Texture2D baseRect = new Texture2D(GraphicsDevice, 1, 1);
-            baseRect.SetData(new Color[] { Color.White });
-            currentStage = new CookingManager(GraphicsDevice, Content, baseRect, new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), true);
-
-
-            mapManager = new MapManager(Content, 0, 0, 5, true);
+            mapManager = new MapManager(Content, 0, 0, 1, true);
 
             //UNCOMMENT THIS TO GO DIRECTLY TO THE MAP
             currentStage = mapManager;

@@ -17,15 +17,20 @@ namespace PapaMarti {
 
 
     public abstract class StageManager {
-        protected readonly ContentManager content;
+        public MapLocation location
+        {
+            get; private set;
+        }
 
-        public StageManager(ContentManager content) {
-            this.content = content;
+        public StageManager(MapLocation location)
+        {
+            this.location = location;
         }
 
         public abstract GameStage getStage();
         public abstract void draw(SpriteBatch spriteBatch);
         public abstract void update(GameTime time);
         public abstract bool isDone();
+        public abstract void contentify(ContentManager content, Player p);
     }
 }

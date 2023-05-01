@@ -23,17 +23,25 @@ namespace PapaMarti
         List<Projectile> projectiles;
         Texture2D projectileText;
 
-        public RoomManager(ContentManager content, Room room, Player player) : base(content)
+        public RoomManager(Room room) : base(room.location)
         {
             this.room = room;
             enemySpots = room.enemySpots;
             enemies = room.enemies;
             projectiles = room.projectiles;
+        }
+
+        public override void contentify(ContentManager content, Player p)
+        {
             playerText = content.Load<Texture2D>("whitePixel");
-            Texture2D lifeBarText = content.Load<Texture2D>("whitePixel");
             enemyText = content.Load<Texture2D>("whitePixel");
             projectileText = content.Load<Texture2D>("whitePixel");
-            this.player = player;
+            player = p;
+        }
+
+        public void enter()
+        {
+
             player = room.enter(player);
         }
 

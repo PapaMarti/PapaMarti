@@ -15,7 +15,6 @@ namespace PapaMarti {
         private readonly Pizza type;
         public CookingStage currentStage;
         private Texture2D baseRect;
-        private GraphicsDevice gd;
         private bool isTransitioning;
         private bool isFadingIn, isFadingOut;
         private Color alpha;
@@ -28,20 +27,23 @@ namespace PapaMarti {
         Rectangle retryButton;
         bool done;
         bool readyToMoveOn;
+        bool isTutorial;
         Texture2D pixel;
         Texture2D backgroundYes;
         Texture2D white;
+        Texture2D whiteout;
+        Texture2D toppings;
         Rectangle accuracyBanner;
+        ContentManager content;
 
         List<TextCard> textCards;
 
-        public CookingManager(GraphicsDevice gd, ContentManager content, Texture2D baseRect, Pizza type, bool isTutorial) : base(content) {
-            this.gd = gd;
+        public CookingManager(Pizza type, MapLocation location, bool isTutorial) : base(location) {
             this.type = type;
             isTransitioning = false;
             isFadingIn = false;
+            this.isTutorial = isTutorial;
             isFadingOut = false;
-            this.baseRect = baseRect;
             int retryWidth = Game1.screenRect.Width / 10;
             int retryHeight = Game1.screenRect.Height / 12;
             retryButton = new Rectangle((Game1.screenRect.Width - retryWidth) / 2, (Game1.screenRect.Height - retryHeight) / 2 + 300, retryWidth, retryHeight);
@@ -51,14 +53,17 @@ namespace PapaMarti {
             hasWaited = false;
             drawTable = true;
             readyToMoveOn = false;
+            int accHeight = 70;
+            accuracyBanner = new Rectangle(0, (Game1.screenRect.Height - accHeight) / 2, Game1.screenRect.Width, accHeight);
+            this.textCards = new List<TextCard>();
+        }
+
+        public override void contentify(ContentManager content, Player p)
+        {
             table = content.Load<Texture2D>("CookingStageTextures/Table");
             font = content.Load<SpriteFont>("text01");
             pixel = content.Load<Texture2D>("whitePixel");
             backgroundYes = content.Load<Texture2D>("CookingStageTextures/OvenTextures/Ovenbg");
-            if(type.shape == PizzaShape.Circle)
-                currentStage = new CuttingScreen(type, Game1.screenRect, content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/dough"), content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/circle outline"), content.Load<Texture2D>("CookingStageTextures/circle dough"), content.Load<Texture2D>("whitePixel"));
-
-            textCards = new List<TextCard>();
             if (isTutorial)
             {
                 string introduction = "Welcome to Papa Marti's pizza shop! To make a pizza for the customers, first we must cut out the dough of the pizza.";
@@ -68,8 +73,26 @@ namespace PapaMarti {
             textCards.Add(new TextCard(content, cuttingInstruction, String.Empty));
 
             white = content.Load<Texture2D>("whitePixel");
-            int accHeight = 70;
-            accuracyBanner = new Rectangle(0, (Game1.screenRect.Height - accHeight) / 2, Game1.screenRect.Width, accHeight);
+            this.content = content;
+            toppings = content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings1");
+            whiteout = new Texture2D(toppings.GraphicsDevice, toppings.Width, toppings.Height);
+            Color[] data = new Color[whiteout.Width * whiteout.Height];
+            toppings.GetData(data);
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (!(data[i].A == 0 && data[i].R == 0 && data[i].G == 0 && data[i].B == 0))
+                {
+                    data[i].A = 125;
+                    //data[i].R = (byte) (data[i].R * 1.5);
+                    //data[i].G = (byte) (data[i].G * 1.5);
+                    //data[i].B = (byte) (data[i].B * 1.5);
+                }
+            }
+            whiteout.SetData(data);
+            baseRect = content.Load<Texture2D>("whitePixel");
+
+            if (type.shape == PizzaShape.Circle)
+                currentStage = new CuttingScreen(type, Game1.screenRect, content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/dough"), content.Load<Texture2D>("CookingStageTextures/CuttingStageTextures/circle outline"), content.Load<Texture2D>("CookingStageTextures/circle dough"), baseRect);
         }
 
         public override void draw(SpriteBatch spriteBatch) {
@@ -192,22 +215,8 @@ namespace PapaMarti {
                                 List<KeyValuePair<Rectangle, Topping>> l = new List<KeyValuePair<Rectangle, Topping>>();
                                 l.Add(new KeyValuePair<Rectangle, Topping>(new Rectangle(700, 600, ToppingContainer.TOPPING_SIZE, ToppingContainer.TOPPING_SIZE), Topping.pepperoni));
 
-                                Texture2D toppings = content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings1");
-                                Color[] data = new Color[toppings.Width * toppings.Height];
-                                toppings.GetData(data);
-                                for (int i = 0; i < data.Length; i++)
-                                {
-                                    if (!(data[i].A == 0 && data[i].R == 0 && data[i].G == 0 && data[i].B == 0))
-                                    {
-                                        data[i].A = 125;
-                                        //data[i].R = (byte) (data[i].R * 1.5);
-                                        //data[i].G = (byte) (data[i].G * 1.5);
-                                        //data[i].B = (byte) (data[i].B * 1.5);
-                                    }
-                                }
-                                Texture2D whiteout = new Texture2D(gd, toppings.Width, toppings.Height);
-                                whiteout.SetData(data);
-                                currentStage = new ToppingScreen(gd, type, content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Bowls"), content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings1"), whiteout, content.Load<Texture2D>("CookingStageTextures/circle dough"), l);
+                                
+                                currentStage = new ToppingScreen(type, content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Bowls"), content.Load<Texture2D>("CookingStageTextures/ToppingsTextures/Toppings1"), whiteout, content.Load<Texture2D>("CookingStageTextures/circle dough"), l);
                                 break;
 
                             case CookStage.Toppings:
@@ -236,5 +245,7 @@ namespace PapaMarti {
                 }
             }
         }
+
+        
     }
 }

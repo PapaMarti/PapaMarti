@@ -17,25 +17,30 @@ namespace PapaMarti
      *Moving to a certain location
      */
     public class Quest {
-        private Room[] rooms; //All "taskComplete" must be true for status to be Completed
+        private StageManager[] rooms; //All "taskComplete" must be true for status to be Completed
         private int currentTask;
 
-        public Quest(params Room[] rooms) {
+        public Quest(params StageManager[] rooms) {
             this.rooms = rooms;
+        }
+
+        public void contentify(ContentManager content, Player p)
+        {
+            foreach (StageManager s in rooms) s.contentify(content, p);
         }
 
         public bool isQuestDone() {
             return getCurrentTask() == null;
         }
 
-        public Room nextTask() {
+        public StageManager nextTask() {
             currentTask++;
             if(currentTask < rooms.Length)
                 return rooms[currentTask];
             return null;
         }
 
-        public Room getCurrentTask() {
+        public StageManager getCurrentTask() {
             if(currentTask < rooms.Length)
                 return rooms[currentTask];
             return null;
