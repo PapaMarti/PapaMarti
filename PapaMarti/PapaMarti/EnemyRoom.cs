@@ -69,6 +69,10 @@ namespace PapaMarti
                 if (after[0].isDone())
                     after.RemoveAt(0);
             }
+            else
+            {
+                return base.update(player);
+            }
             return player;
         }
 
@@ -77,6 +81,10 @@ namespace PapaMarti
             if(before.Count > 0)
             {
                 before[0].draw(spriteBatch);
+            }
+            else if (enemies.Count > 0)
+            {
+
             }
             else if(after.Count > 0)
             {
