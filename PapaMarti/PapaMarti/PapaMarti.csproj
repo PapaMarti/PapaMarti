@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enemy.cs" />
+    <Compile Include="EnemyRoom.cs" />
     <Compile Include="Life.cs" />
     <Compile Include="Mafia.cs" />
     <Compile Include="Circle.cs" />

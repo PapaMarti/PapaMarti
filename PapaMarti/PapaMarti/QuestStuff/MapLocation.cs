@@ -20,13 +20,16 @@ namespace PapaMarti
         public float scale;
         public Vector2 origin;
         public float rotation;
+        public int slice;
+
         public EmptyRoom emptyQuest {
             get; private set;
         }
 
-        public MapLocation(double angle, double radius, string texturestring, Color color, float scale, float rotation, string roomString)
+        public MapLocation(double angle, double radius, string texturestring, Color color, float scale, float rotation, string roomString, int slice)
         {
             //this.room = room;
+            this.slice = slice;
             this.angle = angle;
             this.radius = radius;
             this.texturestring = texturestring;
@@ -43,11 +46,14 @@ namespace PapaMarti
             origin = new Vector2(texture.Width / 2, texture.Height * 4 / 5);
         }
 
-        public void draw(SpriteBatch spriteBatch, float mapAngle, Vector2 mapPosition) {
+        public void draw(SpriteBatch spriteBatch, float mapAngle, Vector2 mapPosition, bool highlighted) {
             Vector2 location = new Vector2();
             location.X = (float) (mapPosition.X + ((1 - radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Sin(mapAngle - angle));
             location.Y = (float) (mapPosition.Y - ((1 - radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation) * Math.Cos(mapAngle - angle));
-            spriteBatch.Draw(texture, location, null, color, mapAngle + rotation, origin, scale, SpriteEffects.None, 0f);
+            if(!highlighted)
+                spriteBatch.Draw(texture, location, null, color, mapAngle + rotation, origin, scale, SpriteEffects.None, 0f);
+            else
+                spriteBatch.Draw(texture, location, null, Game1.shaded, mapAngle + rotation, origin, scale, SpriteEffects.None, 0f);
         }
 
         public static bool operator==(MapLocation m1, MapLocation m2) {

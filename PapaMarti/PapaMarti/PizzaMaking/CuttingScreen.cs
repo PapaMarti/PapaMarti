@@ -14,7 +14,8 @@ namespace PapaMarti
     //this is used to decide which hardcoded rectangles to use, but the correct outline & cut dough texture needs to be passed in manually
     public enum PizzaShape
     {
-        Circle
+        Circle,
+        Bomb
     }
 
     class CuttingScreen : CookingStage
@@ -185,7 +186,7 @@ namespace PapaMarti
         {
             List<Rectangle> rects = new List<Rectangle>();
             //for now this is an enum i force you to give me in the constructor
-            if (shape == PizzaShape.Circle)
+            if (shape == PizzaShape.Circle || shape == PizzaShape.Bomb)
             {
                 int oX = outlineTextRect.X;
                 int oY = outlineTextRect.Y;

@@ -56,7 +56,7 @@ namespace PapaMarti
         {
             get
             {
-                return QuestTracker.getClosestLocation(angle, position);
+                return QuestTracker.getClosestLocation(angle, position, slicesOpen);
             }
         }
 
@@ -227,7 +227,11 @@ namespace PapaMarti
             car.draw(spriteBatch, carImage, new Rectangle((Game1.screenRect.Width - 225) / 2, (Game1.screenRect.Height - 170) / 2 - 50, 225, 150));
 
             foreach (MapLocation m in QuestTracker.mapLocations) {
-                m.draw(spriteBatch, (float) angle, mapPosition);
+                m.draw(spriteBatch, (float) angle, mapPosition, false);
+                if(m == closestLocation)
+                {
+                    m.draw(spriteBatch, (float)angle, mapPosition, true);
+                }
             }
 
 
