@@ -32,7 +32,7 @@ namespace PapaMarti
             this.radius = radius;
             this.texturestring = texturestring;//g is generic type, b is boss type, p is the pizza shop
             this.color = Color.White;
-            this.scale = 8;//standard is 2
+            this.scale = 5;//standard is 2
             origin = new Vector2();
             this.rotation = rotation;
             emptyQuest = new EmptyRoom(roomString, this);

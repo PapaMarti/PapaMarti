@@ -25,8 +25,8 @@ namespace PapaMarti
         Vector2 roadOrigin;
 
         static readonly float mapScale = 8f;
-        public readonly static int translation = 294 * (int)mapScale; //to calculate where the map needs to be placed on the screen
-        public readonly static int innerCircleTranslation = 49 * (int)mapScale; //for inner circle calculations
+        public readonly static int translation = 205 * (int)mapScale; //to calculate where the map needs to be placed on the screen
+        public readonly static int innerCircleTranslation = 47 * (int)mapScale; //for inner circle calculations
         double minPosition;
         double maxPosition;
 
@@ -70,7 +70,7 @@ namespace PapaMarti
             this.angle = angle % (2 * Math.PI);
             this.position = position;
 
-            map = content.Load<Texture2D>("MapTextures/testmap11"); // REPLACE THIS LATER WITH MAP TEXTURE
+            map = content.Load<Texture2D>("MapTextures/testmap12"); // REPLACE THIS LATER WITH MAP TEXTURE
             mapSource = new Rectangle(0, 0, map.Width, map.Height);
             mapOrigin = new Vector2(map.Width / 2, map.Height / 2);
 
@@ -224,12 +224,13 @@ namespace PapaMarti
                 sliceAngle += (float)Math.PI / 3;
             }
 
-            foreach(MapLocation m in QuestTracker.mapLocations) {
+            //car (change later for animation and actual textures)
+            car.draw(spriteBatch, carImage, new Rectangle((Game1.screenRect.Width - 225) / 2, (Game1.screenRect.Height - 170) / 2 - 50, 225, 150));
+
+            foreach (MapLocation m in QuestTracker.mapLocations) {
                 m.draw(spriteBatch, (float) angle, mapPosition);
             }
 
-            //car (change later for animation and actual textures)
-            car.draw(spriteBatch, carImage, new Rectangle((Game1.screenRect.Width - 225) / 2, (Game1.screenRect.Height - 170) / 2 - 50, 225, 150));
 
             //arrow
             spriteBatch.Draw(arrowText, arrowLocation, null, Color.White, arrowAngle, arrowOrigin, arrowScale, SpriteEffects.None, 0f);
@@ -266,7 +267,7 @@ namespace PapaMarti
                     angle -= angleSpeed * 2.5;
                 car.updateDirection(Direction.right);
             }
-            double movementSpeed = 0.005;
+            double movementSpeed = 0.007;
             if((kb.IsKeyDown(Keys.Up) || kb.IsKeyDown(Keys.W)) && canMove() && position > 0)
             {
                 position -= movementSpeed;
