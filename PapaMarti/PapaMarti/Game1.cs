@@ -116,7 +116,15 @@ namespace PapaMarti {
                         player.addWeapon(new Bomb(Content, player, WeaponType.Bomb));
                     }
                 }
-                currentStage = mapManager;
+
+                if (((CookingManager)currentStage).pleaseGoHere != null)
+                {
+                    currentStage = ((CookingManager)currentStage).pleaseGoHere;
+                }
+                else
+                {
+                    currentStage = mapManager;
+                }
             }
 
             if(currentStage.getStage() == GameStage.Exploring)
@@ -133,6 +141,14 @@ namespace PapaMarti {
                 if (currentStage.isDone())
                 {
                     currentStage = mapManager;
+                }
+                if (((RoomManager)currentStage).room.isDone())
+                {
+                    if (((RoomManager)currentStage).pleaseGoHere != null)
+                    {
+
+                        currentStage = ((RoomManager)currentStage).pleaseGoHere;
+                    }
                 }
             }
             // TODO: Add your update logic here
