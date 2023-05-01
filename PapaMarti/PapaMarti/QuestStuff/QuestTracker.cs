@@ -11,47 +11,48 @@ namespace PapaMarti {
         public static MapLocation[] mapLocations = new MapLocation[] {
 
             //slice 1
-            new MapLocation(Math.PI * 2 / 12, 0.75, "p", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 1 / 12, 0.3, "g5", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 3 / 12, 0.35, "g1", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 2 / 12, 0.75, "p", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt", 1),
+            new MapLocation(Math.PI * 1 / 12, 0.3, "g5", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 1),
+            new MapLocation(Math.PI * 3 / 12, 0.35, "g1", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 1),
 
             //slice 2
-            new MapLocation(Math.PI * 6 / 12, 0.75, "b1", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 5 / 12, 0.3, "g4", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 7 / 12, 0.35, "g3", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 6 / 12, 0.75, "b1", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt", 2),
+            new MapLocation(Math.PI * 5 / 12, 0.3, "g4", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 2),
+            new MapLocation(Math.PI * 7 / 12, 0.35, "g3", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 2),
         
             //slice 3
-            new MapLocation(Math.PI * 10/ 12, 0.75, "b2", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 9 / 12, 0.3, "g2", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 11 / 12, 0.35, "g1", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 10/ 12, 0.75, "b2", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt", 3),
+            new MapLocation(Math.PI * 9 / 12, 0.3, "g2", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 3),
+            new MapLocation(Math.PI * 11 / 12, 0.35, "g1", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 3),
         
             //slice 4
-            new MapLocation(Math.PI * 14 / 12, 0.75, "b3", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 13 / 12, 0.3, "g7", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 15 / 12, 0.35, "g6", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 14 / 12, 0.75, "b3", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt", 4),
+            new MapLocation(Math.PI * 13 / 12, 0.3, "g7", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 4),
+            new MapLocation(Math.PI * 15 / 12, 0.35, "g6", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 4),
         
             //slice 5
-            new MapLocation(Math.PI * 18 / 12, 0.75, "b4", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 17 / 12, 0.3, "g3", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 19 / 12, 0.35, "g2", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
+            new MapLocation(Math.PI * 18 / 12, 0.75, "b4", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt", 5),
+            new MapLocation(Math.PI * 17 / 12, 0.3, "g3", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 5),
+            new MapLocation(Math.PI * 19 / 12, 0.35, "g2", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 5),
         
             //slice 6
-            new MapLocation(Math.PI * 22 / 12, 0.75, "b5", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 21 / 12, 0.3, "g4", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),
-            new MapLocation(Math.PI * 23 / 12, 0.35, "g7", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt"),};
+            new MapLocation(Math.PI * 22 / 12, 0.75, "b5", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt", 6),
+            new MapLocation(Math.PI * 21 / 12, 0.3, "g4", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 6),
+            new MapLocation(Math.PI * 23 / 12, 0.35, "g7", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 6),};
 
         public static Queue<Quest> mainlineQuest;
         public static List<Quest> activeSideQuests;
         public static Queue<Quest> inactiveSideQuests;
 
-        public static MapLocation getClosestLocation(double angle, double radius) {
+        public static MapLocation getClosestLocation(double angle, double radius, int unlockedSlices) {
             double r = (1 - radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation;
             MapLocation closest = mapLocations[0];
             double minDistance = int.MaxValue;
             for(int i = 0; i < mapLocations.Length; i++) {
                 double placeRadius = (1 - mapLocations[i].radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation;
                 double distance = Math.Sqrt(Math.Pow(r, 2) + Math.Pow(placeRadius, 2) - 2 * r * placeRadius * Math.Cos(angle - mapLocations[i].angle));
-                if(distance < minDistance) {
+                if (distance < minDistance && mapLocations[i].slice <= unlockedSlices)
+                {
                     closest = mapLocations[i];
                     minDistance = distance;
                 }

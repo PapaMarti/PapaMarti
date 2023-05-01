@@ -20,13 +20,15 @@ namespace PapaMarti
         public float scale;
         public Vector2 origin;
         public float rotation;
+        public int slice;
         public EmptyRoom emptyQuest {
             get; private set;
         }
 
-        public MapLocation(double angle, double radius, string texturestring, Color color, float scale, float rotation, string roomString)
+        public MapLocation(double angle, double radius, string texturestring, Color color, float scale, float rotation, string roomString, int slice)
         {
             //this.room = room;
+            this.slice = slice;
             this.angle = angle;
             this.radius = radius;
             this.texturestring = texturestring;

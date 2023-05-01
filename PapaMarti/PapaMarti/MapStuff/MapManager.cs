@@ -56,7 +56,7 @@ namespace PapaMarti
         {
             get
             {
-                return QuestTracker.getClosestLocation(angle, position);
+                return QuestTracker.getClosestLocation(angle, position, slicesOpen);
             }
         }
 
