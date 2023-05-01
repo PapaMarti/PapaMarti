@@ -93,7 +93,7 @@ namespace PapaMarti
                         direction += Math.PI;
 
                     //circle used to calculate damage
-                    areaOfEffect = new Circle( attackRadius, new Vector2( (int)(player.rect.X + player.rect.Width / 2.0 + getX()), (int)(player.rect.Y + player.rect.Height / 2.0 + getY()) ) );
+                    areaOfEffect = new Circle( attackRadius + buffer, new Vector2( (int)(player.rect.X + player.rect.Width / 2.0 + getX()), (int)(player.rect.Y + player.rect.Height / 2.0 + getY()) ) );
                 }
             }
             else if(currentDistance >= maxDistance) //if it is finished with its flight 

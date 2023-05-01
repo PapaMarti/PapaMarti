@@ -77,7 +77,7 @@ namespace PapaMarti
                     bombRect.X = (int)(location.X - bombRect.Width / 2.0);
                     bombRect.Y = (int)(location.Y - bombRect.Height / 2.0);
 
-                    areaOfEffect = new Circle(bombRad, location);
+                    areaOfEffect = new Circle(bombRad + buffer, location);
                 }
             }
             else if (!isInFlight) //bomb is exploding
@@ -120,7 +120,7 @@ namespace PapaMarti
                 return;
 
             //circle used to calculate damage
-            areaOfEffect = new Circle(attackRadius, new Vector2(location.X, location.Y));
+            areaOfEffect = new Circle(attackRadius + buffer, new Vector2(location.X, location.Y));
 
             currentDistance = 0;
             direction = 0;

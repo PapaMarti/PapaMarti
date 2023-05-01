@@ -47,6 +47,8 @@ namespace PapaMarti
         //used to display weapon on hotbar
         public Texture2D displayTexture;
 
+        public static int buffer = 20;
+
         public Weapon(ContentManager content, Player player, WeaponType type, int damage, double radius)
         {
             this.content = content;
