@@ -128,5 +128,11 @@ namespace PapaMarti
         {
             return (float)(Math.Sin(direction) * speed);
         }
+
+
+        public override void enemyHit()
+        {
+            reset();
+        }
     }
 }

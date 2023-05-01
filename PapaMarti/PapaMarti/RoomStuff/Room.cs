@@ -272,6 +272,10 @@ namespace PapaMarti
                 }
 
                 e.takeDamage(player.enemyDamage(e.center));
+                if(player.enemyDamage(e.center) > 0)
+                {
+                    player.weapon.enemyHit();
+                }
                 if (e.isDead)
                 {
                     remove.Add(e);

@@ -60,5 +60,7 @@ namespace PapaMarti
         public abstract void draw(SpriteBatch spriteBatch);
         public abstract void update();
         public abstract void reset(); //resets the weapon to its default unused state
+
+        public abstract void enemyHit();
     }
 }

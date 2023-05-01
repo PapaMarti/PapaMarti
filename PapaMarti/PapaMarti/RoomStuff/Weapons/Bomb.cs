@@ -23,6 +23,8 @@ namespace PapaMarti
         static double rad = 100;
         static int dam = 200;
 
+        static int bombRad = 23;
+
         double currentDistance;
         double direction;
         int time;
@@ -39,7 +41,7 @@ namespace PapaMarti
             currentDistance = 0;
             direction = 0;
             time = 0;
-            bombRect = new Rectangle(0, 0, 50, 50);
+            bombRect = new Rectangle(0, 0, bombRad * 2, bombRad * 2);
             location = new Vector2(0, 0);
         }
 
@@ -63,6 +65,7 @@ namespace PapaMarti
                 {
                     isInFlight = true;
 
+
                     currentDistance = speed;
 
                     //calculating direction of flight
@@ -73,6 +76,8 @@ namespace PapaMarti
                     location.Y = player.rect.Y + player.rect.Height / 2.0f + getY();
                     bombRect.X = (int)(location.X - bombRect.Width / 2.0);
                     bombRect.Y = (int)(location.Y - bombRect.Height / 2.0);
+
+                    areaOfEffect = new Circle(bombRad, location);
                 }
             }
             else if (!isInFlight) //bomb is exploding
@@ -111,6 +116,9 @@ namespace PapaMarti
 
         private void explode()
         {
+            if (!isInFlight)
+                return;
+
             //circle used to calculate damage
             areaOfEffect = new Circle(attackRadius, new Vector2(location.X, location.Y));
 
@@ -131,6 +139,12 @@ namespace PapaMarti
         private float getY()
         {
             return (float)(Math.Sin(direction) * speed);
+        }
+
+
+        public override void enemyHit()
+        {
+            explode();
         }
     }
 }
