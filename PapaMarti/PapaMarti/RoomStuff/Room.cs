@@ -317,6 +317,22 @@ namespace PapaMarti
                     }
 
                 }
+                foreach (Vector2 v in enemySpots)
+                {
+                    if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(player.rect))
+                    {
+                        if (player.rect.Bottom > this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
+                        {
+                            player.updateY(-changeY);
+                        }
+                        else if (player.rect.Top < this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
+                        {
+                            player.updateY(-changeY);
+                        }
+                    }
+                }
+                
+
             }
 
             if (changeX != 0)
@@ -337,7 +353,20 @@ namespace PapaMarti
                     }
 
                 }
-
+                foreach (Vector2 v in enemySpots)
+                {
+                    if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(player.rect))
+                    {
+                        if (player.rect.Right > this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
+                        {
+                            player.updateX(-changeX);
+                        }
+                        else if (player.rect.Left < this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
+                        {
+                            player.updateX(-changeX);
+                        }
+                    }
+                }
             }
             player.update(changeX, changeY);
             oldKB = kb;

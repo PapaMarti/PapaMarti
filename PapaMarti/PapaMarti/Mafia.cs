@@ -88,8 +88,12 @@ namespace PapaMarti
         {
             int xDist = p.rect.Center.X - this.rect.Center.X;
             int yDist = p.rect.Center.Y - this.rect.Center.Y;
-            int xFactor = xDist / Math.Abs(xDist);
-            int yFactor = yDist / Math.Abs(yDist);
+            int xFactor = 1;
+            if (xDist != 0)
+                xFactor = xDist / Math.Abs(xDist);
+            int yFactor = 1;
+            if (yDist != 0)
+                yFactor = yDist / Math.Abs(yDist);
             double theta = Math.Abs(Math.Atan((yDist * 1.0) / xDist));
             //Console.WriteLine(Math.Cos(theta));
             //Console.WriteLine(Math.Sin(theta));
