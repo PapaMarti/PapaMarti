@@ -215,6 +215,7 @@ namespace PapaMarti
                         if (e.rect.Bottom > this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
                         {
                             e.updateY(Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Height);
+                            
                             //e.bounceOffY();
                         }
                         else if (e.rect.Top < this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
@@ -405,34 +406,6 @@ namespace PapaMarti
         }
             return projectiles;
         }
-        /*
-         player.rect = player.update(changeX, changeY);
-            foreach (Vector2 v in room.walls) 
-            {
-                
-                if (room.tiles[(int)v.X, (int)v.Y].getRect().Intersects(player.rect))
-                {
-                    
-                    Rectangle r = Rectangle.Intersect(room.tiles[(int)v.X, (int)v.Y].getRect(), player.rect);
-                    int xAxis = r.Width;
-                    int yAxis = r.Height;
-                    Console.WriteLine(yAxis);
-                    if (xAxis < yAxis)
-                    {
-                        player.updateX(-changeX);
-                    }
-                    else if (yAxis < xAxis) 
-                    {
-                        player.updateY(-changeY);
-                    }
-                    else if (xAxis == yAxis)
-                    {
-                        player.rect = player.update(-changeX, -changeY);
-                    }
-                    
-                }
-                
-            }
-         * */
+        
     }
 }
