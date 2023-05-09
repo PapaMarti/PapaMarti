@@ -67,7 +67,7 @@ namespace PapaMarti {
         /// <param name="cookTime">The amount of time it takes to cook this pizza.</param>
         /// <param name="toppings">The types of toppings that this pizza will have.</param>
         /// <param name="outline">List of Rectangles outlining where the pizza is supposed to be cut</param>
-        public Pizza(PizzaShape shape, List<Topping> toppings, int cookTime) {
+        public Pizza(PizzaShape shape, List<Rectangle> outline, List<Topping> toppings, int cookTime) {
             this.outline = outline;
             this.toppings = toppings;
             this.cookTime = cookTime;

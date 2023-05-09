@@ -37,10 +37,6 @@ namespace PapaMarti
             enemyText = content.Load<Texture2D>("whitePixel");
             projectileText = content.Load<Texture2D>("whitePixel");
             player = p;
-            if(room is EnemyRoom)
-            {
-                ((EnemyRoom)room).contentify(content);
-            }
         }
 
         public void enter()

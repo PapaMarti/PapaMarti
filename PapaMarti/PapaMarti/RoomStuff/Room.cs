@@ -132,7 +132,7 @@ namespace PapaMarti
         }
 
 
-        public virtual void draw(SpriteBatch spriteBatch)
+        public void draw(SpriteBatch spriteBatch)
         {
             int x = (int)origin.X;
             int y = (int)origin.Y;
@@ -290,7 +290,7 @@ namespace PapaMarti
             return enemies;
         }
 
-        public virtual Player update(Player player)
+        public Player update(Player player)
         {
             KeyboardState kb = Keyboard.GetState();
             // TODO: Add your update logic here

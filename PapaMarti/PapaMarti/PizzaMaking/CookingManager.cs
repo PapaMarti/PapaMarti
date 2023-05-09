@@ -12,7 +12,7 @@ using System.Linq;
 namespace PapaMarti {
 
     public class CookingManager : StageManager {
-        public readonly Pizza type;
+        private readonly Pizza type;
         public CookingStage currentStage;
         private Texture2D baseRect;
         private bool isTransitioning;
@@ -27,7 +27,7 @@ namespace PapaMarti {
         Rectangle retryButton;
         bool done;
         bool readyToMoveOn;
-        public bool isTutorial;
+        bool isTutorial;
         Texture2D pixel;
         Texture2D backgroundYes;
         Texture2D white;

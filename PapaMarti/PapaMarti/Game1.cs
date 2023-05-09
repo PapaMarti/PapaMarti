@@ -32,7 +32,7 @@ namespace PapaMarti {
             Content.RootDirectory = "Content"; 
             graphics.PreferredBackBufferWidth = screenRect.Width;
             graphics.PreferredBackBufferHeight = screenRect.Height;
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             IsMouseVisible = true;
             graphics.ApplyChanges();
         }
@@ -59,13 +59,12 @@ namespace PapaMarti {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            player = new Player(Content, new Rectangle(1800, 500, 60, 60), 300);
-
             QuestTracker.initializeTextures(Content, player);
             Room.initializeTextures(Content);
 
             menu = new Menu(this, Content, true);
 
+            player = new Player(Content, new Rectangle(1800, 500, 60, 60), 300);
 
             mapManager = new MapManager(Content, 0, 0, 1, true);
 
@@ -105,17 +104,6 @@ namespace PapaMarti {
 
             if(currentStage.getStage() == GameStage.Cooking && currentStage.isDone())
             {
-                if (!((CookingManager)currentStage).isTutorial)
-                {
-                    if(((CookingManager)currentStage).type.shape == PizzaShape.Circle)
-                    {
-                        ((PizzaFrisbee)player.weapons[0]).upgrade();
-                    }
-                    else if(((CookingManager)currentStage).type.shape == PizzaShape.Bomb)
-                    {
-                        player.addWeapon(new Bomb(Content, player, WeaponType.Bomb));
-                    }
-                }
                 currentStage = mapManager;
             }
 
