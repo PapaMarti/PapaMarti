@@ -116,63 +116,66 @@ namespace PapaMarti
 
         private void updateArrow()
         {
-            double setAngleDistance = Math.PI / 4.6;
-            double setRadiusDistance = (Game1.screenRect.Height / 2.0)/(translation - innerCircleTranslation);
-
-            angle = angle % (Math.PI * 2);
-            if (angle < 0)
-                angle += Math.PI * 2;
-            MapLocation maploc = QuestTracker.mainlineQuest.Peek().getCurrentTask().location;
-            double angleDiff = angle - maploc.angle;
-            double secondDiff = -2 * Math.PI + angle - maploc.angle;
-            double thirdDiff = 2 * Math.PI - maploc.angle + angle;
-            if (Math.Abs(thirdDiff) < Math.Abs(secondDiff))
-                secondDiff = thirdDiff;
-            if (Math.Abs(secondDiff) < Math.Abs(angleDiff))
-                angleDiff = secondDiff;
-            double radiusDiff = position - maploc.radius;
-
-            //if (radiusDiff < 0)
-            //    setRadiusDistance = 0.4;
-
-            if(Math.Abs(angleDiff) < setAngleDistance && Math.Abs(radiusDiff) < setRadiusDistance)
+            if(QuestTracker.mainlineQuest.Count != 0)
             {
-                arrowText = marker;
-                arrowScale = markerTextScale;
-                arrowAngle = (float)angle;
-                arrowLocation.X = (float)(mapPosition.X + ((1 - maploc.radius) * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Sin(angleDiff));
-                arrowLocation.Y = (float)(mapPosition.Y - ((1 - maploc.radius) * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Cos(angleDiff));
-            }
-            else if(Math.Abs(angleDiff) < setAngleDistance)
-            {
-                arrowScale = arrowTextScale;
-                arrowText = arrow;
-                arrowLocation.X = Game1.screenRect.Width / 2;
-                if(radiusDiff > 0)
+                double setAngleDistance = Math.PI / 4.6;
+                double setRadiusDistance = (Game1.screenRect.Height / 2.0) / (translation - innerCircleTranslation);
+
+                angle = angle % (Math.PI * 2);
+                if (angle < 0)
+                    angle += Math.PI * 2;
+                MapLocation maploc = QuestTracker.mainlineQuest.Peek().getCurrentTask().location;
+                double angleDiff = angle - maploc.angle;
+                double secondDiff = -2 * Math.PI + angle - maploc.angle;
+                double thirdDiff = 2 * Math.PI - maploc.angle + angle;
+                if (Math.Abs(thirdDiff) < Math.Abs(secondDiff))
+                    secondDiff = thirdDiff;
+                if (Math.Abs(secondDiff) < Math.Abs(angleDiff))
+                    angleDiff = secondDiff;
+                double radiusDiff = position - maploc.radius;
+
+                //if (radiusDiff < 0)
+                //    setRadiusDistance = 0.4;
+
+                if (Math.Abs(angleDiff) < setAngleDistance && Math.Abs(radiusDiff) < setRadiusDistance)
                 {
-                    arrowAngle = 0;
-                    arrowLocation.Y = 20 + arrowText.Height * arrowScale / 2;
+                    arrowText = marker;
+                    arrowScale = markerTextScale;
+                    arrowAngle = (float)angle;
+                    arrowLocation.X = (float)(mapPosition.X + ((1 - maploc.radius) * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Sin(angleDiff));
+                    arrowLocation.Y = (float)(mapPosition.Y - ((1 - maploc.radius) * (translation - innerCircleTranslation) + innerCircleTranslation) * Math.Cos(angleDiff));
+                }
+                else if (Math.Abs(angleDiff) < setAngleDistance)
+                {
+                    arrowScale = arrowTextScale;
+                    arrowText = arrow;
+                    arrowLocation.X = Game1.screenRect.Width / 2;
+                    if (radiusDiff > 0)
+                    {
+                        arrowAngle = 0;
+                        arrowLocation.Y = 20 + arrowText.Height * arrowScale / 2;
+                    }
+                    else
+                    {
+                        arrowAngle = (float)Math.PI;
+                        arrowLocation.Y = Game1.screenRect.Height - 20 - arrowText.Height * arrowScale / 2;
+                    }
                 }
                 else
                 {
-                    arrowAngle = (float)Math.PI;
-                    arrowLocation.Y = Game1.screenRect.Height - 20 - arrowText.Height * arrowScale / 2;
-                }
-            }
-            else
-            {
-                arrowText = arrow;
-                arrowScale = arrowTextScale;
-                arrowLocation.Y = Game1.screenRect.Height / 2;
-                if(angleDiff < 0)
-                {
-                    arrowAngle = (float)-Math.PI / 2;
-                    arrowLocation.X = arrowText.Width * arrowScale / 2 + 20;
-                }
-                else
-                {
-                    arrowAngle = (float)Math.PI / 2;
-                    arrowLocation.X = Game1.screenRect.Width - 20 - arrowText.Width * arrowScale / 2;
+                    arrowText = arrow;
+                    arrowScale = arrowTextScale;
+                    arrowLocation.Y = Game1.screenRect.Height / 2;
+                    if (angleDiff < 0)
+                    {
+                        arrowAngle = (float)-Math.PI / 2;
+                        arrowLocation.X = arrowText.Width * arrowScale / 2 + 20;
+                    }
+                    else
+                    {
+                        arrowAngle = (float)Math.PI / 2;
+                        arrowLocation.X = Game1.screenRect.Width - 20 - arrowText.Width * arrowScale / 2;
+                    }
                 }
             }
         }
@@ -236,7 +239,8 @@ namespace PapaMarti
 
 
             //arrow
-            spriteBatch.Draw(arrowText, arrowLocation, null, Color.White, arrowAngle, arrowOrigin, arrowScale, SpriteEffects.None, 0f);
+            if(QuestTracker.mainlineQuest.Count != 0) spriteBatch.Draw(arrowText, arrowLocation, null, Color.White, arrowAngle, arrowOrigin, arrowScale, SpriteEffects.None, 0f);
+
 
             //text cards
             if (textCards.Count > 0)

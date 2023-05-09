@@ -11,6 +11,13 @@ using System.Linq;
 
 namespace PapaMarti {
 
+    public enum CookingManagerLevel
+    {
+        Tutorial,
+        Mainquest,
+        Sidequest
+    }
+
     public class CookingManager : StageManager {
         private readonly Pizza type;
         public CookingStage currentStage;
@@ -21,6 +28,7 @@ namespace PapaMarti {
         public double accuracy; //a number from 0.0 to 1.0
         private int waitTime; //in 1/60th of a seconds
         private bool hasWaited;
+        private readonly CookingManagerLevel level;
         SpriteFont font;
         bool drawTable;
         Texture2D table;
@@ -38,7 +46,8 @@ namespace PapaMarti {
 
         List<TextCard> textCards;
 
-        public CookingManager(Pizza type, MapLocation location, bool isTutorial) : base(location) {
+        public CookingManager(Pizza type, MapLocation location, bool isTutorial, CookingManagerLevel level) : base(location) {
+            this.level = level;
             this.type = type;
             isTransitioning = false;
             isFadingIn = false;
@@ -133,6 +142,7 @@ namespace PapaMarti {
         }
 
         public override bool isDone() {
+            if (readyToMoveOn && level != CookingManagerLevel.Sidequest) QuestTracker.advanceMainquest();
             return readyToMoveOn;
         }
 
