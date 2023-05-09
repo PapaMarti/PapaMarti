@@ -65,9 +65,10 @@ namespace PapaMarti {
             activeSideQuests = new List<Quest>();
             inactiveSideQuests = new Queue<Quest>();
 
-            mainlineQuest.Enqueue(new Quest(new CookingManager(new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), mapLocations[0], true, CookingManagerLevel.Tutorial),
-                new RoomManager(new EnemyRoom(@"..\..\..\..\PapaMartiContent\roomTwo.txt", mapLocations[2]))));
+            mainlineQuest.Enqueue(new Quest(new CookingManager(new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), mapLocations[0], true, CookingManagerLevel.Tutorial)));
             // here is where quests are queued into the mainquest queue
+            //mainlineQuest.Enqueue(new Quest());
+
             // here is where sidequests are queued into the sidequest queue, in the order in which theyre unlocked
 
             //activeSideQuests.Add(inactiveSideQuests.Dequeue());
@@ -83,7 +84,7 @@ namespace PapaMarti {
         }
 
         public static StageManager enterRoom(ContentManager content, Player player, MapLocation location) {
-            if(mainlineQuest.Count != 0 && mainlineQuest.Peek().getCurrentTask().location == location) {
+            if(mainlineQuest.Peek().getCurrentTask().location == location) {
                 if (mainlineQuest.Peek().getCurrentTask().isDone())
                 {
                     return mainlineQuest.Peek().nextTask();
@@ -112,12 +113,9 @@ namespace PapaMarti {
         }
 
         public static void advanceMainquest() {
-            if(mainlineQuest.Count != 0)
-            {
-                mainlineQuest.Peek().nextTask();
-                if (mainlineQuest.Peek().isQuestDone())
-                    mainlineQuest.Dequeue();
-            }
+            mainlineQuest.Peek().nextTask();
+            if(mainlineQuest.Peek().isQuestDone())
+                mainlineQuest.Dequeue();
         }
     }
 
