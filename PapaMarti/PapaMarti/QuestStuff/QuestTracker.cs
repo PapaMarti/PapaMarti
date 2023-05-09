@@ -15,7 +15,7 @@ namespace PapaMarti {
         public static MapLocation[] mapLocations = new MapLocation[] {
 
             //slice 1
-            new MapLocation(Math.PI * 2 / 12, 0.75, "p", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\PizzaShop.txt", 1),
+            new MapLocation(Math.PI * 2 / 12, 0.75, "p", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt", 1),
             new MapLocation(Math.PI * 1 / 12, 0.3, "g5", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 1),
             new MapLocation(Math.PI * 3 / 12, 0.35, "g1", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 1),
 
@@ -68,19 +68,20 @@ namespace PapaMarti {
             activeSideQuests = new List<Quest>();
             inactiveSideQuests = new Queue<Quest>();
 
-            //sorry
             List<String[]> beforeShop = new List<String[]>();
-            string[] str = new string[] { "Oh no! The Pineapple Mafia is here! They want to order pineapple pizza, but we can't let that happen!", String.Empty };
+            string[] str = { "Oh no! The Pineapple Mafia is here! They want to order pineapple pizza, but we can't let that happen!", String.Empty };
             beforeShop.Add(str);
-            string[] str1 = new string[] { "Press space to attack with your pizzas to get rid of them!", String.Empty };
-            beforeShop.Add(str1);
+            str[0] = "Press space to attack with your pizzas to get rid of them!";
+            beforeShop.Add(str);
             List<String[]> afterShop = new List<String[]>();
-            string[] str2 = new string[] { "Great job defeating those dirty pineapple enjoyers! Huh? It looks like one of them has some last words.", String.Empty };
-            afterShop.Add(str2);
-            string[] str3 = new string[] { "I never liked pineapple pizza anyway... Listen, you need to find the legendary pizza cutter, one of our members knows where it is, but I don't know who. We have a base near here, please find it... *dies*", "Mafia Member" };
-            afterShop.Add(str3);
-            string[] str4 = new string[] { "Wow, a legendary pizza cutter? Looks like we need to go beat up some more mafia members! Let's go to that place they mentioned.", String.Empty };
-            afterShop.Add(str4);
+            str[0] = "Great job defeating those dirty pineapple enjoyers! Huh? It looks like one of them has some last words.";
+            afterShop.Add(str);
+            str[0] = "I never liked pineapple pizza anyway... Listen, you need to find the legendary pizza cutter, one of our members knows where it is, but I don't know who. We have a base near here, please find it... *dies*";
+            str[1] = "Mafia Member";
+            afterShop.Add(str);
+            str[0] = "Wow, a legendary pizza cutter? Looks like we need to go beat up some more mafia members! Let's go to that place they mentioned.";
+            str[1] = String.Empty;
+            afterShop.Add(str);
             mainlineQuest.Enqueue(new Quest(new CookingManager(new Pizza(PizzaShape.Circle, new List<Topping>(), 10), mapLocations[0], true),
                                             new RoomManager(new EnemyRoom(@"..\..\..\..\PapaMartiContent\PizzaShopEnemies.txt", mapLocations[0], beforeShop, afterShop) )) );
             // here is where quests are queued into the mainquest queue
@@ -141,20 +142,10 @@ namespace PapaMarti {
         }
 
         public static void advanceMainquest() {
-            if(mainlineQuest.Count > 0)
-            {
-                if (mainlineQuest.Peek().getCurrentTask().isDone())
-                    mainlineQuest.Peek().nextTask();
-                if (mainlineQuest.Peek().isQuestDone())
-                    mainlineQuest.Dequeue();
-            }
-            if(activeSideQuests.Count > 0)
-            {
-                if (activeSideQuests[0].getCurrentTask().isDone())
-                    activeSideQuests[0].nextTask();
-                if (activeSideQuests[0].isQuestDone())
-                    activeSideQuests.RemoveAt(0);
-            }
+            if(mainlineQuest.Peek().getCurrentTask().isDone())
+                mainlineQuest.Peek().nextTask();
+            if(mainlineQuest.Peek().isQuestDone())
+                mainlineQuest.Dequeue();
         }
     }
 

@@ -38,8 +38,6 @@ namespace PapaMarti {
 
         List<TextCard> textCards;
 
-        public StageManager pleaseGoHere;
-
         public CookingManager(Pizza type, MapLocation location, bool isTutorial) : base(location) {
             this.type = type;
             isTransitioning = false;
@@ -135,43 +133,6 @@ namespace PapaMarti {
         }
 
         public override bool isDone() {
-            if (readyToMoveOn)
-            {
-                Room room = new EmptyRoom(location.roomString, location);
-                QuestTracker.advanceMainquest();
-                if (QuestTracker.mainlineQuest.Count > 0)
-                {
-                    if (QuestTracker.mainlineQuest.Peek().getCurrentTask().location == location)
-                    {
-                        if (QuestTracker.mainlineQuest.Peek().getCurrentTask() is RoomManager)
-                        {
-                            room = ((RoomManager)QuestTracker.mainlineQuest.Peek().getCurrentTask()).room;
-                        }
-                        else
-                        {
-                            pleaseGoHere = QuestTracker.mainlineQuest.Peek().getCurrentTask();
-                        }
-                    }
-                }
-                if (QuestTracker.activeSideQuests.Count > 0)
-                {
-                    if (QuestTracker.activeSideQuests[0].getCurrentTask().location == location)
-                    {
-                        if (QuestTracker.activeSideQuests[0].getCurrentTask().location is RoomManager)
-                        {
-                            room = ((RoomManager)QuestTracker.activeSideQuests[0].getCurrentTask()).room;
-                        }
-                        else
-                        {
-                            pleaseGoHere = QuestTracker.activeSideQuests[0].getCurrentTask();
-                        }
-                    }
-                }
-                if(pleaseGoHere == null)
-                {
-                    pleaseGoHere = new RoomManager(room);
-                }
-            }
             return readyToMoveOn;
         }
 

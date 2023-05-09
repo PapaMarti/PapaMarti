@@ -23,15 +23,12 @@ namespace PapaMarti
         List<Projectile> projectiles;
         Texture2D projectileText;
 
-        public StageManager pleaseGoHere;
-
         public RoomManager(Room room) : base(room.location)
         {
             this.room = room;
             enemySpots = room.enemySpots;
             enemies = room.enemies;
             projectiles = room.projectiles;
-            location = room.location;
         }
 
         public override void contentify(ContentManager content, Player p)
@@ -86,39 +83,7 @@ namespace PapaMarti
         }
         public override bool isDone()
         {
-            if (room.isDone())
-            {
-                room = new EmptyRoom(location.roomString, location);
-                QuestTracker.advanceMainquest();
-                if(QuestTracker.mainlineQuest.Count > 0)
-                {
-                    if (QuestTracker.mainlineQuest.Peek().getCurrentTask().location == location)
-                    {
-                        if(QuestTracker.mainlineQuest.Peek().getCurrentTask() is RoomManager)
-                        {
-                            room = ((RoomManager)QuestTracker.mainlineQuest.Peek().getCurrentTask()).room;
-                        }
-                        else
-                        {
-                            pleaseGoHere = QuestTracker.mainlineQuest.Peek().getCurrentTask();
-                        }
-                    }
-                }
-                if(QuestTracker.activeSideQuests.Count > 0)
-                {
-                    if(QuestTracker.activeSideQuests[0].getCurrentTask().location == location)
-                    {
-                        if(QuestTracker.activeSideQuests[0].getCurrentTask().location is RoomManager)
-                        {
-                            room = ((RoomManager)QuestTracker.activeSideQuests[0].getCurrentTask()).room;
-                        }
-                        else
-                        {
-                            pleaseGoHere = QuestTracker.activeSideQuests[0].getCurrentTask();
-                        }
-                    }
-                }
-            }
+            if (room.isDone()) QuestTracker.advanceMainquest();
             return room.isTouchingDoor();
         }
     }
