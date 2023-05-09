@@ -101,38 +101,29 @@ namespace PapaMarti {
 
         public static StageManager enterRoom(ContentManager content, Player player, MapLocation location) {
 
-            if(mainlineQuest.Count > 0)
-            {
-                if (mainlineQuest.Peek().getCurrentTask().location == location)
-                {
-                    if (mainlineQuest.Peek().getCurrentTask().isDone())
-                    {
-                        StageManager room = mainlineQuest.Peek().nextTask();
-                        if (mainlineQuest.Peek().getCurrentTask().location == location)
-                        {
-                            if(room is RoomManager)
-                                ((RoomManager)room).enter();
-                            return room;
-                        }
-                    }
-                    else
-                    {
-                        if (mainlineQuest.Peek().getCurrentTask().getStage() == GameStage.Rooming)
-                        {
-                            mainlineQuest.Peek().getCurrentTask().contentify(content, player);
-                            ((RoomManager)mainlineQuest.Peek().getCurrentTask()).enter();
-                        }
-                        return mainlineQuest.Peek().getCurrentTask();
-                    }
-                }
 
+            if(mainlineQuest.Peek().getCurrentTask().location == location) {
+                if (mainlineQuest.Peek().getCurrentTask().isDone())
+                {
+                    RoomManager room = (RoomManager)mainlineQuest.Peek().nextTask();
+                    room.enter();
+                    return room;
+                }
+                else
+                {
+
+                    if (mainlineQuest.Peek().getCurrentTask().getStage() == GameStage.Rooming)
+                    {
+                        mainlineQuest.Peek().getCurrentTask().contentify(content, player);
+                        ((RoomManager)mainlineQuest.Peek().getCurrentTask()).enter();
+                    }
+                    return mainlineQuest.Peek().getCurrentTask();
+                }
             }
 
             foreach(Quest q in activeSideQuests) {
                 if(q.getCurrentTask().location == location)
-                {
-                    return q.getCurrentTask();
-                }
+                    return null;
             }
 
             RoomManager r = new RoomManager(location.emptyQuest);
@@ -142,8 +133,7 @@ namespace PapaMarti {
         }
 
         public static void advanceMainquest() {
-            if(mainlineQuest.Peek().getCurrentTask().isDone())
-                mainlineQuest.Peek().nextTask();
+            mainlineQuest.Peek().nextTask();
             if(mainlineQuest.Peek().isQuestDone())
                 mainlineQuest.Dequeue();
         }
