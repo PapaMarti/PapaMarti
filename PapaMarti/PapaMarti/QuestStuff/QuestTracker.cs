@@ -65,24 +65,38 @@ namespace PapaMarti {
             activeSideQuests = new List<Quest>();
             inactiveSideQuests = new Queue<Quest>();
 
-            mainlineQuest.Enqueue(new Quest(new EmptyRoom(@"..\..\..\..\PapaMartiContent\roomTest.txt", mapLocations[0])));
+            mainlineQuest.Enqueue(new Quest(new CookingManager(new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), mapLocations[0], true)));
             // here is where quests are queued into the mainquest queue
             // here is where sidequests are queued into the sidequest queue, in the order in which theyre unlocked
 
             //activeSideQuests.Add(inactiveSideQuests.Dequeue());
         }
 
-        public static void initializeTextures(ContentManager content) {
+        public static void initializeTextures(ContentManager content, Player p) {
             foreach(MapLocation m in mapLocations)
                 m.loadTexture(content);
+
+            foreach (Quest q in mainlineQuest) q.contentify(content, p);
+            foreach (Quest q in activeSideQuests) q.contentify(content, p);
+            foreach (Quest q in inactiveSideQuests) if (!activeSideQuests.Contains(q)) q.contentify(content, p);
         }
 
-        public static RoomManager enterRoom(ContentManager content, Player player, MapLocation location) {
+        public static StageManager enterRoom(ContentManager content, Player player, MapLocation location) {
             if(mainlineQuest.Peek().getCurrentTask().location == location) {
-                if(mainlineQuest.Peek().getCurrentTask().isDone())
-                    return new RoomManager(content, mainlineQuest.Peek().nextTask(), player);
+                if (mainlineQuest.Peek().getCurrentTask().isDone())
+                {
+                    return mainlineQuest.Peek().nextTask();
+                }
                 else
-                    return new RoomManager(content, mainlineQuest.Peek().getCurrentTask(), player);
+                {
+
+                    if (mainlineQuest.Peek().getCurrentTask().getStage() == GameStage.Rooming)
+                    {
+                        mainlineQuest.Peek().getCurrentTask().contentify(content, player);
+                        ((RoomManager)mainlineQuest.Peek().getCurrentTask()).enter();
+                    }
+                    return mainlineQuest.Peek().getCurrentTask();
+                }
             }
 
             foreach(Quest q in activeSideQuests) {
@@ -90,7 +104,10 @@ namespace PapaMarti {
                     return null;
             }
 
-            return new RoomManager(content, location.emptyQuest, player);
+            RoomManager r = new RoomManager(location.emptyQuest);
+            r.contentify(content, player);
+            r.enter();
+            return r;
         }
 
         public static void advanceMainquest() {

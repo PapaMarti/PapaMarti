@@ -65,7 +65,7 @@ namespace PapaMarti
         /// </summary>
         /// <param name="angle">Angular location on the pizza map, give radians. Typical unit circle stuff, roads are at 0, pi/3, 2pi/3, pi, 4pi/3, 5pi/3</param>
         /// <param name="position">How far up or down they are on a road, 0 for closer to the outside, 1 for the inner ring.</param>
-        public MapManager(ContentManager content, double angle, double position, int slicesOpen, bool tutorial) : base(content)
+        public MapManager(ContentManager content, double angle, double position, int slicesOpen, bool tutorial) : base(null)
         {
             this.angle = angle % (2 * Math.PI);
             this.position = position;
@@ -104,8 +104,7 @@ namespace PapaMarti
             textCards = new List<TextCard>();
             if (isTutorial)
             {
-                string mapTutorial = "Great job with that pizza and welcome to Santa Margherita, an island with much to explore! Use the left and right arrow keys to drive around the island and use the up and down arrow keys if you want to go down a road. You can also press the enter key to go into a building.";
-                textCards.Add(new TextCard(content, mapTutorial, String.Empty));
+                textCards.Add(new TextCard(content, "Welcome to Santa Margherita, an island with much to explore! Use the left and right arrow keys to drive around the island and use the up and down arrow keys if you want to go down a road. You can also press the enter key to go into a building. Follow the arrow to head to the pizza shop and get started!", String.Empty));
             }
 
             car = new Car();
@@ -354,6 +353,11 @@ namespace PapaMarti
                 move = true;
             }
             return move;
+        }
+
+        public override void contentify(ContentManager content, Player p)
+        {
+            
         }
     }
 }

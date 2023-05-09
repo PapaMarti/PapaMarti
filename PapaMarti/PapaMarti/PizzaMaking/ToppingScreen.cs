@@ -35,7 +35,6 @@ namespace PapaMarti {
         private readonly Texture2D bowl;
         private readonly Texture2D toppings;
         private readonly Texture2D whiteout;
-        private readonly GraphicsDevice gd;
         private readonly Texture2D dough;
         private readonly Rectangle doughRect;
         private readonly List<KeyValuePair<Rectangle, Topping>> actualToppingPos;
@@ -51,8 +50,7 @@ namespace PapaMarti {
         /// <summary>
         /// Creates a new topping screen to complete the topping stage of creating the pizza
         /// </summary>
-        public ToppingScreen(GraphicsDevice gd, Pizza type, Texture2D bowl, Texture2D toppings, Texture2D whiteout, Texture2D dough, List<KeyValuePair<Rectangle, Topping>> actualToppingPos) : base(type) {
-            this.gd = gd;
+        public ToppingScreen(Pizza type, Texture2D bowl, Texture2D toppings, Texture2D whiteout, Texture2D dough, List<KeyValuePair<Rectangle, Topping>> actualToppingPos) : base(type) {
             this.whiteout = whiteout;
             this.bowl = bowl;
             this.toppings = toppings;
