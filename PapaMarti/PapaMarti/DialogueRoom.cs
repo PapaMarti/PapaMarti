@@ -18,7 +18,7 @@ namespace PapaMarti
         List<TextCard> textCards;
         bool loaded;
 
-        public DialogueRoom(string layout, MapLocation location, params String[] text) : base(layout, location)
+        public DialogueRoom(string layout, MapLocation location, params String[] text) : base(@"..\..\..\..\PapaMartiContent\" + layout + ".txt", location)
         {
             dialogue = text;
             textCards = new List<TextCard>();

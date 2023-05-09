@@ -1,0 +1,10 @@
+,,,,,,m,,,,,,
+bbbbbbdbbbbbb
+b...........b
+b.........e.b
+b...........b
+b.e.........b
+b.........e.b
+b..ooooooo..b
+b...........b
+bbbbbbbbbbbbb
