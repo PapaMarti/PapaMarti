@@ -66,6 +66,7 @@
     <Compile Include="MapStuff\MapManager.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="QuestStuff\QuestPersistantData\EmptyRoom.cs" />
+    <Compile Include="QuestStuff\QuestPersistantData\EnemyRoom.cs" />
     <Compile Include="QuestStuff\QuestTracker.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="QuestMenu.cs" />
