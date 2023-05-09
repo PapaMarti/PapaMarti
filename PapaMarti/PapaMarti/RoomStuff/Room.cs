@@ -98,7 +98,7 @@ namespace PapaMarti
                     {
                         if ((int)enemySpots_[counter].X == i && (int)enemySpots_[counter].Y == j)
                         {
-                            enemies.Add(new Mafia(new Rectangle(x, y, tileSize, tileSize), 100, 3, 3, 10, 3));
+                            enemies.Add(new Mafia(new Rectangle(x, y, 60, 60), 100, 3, 3, 10, 3));
                             counter++;
                         }
                     }
@@ -107,10 +107,10 @@ namespace PapaMarti
 
 
 
-                    x += tileSize;
+                    x += 60;
                 }
                 x = (int)origin.X;
-                y += tileSize;
+                y += 60;
             }
         }
 
@@ -165,8 +165,8 @@ namespace PapaMarti
         public Player enter(Player player)
         {
             exitToMap = false;
-            player.rect.X = (int)(origin.X + door.Y * tileSize);
-            player.rect.Y = (int)(origin.Y + door.X * tileSize);
+            player.rect.X = (int)(origin.X + door.Y * 60);
+            player.rect.Y = (int)(origin.Y + door.X * 60);
             Console.WriteLine(player.rect + ", " + door);
             player.updateCenter();
             return player;

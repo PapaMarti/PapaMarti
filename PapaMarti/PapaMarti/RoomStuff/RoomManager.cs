@@ -45,6 +45,7 @@ namespace PapaMarti
 
         public void enter()
         {
+
             player = room.enter(player);
         }
 

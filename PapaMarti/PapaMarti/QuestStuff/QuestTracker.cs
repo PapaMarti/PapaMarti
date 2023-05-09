@@ -100,14 +100,10 @@ namespace PapaMarti {
         }
 
         public static StageManager enterRoom(ContentManager content, Player player, MapLocation location) {
-
-
             if(mainlineQuest.Peek().getCurrentTask().location == location) {
                 if (mainlineQuest.Peek().getCurrentTask().isDone())
                 {
-                    RoomManager room = (RoomManager)mainlineQuest.Peek().nextTask();
-                    room.enter();
-                    return room;
+                    return mainlineQuest.Peek().nextTask();
                 }
                 else
                 {
