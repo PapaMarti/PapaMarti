@@ -67,7 +67,7 @@ namespace PapaMarti {
 
             mainlineQuest.Enqueue(new Quest(new CookingManager(new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), mapLocations[0], true, CookingManagerLevel.Tutorial)));
             // here is where quests are queued into the mainquest queue
-            //mainlineQuest.Enqueue(new Quest());
+            mainlineQuest.Enqueue(new Quest());
 
             // here is where sidequests are queued into the sidequest queue, in the order in which theyre unlocked
 

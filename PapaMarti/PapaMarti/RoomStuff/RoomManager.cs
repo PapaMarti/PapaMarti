@@ -37,6 +37,8 @@ namespace PapaMarti
             enemyText = content.Load<Texture2D>("whitePixel");
             projectileText = content.Load<Texture2D>("whitePixel");
             player = p;
+            if (room is DialogueRoom)
+                ((DialogueRoom)room).loadTextures(content);
         }
 
         public void enter()
