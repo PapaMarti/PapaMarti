@@ -68,8 +68,7 @@ namespace PapaMarti {
 
             mainlineQuest.Enqueue(new Quest(new CookingManager(new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), mapLocations[0], true, CookingManagerLevel.Tutorial)));
             // here is where quests are queued into the mainquest queue
-            mainlineQuest.Enqueue(new Quest(new RoomManager(new EnemyRoom("roomTest", mapLocations[2])),
-                new RoomManager(new DialogueRoom("PizzaShopEnemy", mapLocations[3], "Oh no! The pineapple mafia is here in the shop!", "Press the spacebar to use your pizzas to attack them.")), 
+            mainlineQuest.Enqueue(new Quest(new RoomManager(new DialogueRoom("PizzaShopEnemy", mapLocations[3], "Oh no! The pineapple mafia is here in the shop!", "Press the spacebar to use your pizzas to attack them.")), 
                                             new RoomManager(new EnemyRoom("PizzaShopEnemy", mapLocations[4])))); //dont worry about the text file name i changed it so all the dumb stuff is put in in the constructor
 
             // here is where sidequests are queued into the sidequest queue, in the order in which theyre unlocked
