@@ -11,7 +11,7 @@ namespace PapaMarti {
         public static MapLocation[] mapLocations = new MapLocation[] {
 
             //slice 1
-            new MapLocation(Math.PI * 2 / 12, 0.75, "p", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomTwo.txt", 1),
+            new MapLocation(Math.PI * 2 / 12, 0.75, "p", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\PizzaShop.txt", 1),
             new MapLocation(Math.PI * 1 / 12, 0.3, "g5", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 1),
             new MapLocation(Math.PI * 3 / 12, 0.35, "g1", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 1),
 
@@ -66,9 +66,11 @@ namespace PapaMarti {
             activeSideQuests = new List<Quest>();
             inactiveSideQuests = new Queue<Quest>();
 
-            mainlineQuest.Enqueue(new Quest(new CookingManager(new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), mapLocations[0], true, CookingManagerLevel.Tutorial),
-                new RoomManager(new EnemyRoom(@"..\..\..\..\PapaMartiContent\roomTwo.txt", mapLocations[2]))));
+            mainlineQuest.Enqueue(new Quest(new CookingManager(new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), mapLocations[0], true, CookingManagerLevel.Tutorial)));
             // here is where quests are queued into the mainquest queue
+            mainlineQuest.Enqueue(new Quest(new RoomManager(new DialogueRoom("PizzaShopEnemy", mapLocations[0], "Oh no! The pineapple mafia is here in the shop!", "Press the spacebar to use your pizzas to attack them.")), 
+                                            new RoomManager(new EnemyRoom("PizzaShopEnemy", mapLocations[0])))); //dont worry about the text file name i changed it so all the dumb stuff is put in in the constructor
+
             // here is where sidequests are queued into the sidequest queue, in the order in which theyre unlocked
 
             //activeSideQuests.Add(inactiveSideQuests.Dequeue());
@@ -86,7 +88,7 @@ namespace PapaMarti {
         }
 
         public static StageManager enterRoom(ContentManager content, Player player, MapLocation location) {
-            if(mainlineQuest.Count != 0 && mainlineQuest.Peek().getCurrentTask().location == location) {
+            if(mainlineQuest.Peek().getCurrentTask().location == location) {
                 if (mainlineQuest.Peek().getCurrentTask().isDone())
                 {
                     return mainlineQuest.Peek().nextTask();

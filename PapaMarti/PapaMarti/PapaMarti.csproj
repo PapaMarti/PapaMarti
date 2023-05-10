@@ -56,6 +56,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DialogueRoom.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Life.cs" />
     <Compile Include="Mafia.cs" />
