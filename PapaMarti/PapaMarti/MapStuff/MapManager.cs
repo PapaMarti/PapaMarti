@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace PapaMarti
 {
-    class MapManager: StageManager
+    public class MapManager: StageManager
     {
         double angle;
         double position;
@@ -40,7 +40,7 @@ namespace PapaMarti
         Texture2D carImage;
 
         Texture2D sliceLock;
-        int slicesOpen;
+        public int slicesOpen;
 
         Car car;
         Texture2D carImag;

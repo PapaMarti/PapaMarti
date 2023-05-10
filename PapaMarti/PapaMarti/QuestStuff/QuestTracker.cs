@@ -43,6 +43,7 @@ namespace PapaMarti {
         public static Queue<Quest> mainlineQuest;
         public static List<Quest> activeSideQuests;
         public static Queue<Quest> inactiveSideQuests;
+        private static MapManager map;
 
         public static MapLocation getClosestLocation(double angle, double radius, int unlockedSlices) {
             double r = (1 - radius) * (MapManager.translation - MapManager.innerCircleTranslation) + MapManager.innerCircleTranslation;
@@ -73,7 +74,9 @@ namespace PapaMarti {
             //activeSideQuests.Add(inactiveSideQuests.Dequeue());
         }
 
-        public static void initializeTextures(ContentManager content, Player p) {
+        public static void initializeTextures(ContentManager content, Player p, MapManager map) {
+            QuestTracker.map = map;
+
             foreach(MapLocation m in mapLocations)
                 m.loadTexture(content);
 
@@ -116,7 +119,10 @@ namespace PapaMarti {
             {
                 mainlineQuest.Peek().nextTask();
                 if (mainlineQuest.Peek().isQuestDone())
+                {
                     mainlineQuest.Dequeue();
+                    map.slicesOpen++;
+                }
             }
         }
     }
