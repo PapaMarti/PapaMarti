@@ -20,7 +20,7 @@ namespace PapaMarti
         public int damageFrames;
         public Color defaultColor;
         public Color currentColor;
-        
+        public int directionTimer;
 
         public Enemy(Rectangle rect_, int maxLife_, int maxXVel_, int maxYVel_, int fireSpeed_, int frequency_) : base()
         {
@@ -37,8 +37,13 @@ namespace PapaMarti
             defaultColor = Color.Blue;
             currentColor = defaultColor;
             damageFrames = 0;
+            directionTimer = 180;
         }
         
+        public void resetTimer()
+        {
+            directionTimer = 180;
+        }
         public Rectangle update() //for tests
         {
             return new Rectangle(rect.X + xVel, rect.Y + yVel, rect.Width, rect.Height);
@@ -58,7 +63,8 @@ namespace PapaMarti
         {
             spriteBatch.Draw(enemyText, rect, currentColor);
         }
-        public abstract void bounceOffX();
-        public abstract void bounceOffY();
+        public abstract void hitVertical();
+        public abstract void hitHorizontal();
+        public abstract void changeDirection();
     }
 }
