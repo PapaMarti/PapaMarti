@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -14,6 +14,20 @@ namespace PapaMarti
         {
             xVel = 0;
             yVel = 0;
+            Random rand = new Random();
+            if (rand.Next(2) == 0)
+            {
+                xVel = 3;
+                if (rand.Next(2) == 0)
+                    xVel *= -1;
+            }
+            else
+            {
+                yVel = 3;
+                if (rand.Next(2) == 0)
+                    yVel *= -1;
+            }
+            
         }
         private double baseComponent(double velocity)
         {
@@ -21,9 +35,32 @@ namespace PapaMarti
             final /= 2;
             return Math.Sqrt(final);
         }
-        public override void bounceOffX()
+        public override void changeDirection()
         {
-            xVel *= -1;
+            Random rand = new Random();
+            if (xVel != 0)
+            {
+                xVel = 0;
+                yVel = 3;
+                if (rand.Next(2) == 0)
+                {
+                    yVel *= -1;
+                }
+
+            }
+            else
+            {
+                yVel = 0;
+                xVel = 3;
+                if (rand.Next(2) == 0)
+                    xVel *= -1;
+            }
+            
+        }
+        public override void hitVertical()
+        {
+            
+            yVel *= -1;
             /*
             if (!p.rect.Intersects(this.rect))
             {
@@ -79,9 +116,9 @@ namespace PapaMarti
             
             
         }
-        public override void bounceOffY()
+        public override void hitHorizontal()
         {
-            yVel *= -1;
+            xVel *= -1;
         }
 
         public override Vector2 trajectory(Player p)
