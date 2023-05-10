@@ -461,12 +461,21 @@ namespace PapaMarti
                                 i--;
                                 break;
                             }
-                            else if (this.tiles[(int)v.X, (int)v.Y].tilePhysics == TilePhysics.Impassable && projectiles[i].ricochet > 0)
+                            else if (this.tiles[(int)v.X, (int)v.Y].tilePhysics == TilePhysics.Impassable)
                             {
-                                projectiles[i].friendlyFire = true;
-                                projectiles[i].xVel *= -1;
-                                projectiles[i].yVel *= -1;
-                                projectiles[i].ricochet--;
+                                if (projectiles[i].ricochet > 0)
+                                {
+                                    projectiles[i].friendlyFire = true;
+                                    projectiles[i].xVel *= -1;
+                                    projectiles[i].yVel *= -1;
+                                    projectiles[i].ricochet--;
+                                }
+                                else
+                                {
+                                    projectiles.RemoveAt(i);
+                                    i--;
+                                    break;
+                                }
                             }
                         }
                     }
