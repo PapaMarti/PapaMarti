@@ -27,7 +27,7 @@ namespace PapaMarti
 
         public override bool isDone()
         {
-            return textCards.Count > 0 && loaded;
+            return textCards.Count == 0 && loaded && enemies.Count == 0;
         }
 
         public override void draw(SpriteBatch spriteBatch)

@@ -82,8 +82,9 @@ namespace PapaMarti
         }
         public override bool isDone()
         {
-            if (room.isDone()) QuestTracker.advanceMainquest();
-            return room.isTouchingDoor();
+            bool done = room.isTouchingDoor();
+            if (room.isDone() && done) QuestTracker.advanceMainquest();
+            return done;
         }
     }
 }
