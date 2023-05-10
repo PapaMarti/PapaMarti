@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -17,6 +17,10 @@ namespace PapaMarti
         public int fireSpeed;
         public int frequency;
         public Vector2 center;
+        public int damageFrames;
+        public Color defaultColor;
+        public Color currentColor;
+        
 
         public Enemy(Rectangle rect_, int maxLife_, int maxXVel_, int maxYVel_, int fireSpeed_, int frequency_) : base()
         {
@@ -30,7 +34,11 @@ namespace PapaMarti
             fireSpeed = fireSpeed_;
             frequency = frequency_;
             center = new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
+            defaultColor = Color.Blue;
+            currentColor = defaultColor;
+            damageFrames = 0;
         }
+        
         public Rectangle update() //for tests
         {
             return new Rectangle(rect.X + xVel, rect.Y + yVel, rect.Width, rect.Height);
@@ -48,7 +56,7 @@ namespace PapaMarti
         }
         public override void draw(SpriteBatch spriteBatch, Texture2D enemyText)
         {
-            spriteBatch.Draw(enemyText, rect, Color.Blue);
+            spriteBatch.Draw(enemyText, rect, currentColor);
         }
         public abstract void bounceOffX();
         public abstract void bounceOffY();
