@@ -177,10 +177,6 @@ namespace PapaMarti
         {
             timer++;
 
-            bool moveDown = false;
-            bool moveRight = false;
-            int xMovement = 0;
-            int yMovement = 0;
             List<Enemy> remove = new List<Enemy>();
             foreach (Enemy e in enemies)
             {
@@ -189,6 +185,15 @@ namespace PapaMarti
                     e.damageFrames--;
                     if (e.damageFrames == 0)
                         e.currentColor = e.defaultColor;
+                }
+                if (e.directionTimer <= 0)
+                {
+                    e.changeDirection();
+                    e.resetTimer();
+                }
+                else
+                {
+                    e.directionTimer--;
                 }
                 /*
                 if (player.rect.Intersects(e.rect))
@@ -225,50 +230,59 @@ namespace PapaMarti
                     e.updateY(yMovement);
                     
                 }
-            */
-                //e.updateY(e.yVel);
-
-
-
-                foreach (Vector2 v in this.walls)
+            */  
+                if (e.yVel != 0)
                 {
-
-                    if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(e.rect))
+                    e.updateY(e.yVel);
+                    foreach (Vector2 v in this.walls)
                     {
 
+                        if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(e.rect))
+                        {
 
-                        if (e.rect.Bottom > this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
-                        {
-                            e.updateY(Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Height);
-                            //e.bounceOffY();
-                        }
-                        else if (e.rect.Top < this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
-                        {
-                            e.updateY(-Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Height);
-                            //e.bounceOffY();
+
+                            if (e.rect.Bottom > this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
+                            {
+                                e.updateY(Rectangle.Intersect(e.rect, this.tiles[(int)v.X, (int)v.Y].getRect()).Height);
+                                e.hitVertical();
+                                
+                            }
+                            else if (e.rect.Top < this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
+                            {
+                                e.updateY(-Rectangle.Intersect(e.rect, this.tiles[(int)v.X, (int)v.Y].getRect()).Height);
+                                e.hitVertical();
+                            }
+
                         }
 
                     }
-
                 }
-
-                //e.updateX(e.xVel);
-                foreach (Vector2 v in this.walls)
+                
+                if (e.xVel != 0)
                 {
-                    if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(e.rect))
+                    e.updateX(e.xVel);
+                    foreach (Vector2 v in this.walls)
                     {
-                        if (e.rect.Right > this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
+                        if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(e.rect))
                         {
-                            e.updateX(Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Width);
-                            //e.bounceOffX();
+                            if (e.rect.Right > this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
+                            {
+                                e.updateX(Rectangle.Intersect(e.rect, this.tiles[(int)v.X, (int)v.Y].getRect()).Width);
+                                e.hitHorizontal();
+                            }
+                            else if (e.rect.Left < this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
+                            {
+                                e.updateX(-Rectangle.Intersect(e.rect, this.tiles[(int)v.X, (int)v.Y].getRect()).Width);
+                                e.hitHorizontal();
+                            }
                         }
-                        else if (player.rect.Left < this.tiles[(int)v.X, (int)v.Y].getRect().Center.X)
-                        {
-                            e.updateX(-Rectangle.Intersect(this.tiles[(int)v.X, (int)v.Y].getRect(), e.rect).Width);
-                            //e.bounceOffX();
-                        }
-                    }
 
+                    }
+                }
+                if (e.rect.Intersects(player.rect) && player.iFrames <= 0)
+                {
+                    player.takeDamage(20);
+                    player.iFrames = 120;
                 }
 
                 if (timer % (e.frequency * 60) == 0)
@@ -283,11 +297,24 @@ namespace PapaMarti
                     e.damageFrames = 10;
                     e.currentColor = Color.Red;
                 }
+                for (int i = 0; i < projectiles.Count; i++)
+                {
+                    if (projectiles[i].friendlyFire && projectiles[i].rect.Intersects(e.rect))
+                    {
+                            //Console.WriteLine("h");
+
+                            e.takeDamage(projectiles[i].strength);
+                            e.damageFrames = 10;
+                            e.currentColor = Color.Red;
+                            projectiles.RemoveAt(i);
+                        i--;
+                        
+                    }
+                }
                 if (e.isDead)
                 {
                     remove.Add(e);
                 }
-
             }
             foreach (Enemy e in remove)
             {
@@ -297,6 +324,7 @@ namespace PapaMarti
 
             foreach (Projectile p in projectiles)
             {
+                
                 p.update();
             }
             return enemies;
@@ -357,7 +385,7 @@ namespace PapaMarti
 
                     if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(player.rect))
                     {
-
+                        
 
                         if (player.rect.Bottom > this.tiles[(int)v.X, (int)v.Y].getRect().Center.Y)
                         {
@@ -421,7 +449,28 @@ namespace PapaMarti
                     projectiles.RemoveAt(i);
                     i--;
                 }
-
+                else
+                {
+                    foreach (Vector2 v in this.walls)
+                    {
+                        if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(projectiles[i].rect))
+                        {
+                            if (this.tiles[(int)v.X, (int)v.Y].tilePhysics == TilePhysics.Wall)
+                            {
+                                projectiles.RemoveAt(i);
+                                i--;
+                                break;
+                            }
+                            else if (this.tiles[(int)v.X, (int)v.Y].tilePhysics == TilePhysics.Impassable && projectiles[i].ricochet > 0)
+                            {
+                                projectiles[i].friendlyFire = true;
+                                projectiles[i].xVel *= -1;
+                                projectiles[i].yVel *= -1;
+                                projectiles[i].ricochet--;
+                            }
+                        }
+                    }
+                }
             }
             
             return projectiles;
@@ -483,6 +532,7 @@ namespace PapaMarti
             List<string> lines = new List<string>();
             List<Vector2> boundaries = new List<Vector2>();
             List<Vector2> enemySpots = new List<Vector2>();
+            
             Vector2 door = new Vector2();
             Vector2 exit = new Vector2();
 
@@ -527,6 +577,7 @@ namespace PapaMarti
                             case 'm':
                                 tiles[i, j] = new Tile(TilePhysics.Wall, 0, new Vector2(i, j));
                                 exit = new Vector2(j, i);
+                                
                                 break;
 
                             default:
