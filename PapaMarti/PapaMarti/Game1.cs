@@ -33,7 +33,7 @@ namespace PapaMarti {
             Content.RootDirectory = "Content"; 
             graphics.PreferredBackBufferWidth = screenRect.Width;
             graphics.PreferredBackBufferHeight = screenRect.Height;
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             IsMouseVisible = true;
             graphics.ApplyChanges();
         }

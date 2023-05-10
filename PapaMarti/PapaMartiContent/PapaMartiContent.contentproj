@@ -137,8 +137,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
-    <None Include="roomTest.txt">
-      <Name>roomTest</Name>
+    <None Include="roomThree.txt">
+      <Name>roomThree</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
