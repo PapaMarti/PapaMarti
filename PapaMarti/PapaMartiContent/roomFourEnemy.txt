@@ -1,11 +1,11 @@
 ,,,,bbbbbbb,,,
 ,,,bb.....bb,,
-,bbb.......bbb
+,bbb....e..bbb
 ,b...........b
 bb...........b
-md..o.....o..b
+md..o.....oe.b
 bb...........b
 ,b...........b
-,bbb...o...bbb
+,bbb...oe..bbb
 ,,,bb.....bb,,
 ,,,,bbbbbbb,,,

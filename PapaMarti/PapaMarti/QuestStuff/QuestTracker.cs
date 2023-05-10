@@ -13,31 +13,31 @@ namespace PapaMarti {
             //slice 1
             new MapLocation(Math.PI * 2 / 12, 0.75, "p", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\PizzaShop.txt", 1),
             new MapLocation(Math.PI * 1 / 12, 0.3, "g5", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 1),
-            new MapLocation(Math.PI * 3 / 12, 0.35, "g1", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 1),
+            new MapLocation(Math.PI * 3 / 12, 0.35, "g1", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomTwo.txt", 1),
 
             //slice 2
-            new MapLocation(Math.PI * 6 / 12, 0.75, "b1", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt", 2),
-            new MapLocation(Math.PI * 5 / 12, 0.3, "g4", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 2),
+            new MapLocation(Math.PI * 6 / 12, 0.75, "b1", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomThree.txt", 2),
+            new MapLocation(Math.PI * 5 / 12, 0.3, "g4", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomFour.txt", 2),
             new MapLocation(Math.PI * 7 / 12, 0.35, "g3", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 2),
         
             //slice 3
-            new MapLocation(Math.PI * 10/ 12, 0.75, "b2", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt", 3),
-            new MapLocation(Math.PI * 9 / 12, 0.3, "g2", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 3),
-            new MapLocation(Math.PI * 11 / 12, 0.35, "g1", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 3),
+            new MapLocation(Math.PI * 10/ 12, 0.75, "b2", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomTwo.txt", 3),
+            new MapLocation(Math.PI * 9 / 12, 0.3, "g2", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomThree.txt", 3),
+            new MapLocation(Math.PI * 11 / 12, 0.35, "g1", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomFour.txt", 3),
         
             //slice 4
             new MapLocation(Math.PI * 14 / 12, 0.75, "b3", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt", 4),
-            new MapLocation(Math.PI * 13 / 12, 0.3, "g7", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 4),
-            new MapLocation(Math.PI * 15 / 12, 0.35, "g6", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 4),
+            new MapLocation(Math.PI * 13 / 12, 0.3, "g7", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomTwo.txt", 4),
+            new MapLocation(Math.PI * 15 / 12, 0.35, "g6", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomThree.txt", 4),
         
             //slice 5
-            new MapLocation(Math.PI * 18 / 12, 0.75, "b4", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt", 5),
+            new MapLocation(Math.PI * 18 / 12, 0.75, "b4", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomFour.txt", 5),
             new MapLocation(Math.PI * 17 / 12, 0.3, "g3", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 5),
-            new MapLocation(Math.PI * 19 / 12, 0.35, "g2", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 5),
+            new MapLocation(Math.PI * 19 / 12, 0.35, "g2", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomTwo.txt", 5),
         
             //slice 6
-            new MapLocation(Math.PI * 22 / 12, 0.75, "b5", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomOne.txt", 6),
-            new MapLocation(Math.PI * 21 / 12, 0.3, "g4", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 6),
+            new MapLocation(Math.PI * 22 / 12, 0.75, "b5", Color.White, 20f, (float) (Math.PI / 3), @"..\..\..\..\PapaMartiContent\roomThree.txt", 6),
+            new MapLocation(Math.PI * 21 / 12, 0.3, "g4", Color.White, 1f, 0f, @"..\..\..\..\PapaMartiContent\roomFour.txt", 6),
             new MapLocation(Math.PI * 23 / 12, 0.35, "g7", Color.White, 1.2f, -0.2f, @"..\..\..\..\PapaMartiContent\roomOne.txt", 6),};
 
         public static Queue<Quest> mainlineQuest;
@@ -69,7 +69,7 @@ namespace PapaMarti {
             mainlineQuest.Enqueue(new Quest(new CookingManager(new Pizza(PizzaShape.Circle, new List<Rectangle>(), new List<Topping>(), 10), mapLocations[0], true, CookingManagerLevel.Tutorial)));
             // here is where quests are queued into the mainquest queue
             mainlineQuest.Enqueue(new Quest(new RoomManager(new DialogueRoom("PizzaShopEnemy", mapLocations[0], "Oh no! The pineapple mafia is here in the shop!", "Press the spacebar to use your pizzas to attack them.")), 
-                                            new RoomManager(new EnemyRoom("PizzaShopEnemy", mapLocations[4])))); //dont worry about the text file name i changed it so all the dumb stuff is put in in the constructor
+                                            new RoomManager(new EnemyRoom("roomFourEnemy", mapLocations[4])))); //dont worry about the text file name i changed it so all the dumb stuff is put in in the constructor
 
             // here is where sidequests are queued into the sidequest queue, in the order in which theyre unlocked
 
