@@ -184,6 +184,12 @@ namespace PapaMarti
             List<Enemy> remove = new List<Enemy>();
             foreach (Enemy e in enemies)
             {
+                if (e.damageFrames > 0)
+                {
+                    e.damageFrames--;
+                    if (e.damageFrames == 0)
+                        e.currentColor = e.defaultColor;
+                }
                 /*
                 if (player.rect.Intersects(e.rect))
                 {
@@ -274,6 +280,8 @@ namespace PapaMarti
                 if(player.enemyDamage(e.center) > 0)
                 {
                     player.weapon.enemyHit();
+                    e.damageFrames = 10;
+                    e.currentColor = Color.Red;
                 }
                 if (e.isDead)
                 {
@@ -297,7 +305,17 @@ namespace PapaMarti
         public virtual Player update(Player player)
         {
             KeyboardState kb = Keyboard.GetState();
+
             // TODO: Add your update logic here
+
+            if (player.iFrames > 0)
+            {
+                player.iFrames--;
+                player.colorSwitch();
+                if (player.iFrames == 0)
+                    player.currentColor = player.defaultColor;
+            }
+
             int changeX = 0;
             int changeY = 0;
 
@@ -395,28 +413,17 @@ namespace PapaMarti
         {
             for (int i = 0; i < projectiles.Count; i++)
             {
-                if (player.rect.Intersects(projectiles[i].rect))
+                if (player.rect.Intersects(projectiles[i].rect) && player.iFrames <= 0)
                 {
                     //Environment.Exit(0);
                     player.takeDamage(projectiles[i].strength);
+                    player.iFrames = 60;
                     projectiles.RemoveAt(i);
                     i--;
                 }
 
             }
-            foreach (Projectile p in projectiles) {
-                /*foreach (Vector2 v in this.walls)
-                {
-
-                    if (this.tiles[(int)v.X, (int)v.Y].getRect().Intersects(p.rect))
-                    {
-                            projectiles.Remove(p);
-                    }
-
-
-
-                }*/
-            }
+            
             return projectiles;
         }
 
