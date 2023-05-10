@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
@@ -20,7 +20,9 @@ namespace PapaMarti
         public List<Weapon> weapons;
         public List<Rectangle> weaponHotbar;
         int selectedWeapon;
-
+        public Color defaultColor;
+        public Color currentColor;
+        public int iFrames;
         static Color shade = new Color(0.2f, 0.2f, 0.2f, 0.5f);
         Texture2D whiteSquare;
 
@@ -58,8 +60,17 @@ namespace PapaMarti
             directionFacing = new Vector2(-Room.MOVEMENTSPEED, 0);
 
             whiteSquare = content.Load<Texture2D>("whitePixel");
+            defaultColor = Color.Yellow;
+            currentColor = defaultColor;
+            iFrames = 0;
         }
-
+        public void colorSwitch()
+        {
+            if (currentColor != Color.Transparent)
+                currentColor = Color.Transparent;
+            else if (currentColor != defaultColor)
+                currentColor = defaultColor;
+        }
         public void addWeapon(Weapon weapon)
         {
             weaponHotbar.Add(new Rectangle(weaponHotbar[weaponHotbar.Count - 1].X + hotbarHeight + buffer, Game1.screenRect.Height - buffer - hotbarHeight, hotbarHeight, hotbarHeight));
@@ -130,7 +141,7 @@ namespace PapaMarti
         
         public override void draw(SpriteBatch spriteBatch, Texture2D texture_)
         {
-            spriteBatch.Draw(texture, rect, Color.Red);
+            spriteBatch.Draw(texture, rect, currentColor);
             weapon.draw(spriteBatch);
             drawHotbar(spriteBatch);
 
