@@ -21,8 +21,10 @@ namespace PapaMarti
         public Color defaultColor;
         public Color currentColor;
         public int directionTimer;
+        public int textNum;
+        public bool otherside;
 
-        public Enemy(Rectangle rect_, int maxLife_, int maxXVel_, int maxYVel_, int fireSpeed_, int frequency_) : base()
+        public Enemy(Rectangle rect_, int maxLife_, int maxXVel_, int maxYVel_, int fireSpeed_, int frequency_, int textNum) : base()
         {
             rect = rect_;
             maxLife = maxLife_;
@@ -34,10 +36,12 @@ namespace PapaMarti
             fireSpeed = fireSpeed_;
             frequency = frequency_;
             center = new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
-            defaultColor = Color.Blue;
+            defaultColor = Color.White;
             currentColor = defaultColor;
             damageFrames = 0;
             directionTimer = 180;
+            this.textNum = textNum;
+            otherside = false;
         }
         
         public void resetTimer()
@@ -52,6 +56,14 @@ namespace PapaMarti
         public void updateX(int changeX)
         {
             this.rect.X += changeX;
+            if (changeX > 0 && !otherside)
+            {
+                otherside = true;
+            }
+            else if (changeX < 0 && otherside)
+            {
+                otherside = false;
+            }
             center = new Vector2(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
         }
         public void updateY(int changeY)
@@ -61,7 +73,14 @@ namespace PapaMarti
         }
         public override void draw(SpriteBatch spriteBatch, Texture2D enemyText)
         {
-            spriteBatch.Draw(enemyText, rect, currentColor);
+            SpriteEffects effect;
+            if (otherside)
+                effect = SpriteEffects.FlipHorizontally;
+            else
+                effect = SpriteEffects.None;
+
+
+            spriteBatch.Draw(enemyText, rect, new Rectangle(textNum * 12, 0, 12, 16), currentColor, 0, new Vector2(0,0), effect, 0);
         }
         public abstract void hitVertical();
         public abstract void hitHorizontal();

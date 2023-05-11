@@ -38,6 +38,7 @@ namespace PapaMarti
         int timer;
         Rectangle exit;
         bool exitToMap;
+        Random rand;
 
         KeyboardState oldKB;
         public Room(Tile[,] tiles_, List<Vector2> walls_, List<Vector2> enemySpots_, MapLocation location)
@@ -65,7 +66,9 @@ namespace PapaMarti
             borders = new Rectangle((int)origin.X, (int)origin.Y, width * tileSize, height * tileSize);
             enemies = new List<Enemy>();
             projectiles = new List<Projectile>();
+            rand = new Random();
             createEnemies(enemySpots_);
+
 
             timer = 0;
             //tiles[(int)door.X, (int)door.Y].status = Status.Door;
@@ -98,7 +101,7 @@ namespace PapaMarti
                     {
                         if ((int)enemySpots_[counter].X == i && (int)enemySpots_[counter].Y == j)
                         {
-                            enemies.Add(new Mafia(new Rectangle(x, y, tileSize, tileSize), 100, 3, 3, 10, 3));
+                            enemies.Add(new Mafia(new Rectangle(x, y, 60, 60), 100, 3, 3, 10, 3, rand.Next(3)));
                             counter++;
                         }
                     }
@@ -500,8 +503,8 @@ namespace PapaMarti
         public static Texture2D[] roomTextures = new Texture2D[2];
 
         public static void initializeTextures(ContentManager content) {
-            roomTextures[0] = content.Load<Texture2D>("wood");
-            roomTextures[1] = content.Load<Texture2D>("tile");
+            roomTextures[0] = content.Load<Texture2D>("Woood");
+            roomTextures[1] = content.Load<Texture2D>("Tilee");
         }
 
         public class FiveValuePair<A, B, C, D, E> {

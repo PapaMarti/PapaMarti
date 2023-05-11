@@ -33,8 +33,8 @@ namespace PapaMarti
 
         public override void contentify(ContentManager content, Player p)
         {
-            playerText = content.Load<Texture2D>("whitePixel");
-            enemyText = content.Load<Texture2D>("whitePixel");
+            playerText = content.Load<Texture2D>("PapaMarti");
+            enemyText = content.Load<Texture2D>("Enemies");
             projectileText = content.Load<Texture2D>("whitePixel");
             player = p;
             if (room is DialogueRoom)

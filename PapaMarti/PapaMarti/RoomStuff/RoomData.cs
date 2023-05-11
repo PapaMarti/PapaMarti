@@ -153,8 +153,8 @@ namespace PapaMarti
 
         private void loadTiles()
         {
-            floorText = content.Load<Texture2D>("wood");
-            objectText = content.Load<Texture2D>("tile");
+            floorText = content.Load<Texture2D>("Woood");
+            objectText = content.Load<Texture2D>("Tilee");
         }
     }
 }

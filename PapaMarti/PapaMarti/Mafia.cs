@@ -10,7 +10,7 @@ namespace PapaMarti
     //MAXSPEED of mafia is 
     class Mafia : Enemy
     {
-        public Mafia(Rectangle rect_, int maxLife_, int maxXVel_, int maxYVel_, int fireSpeed_, int frequency_) : base(rect_, maxLife_, maxXVel_, maxYVel_, fireSpeed_, frequency_)
+        public Mafia(Rectangle rect_, int maxLife_, int maxXVel_, int maxYVel_, int fireSpeed_, int frequency_, int textNum_) : base(rect_, maxLife_, maxXVel_, maxYVel_, fireSpeed_, frequency_, textNum_)
         {
             xVel = 0;
             yVel = 0;

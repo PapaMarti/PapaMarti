@@ -35,6 +35,9 @@ namespace PapaMarti
 
         public Vector2 center;
 
+        public int timer;
+        public int anim;
+
         public Player(ContentManager content, Rectangle rect_, int maxLife_) : base()
         {
             rect = rect_;
@@ -45,7 +48,7 @@ namespace PapaMarti
 
             lifeMeter = new Rectangle(20, 20, maxLife * 2, 50);
             lifeRemaining = new Rectangle(20, 20, currentLife * 2, 50);
-            texture = content.Load<Texture2D>("whitePixel");
+            texture = content.Load<Texture2D>("PapaMarti");
 
             weapon = new PizzaFrisbee(content, this, WeaponType.Throw);
             weapons = new List<Weapon>();
@@ -60,9 +63,12 @@ namespace PapaMarti
             directionFacing = new Vector2(-Room.MOVEMENTSPEED, 0);
 
             whiteSquare = content.Load<Texture2D>("whitePixel");
-            defaultColor = Color.Yellow;
+            defaultColor = Color.White;
             currentColor = defaultColor;
             iFrames = 0;
+
+            timer = 0;
+            anim = 0;
         }
         public void colorSwitch()
         {
@@ -122,6 +128,16 @@ namespace PapaMarti
             }
 
             weapon.update();
+
+            timer++;
+            if (timer > 15)
+            {
+                timer = 0;
+                if (anim > 2)
+                    anim = 0;
+                else
+                    anim++;
+            }
         }
         public void updateCenter()
         {
@@ -141,7 +157,21 @@ namespace PapaMarti
         
         public override void draw(SpriteBatch spriteBatch, Texture2D texture_)
         {
-            spriteBatch.Draw(texture, rect, currentColor);
+            int y = 0;
+            if (directionFacing.X > 0)
+                y = 48;
+            if (directionFacing.X < 0)
+                y = 16;
+            if (directionFacing.Y > 0)
+                y = 0;
+            if (directionFacing.Y < 0)
+                y = 32;
+
+
+
+            Rectangle source = new Rectangle(anim * 12, y, 12, 16);
+
+            spriteBatch.Draw(texture, rect, source, currentColor);
             weapon.draw(spriteBatch);
             drawHotbar(spriteBatch);
 

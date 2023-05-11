@@ -39,7 +39,7 @@ namespace PapaMarti
 
         public PizzaFrisbee(ContentManager content, Player player, WeaponType type): base(content, player, type, frisbeeDamage, frisbeeRadius)
         {
-            texture = content.Load<Texture2D>("whitePixel");
+            texture = content.Load<Texture2D>("PizzaFrisbee");
             displayTexture = texture;
             angle = 0f;
 
