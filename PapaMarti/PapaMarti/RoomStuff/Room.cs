@@ -589,7 +589,8 @@ namespace PapaMarti
                             case 'm':
                                 tiles[i, j] = new Tile(TilePhysics.Wall, 0, new Vector2(i, j));
                                 exit = new Vector2(j, i);
-                                
+                                boundaries.Add(new Vector2(i, j));
+
                                 break;
 
                             default:
