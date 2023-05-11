@@ -180,10 +180,11 @@ namespace PapaMarti
         }
         private void drawHotbar(SpriteBatch spriteBatch)
         {
+            int pad = 10;
             for(int i = 0; i < weapons.Count; i++)
             {
                 spriteBatch.Draw(whiteSquare, weaponHotbar[i], Color.White);
-                spriteBatch.Draw(weapons[i].displayTexture, weaponHotbar[i], Color.White);
+                spriteBatch.Draw(weapons[i].displayTexture, new Rectangle(weaponHotbar[i].X + pad, weaponHotbar[i].Y + pad, weaponHotbar[i].Width - 2 * pad, weaponHotbar[i].Height - 2 * pad), Color.White);
                 if(i != selectedWeapon)
                 {
                     //draw shaded square

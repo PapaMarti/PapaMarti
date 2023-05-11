@@ -39,7 +39,7 @@ namespace PapaMarti
         }
         public void draw(SpriteBatch spriteBatch, Texture2D texture)
         {
-            spriteBatch.Draw(texture, this.rect, Color.White);
+            spriteBatch.Draw(texture, this.rect, Color.Yellow);
         }
     }
 }
