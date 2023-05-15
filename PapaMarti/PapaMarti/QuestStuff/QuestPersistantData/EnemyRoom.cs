@@ -8,7 +8,7 @@ namespace PapaMarti
     class EnemyRoom : EmptyRoom
     {
 
-        public EnemyRoom(string layout, MapLocation location) : base(@"..\..\..\..\PapaMartiContent\" + layout + ".txt", location)
+        public EnemyRoom(string layout, MapLocation location) : base(@"Content\" + layout + ".txt", location)
         {
 
         }
