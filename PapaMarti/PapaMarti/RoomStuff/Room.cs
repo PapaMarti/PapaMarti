@@ -149,9 +149,8 @@ namespace PapaMarti
                         if (tiles[i, j].tilePhysics == TilePhysics.Wall)
                         {
                         }
-
                         else
-                            spriteBatch.Draw(roomTextures[tiles[i, j].textureid], new Rectangle(x, y, tileSize, tileSize), Color.White);
+                            tiles[i, j].draw(spriteBatch, Color.White);
                     }
 
 

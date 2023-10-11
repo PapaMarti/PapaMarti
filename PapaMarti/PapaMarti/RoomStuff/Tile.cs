@@ -66,6 +66,8 @@ namespace PapaMarti
         public void draw(SpriteBatch spriteBatch, Color color)
         {
             spriteBatch.Draw(Room.roomTextures[textureid], getRect(), color);
+            if (item != null)
+                item.draw(spriteBatch);
         }
         public Rectangle getRect() //ONLY FOR SINGLE TILES
         {

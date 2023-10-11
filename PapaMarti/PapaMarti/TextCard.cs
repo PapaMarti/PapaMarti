@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace PapaMarti
 {
-    class TextCard
+    public class TextCard
     {
         string text; //the contents of the text card
         List<string> lines; //the text after it has been broken up into all the lines needed
