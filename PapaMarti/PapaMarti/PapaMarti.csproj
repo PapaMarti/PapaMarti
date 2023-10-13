@@ -69,8 +69,8 @@
     <Compile Include="QuestStuff\QuestPersistantData\EmptyRoom.cs" />
     <Compile Include="QuestStuff\QuestPersistantData\EnemyRoom.cs" />
     <Compile Include="QuestStuff\QuestTracker.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="QuestMenu.cs" />
+    <Compile Include="Menus\Menu.cs" />
+    <Compile Include="Menus\QuestMenu.cs" />
     <Compile Include="RoomStuff\Item.cs" />
     <Compile Include="PizzaMaking\OvenScreen.cs" />
     <Compile Include="PizzaMaking\CookingManager.cs" />
@@ -91,13 +91,14 @@
     <Compile Include="RoomStuff\Room.cs" />
     <Compile Include="RoomStuff\Weapons\Bomb.cs" />
     <Compile Include="SaveManager.cs" />
-    <Compile Include="SettingsMenu.cs" />
+    <Compile Include="Menus\SettingsMenu.cs" />
     <Compile Include="StageManager.cs" />
+    <Compile Include="Menus\Submenu.cs" />
     <Compile Include="TextCard.cs" />
     <Compile Include="RoomStuff\Tile.cs" />
     <Compile Include="RoomStuff\Weapons\PizzaFrisbee.cs" />
     <Compile Include="RoomStuff\Weapons\Weapon.cs" />
-    <Compile Include="TitleScreen.cs" />
+    <Compile Include="Menus\TitleScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

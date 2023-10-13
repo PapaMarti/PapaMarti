@@ -16,5 +16,40 @@ namespace PapaMarti
 
     public class SaveManager
     {
+        Game1 game;
+        public static int NUM_SAVES = 3;
+
+        //the game data in order as it is in the file
+        public bool[] saveExists; //whether each save file has data
+
+
+        public SaveManager(Game1 game)
+        {
+            string[] saveFiles = new string[NUM_SAVES];
+            try
+            {
+                using(StreamReader reader = new StreamReader("../PapaMartiContent/Saves/GameDataSave.txt"))
+                {
+
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
+        }
+
+        public bool save(int saveSlot)
+        {
+            try
+            {
+
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

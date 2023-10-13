@@ -396,15 +396,15 @@
       <Name>GameDataSave</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Saves\Save0.txt">
+    <None Include="Saves\Save0\Save0.txt">
       <Name>Save0</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Saves\Save1.txt">
+    <None Include="Saves\Save1\Save1.txt">
       <Name>Save1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Saves\Save2.txt">
+    <None Include="Saves\Save2\Save2.txt">
       <Name>Save2</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

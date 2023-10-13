@@ -23,6 +23,7 @@ namespace PapaMarti {
         MapManager mapManager;
         Menu menu;
         TitleScreen titleScreen;
+        SaveManager saveManager;
         bool isInMenu;
         Player player;
         KeyboardState oldKB;
@@ -63,6 +64,8 @@ namespace PapaMarti {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Room.initializeTextures(Content);
+
+            saveManager = new SaveManager(this);
 
             menu = new Menu(this, Content, true);
 

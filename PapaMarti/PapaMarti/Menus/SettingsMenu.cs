@@ -15,9 +15,10 @@ namespace PapaMarti
 
     class SettingsMenu
     {
-        ContentManager content = 
-        public SettingsMenu()
+        ContentManager content;
+        public SettingsMenu(ContentManager content)
         {
+            this.content = content;
 
         }
 
