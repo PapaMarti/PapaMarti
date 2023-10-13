@@ -28,14 +28,14 @@ namespace PapaMarti
             string[] saveFiles = new string[NUM_SAVES];
             try
             {
-                using(StreamReader reader = new StreamReader("../PapaMartiContent/Saves/GameDataSave.txt"))
+                using(StreamReader reader = new StreamReader(@"Content/Saves/GameDataSave.txt"))
                 {
 
                 }
             }
             catch(Exception e)
             {
-
+                Console.WriteLine(e.Message);
             }
         }
 

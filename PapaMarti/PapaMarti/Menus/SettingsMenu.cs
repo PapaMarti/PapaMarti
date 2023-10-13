@@ -13,26 +13,30 @@ using System.Linq;
 namespace PapaMarti
 {
 
-    class SettingsMenu
+    public class SettingsMenu: Submenu
     {
-        ContentManager content;
-        public SettingsMenu(ContentManager content)
-        {
-            this.content = content;
+        Slider volumeBar;
+        Button backButton;
 
+        public SettingsMenu(ContentManager content): base(content, "Settings")
+        {
+            volumeBar = new Slider(content, new Point(Game1.screenRect.Width / 2, Game1.screenRect.Height / 2), 500, 100, 50);
+            backButton = new Button(content.Load<Texture2D>("whitePixel"), new Rectangle(10, 10, 150, 50), "Back", content.Load<SpriteFont>("ButtonTitle"));
         }
 
-        public void draw(SpriteBatch spriteBatch)
+        public override void draw(SpriteBatch spriteBatch)
         {
-
+            backButton.draw(spriteBatch);
+            volumeBar.draw(spriteBatch);
         }
-        public void update()
+        public override void update()
         {
-
+            backButton.update();
+            volumeBar.update();
         }
-        public bool isDone()
+        public override bool isDone()
         {
-            return Keyboard.GetState().IsKeyDown(Keys.Escape);
+            return Keyboard.GetState().IsKeyDown(Keys.Escape) || backButton.wasPressed();
         }
     }
 }

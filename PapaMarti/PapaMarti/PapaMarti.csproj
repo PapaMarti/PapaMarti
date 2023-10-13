@@ -70,7 +70,6 @@
     <Compile Include="QuestStuff\QuestPersistantData\EnemyRoom.cs" />
     <Compile Include="QuestStuff\QuestTracker.cs" />
     <Compile Include="Menus\Menu.cs" />
-    <Compile Include="Menus\QuestMenu.cs" />
     <Compile Include="RoomStuff\Item.cs" />
     <Compile Include="PizzaMaking\OvenScreen.cs" />
     <Compile Include="PizzaMaking\CookingManager.cs" />
@@ -92,6 +91,7 @@
     <Compile Include="RoomStuff\Weapons\Bomb.cs" />
     <Compile Include="SaveManager.cs" />
     <Compile Include="Menus\SettingsMenu.cs" />
+    <Compile Include="Slider.cs" />
     <Compile Include="StageManager.cs" />
     <Compile Include="Menus\Submenu.cs" />
     <Compile Include="TextCard.cs" />

@@ -27,46 +27,41 @@ namespace PapaMarti
 
         List<TextCard> cards;
 
-        bool isInMenu;
-
         Game1 game;
 
-        QuestMenu questMenu;
-
-        SettingsMenu settings;
+        Submenu submenu;
 
         //in the future the menu constructor will need a quest data thing to use for list of quests
         public Menu(Game1 game, ContentManager content, bool tutorial)
         {
             this.game = game;
 
-            questMenu = new QuestMenu();
-
             done = false;
-            isInMenu = false;
 
             whitePixel = content.Load<Texture2D>("whitePixel");
             titleFont = content.Load<SpriteFont>("ButtonTitle");
+
+            submenu = null;
 
             Rectangle placeholder = new Rectangle(0, 0, buttonWidth, buttonHeight);
 
             buttons = new List<Button>();
 
             buttons.Add(new Button(whitePixel, placeholder, "Resume", titleFont));
-            buttons.Add(new Button(whitePixel, placeholder, "Quests", titleFont));
+            buttons.Add(new Button(whitePixel, placeholder, "Settings", titleFont));
             buttons.Add(new Button(whitePixel, placeholder, "Quit", titleFont));
             rearrange();
 
             cards = new List<TextCard>();
             if(tutorial)
-                cards.Add(new TextCard(content, "Welcome to the menu! You can click the \"Quests\" button to see a list of all your active quests. Click the quest you'd like to advance in to select it. You can also quit the game using the \"Quit\" button, and resume the game using the \"Resume\" button.", String.Empty));
+                cards.Add(new TextCard(content, "Welcome to the menu! You can click the \"Settings\" button to see a list of adjustable settings. You can also quit the game using the \"Quit\" button, resume the game using the \"Resume\" button, and save at any point with the \"save\" button.", String.Empty));
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(whitePixel, Game1.screenRect, Game1.shaded);
 
-            if (!isInMenu)
+            if (submenu == null)
             {
                 foreach (Button button in buttons)
                 {
@@ -78,19 +73,19 @@ namespace PapaMarti
             }
             else
             {
-                questMenu.draw(spriteBatch);
+                submenu.draw(spriteBatch);
             }
         }
 
         public void update()
         {
-            if(cards.Count > 0 && !isInMenu)
+            if(cards.Count > 0 && submenu == null)
             {
                 cards[0].update();
                 if (cards[0].isDone())
                     cards.RemoveAt(0);
             }
-            else if(!isInMenu)
+            else if(submenu == null)
             {
                 foreach (Button button in buttons)
                 {
@@ -105,19 +100,19 @@ namespace PapaMarti
                         {
                             game.Exit();
                         }
-                        else if (button.title.Equals("Quests"))
+                        else if (button.title.Equals("Settings"))
                         {
-                            isInMenu = true;
+                            submenu = new SettingsMenu(game.Content);
                         }
                     }
                 }
             }
             else
             {
-                questMenu.update();
-                if (questMenu.isDone())
+                submenu.update();
+                if (submenu.isDone())
                 {
-                    isInMenu = false;
+                    submenu = null;
                 }
             }
         }
@@ -142,7 +137,7 @@ namespace PapaMarti
 
         public void reset()
         {
-            isInMenu = false;
+            submenu = null;
             done = false;
         }
     }

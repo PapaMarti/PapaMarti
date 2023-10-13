@@ -50,6 +50,11 @@ namespace PapaMarti
             textCard = null;
         }
 
+        public void setPosition(double x, double y)
+        {
+            position = new Point((int)x, (int)y);
+        }
+
         public void changeImage(Texture2D text)
         {
             this.texture = text;
