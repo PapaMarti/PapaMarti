@@ -12,9 +12,9 @@ using System.Linq;
 
 namespace PapaMarti
 {
-    public class Item //TO DO
+    public class Item
     {
-        //the image of the item as it appears
+        //the image of the item as it appears in a room or in inventory
         Texture2D texture;
 
         //the dialogue which appears when the item is interacted with
@@ -36,7 +36,9 @@ namespace PapaMarti
 
         ContentManager content;
 
-        public Item(Texture2D text, string dialog, Point pos, Player player, Room room, ContentManager content)
+        public Item(Texture2D text, string dialog, Player player, Room room, ContentManager content): this(text, dialog, player, room, content, new Point(0, 0)) { }
+
+        public Item(Texture2D text, string dialog, Player player, Room room, ContentManager content, Point pos)
         {
             this.texture = text;
             this.dialogue = dialog;
@@ -107,8 +109,10 @@ namespace PapaMarti
         }
         public void draw(SpriteBatch spriteBatch)
         {
-            if(!isInInventory)
+            if (!isInInventory)
+            {
                 spriteBatch.Draw(texture, room.tiles[position.X, position.Y].getRect(), Color.White);
+            }
             else
             {
 

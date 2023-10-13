@@ -90,11 +90,14 @@
     <Compile Include="PizzaMaking\ToppingScreen.cs" />
     <Compile Include="RoomStuff\Room.cs" />
     <Compile Include="RoomStuff\Weapons\Bomb.cs" />
+    <Compile Include="SaveManager.cs" />
+    <Compile Include="SettingsMenu.cs" />
     <Compile Include="StageManager.cs" />
     <Compile Include="TextCard.cs" />
     <Compile Include="RoomStuff\Tile.cs" />
     <Compile Include="RoomStuff\Weapons\PizzaFrisbee.cs" />
     <Compile Include="RoomStuff\Weapons\Weapon.cs" />
+    <Compile Include="TitleScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

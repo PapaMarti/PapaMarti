@@ -31,20 +31,21 @@ namespace PapaMarti
 
         //Rooms will be displayed as a 2d array of tiles. Location refers to the row/column of the tile, not the actual coordinate on the screen.
         //Tiles are 60 x 60
-        public Tile(TilePhysics tilePhysics_, int textureid, Vector2 coordinates_) //Non-collectable tiles
+        public Tile(TilePhysics tilePhysics_, int textureid, Vector2 coordinates) //Non-collectable tiles
         {
             tilePhysics = tilePhysics_;
             this.textureid = textureid;
             tileSize = Room.tileSize;
             item = null;
 
-            coordinates = coordinates_;
+            this.coordinates = coordinates;
             center = new Vector2(coordinates.X + (tileSize / 2), coordinates.Y + (tileSize / 2));
         }
 
         public Tile(TilePhysics tilePhysics_, int textureid, Vector2 coordinates_, Item item_) : this(tilePhysics_, textureid, coordinates_)
         {
             item = item_;
+            item.setPosition(coordinates.X, coordinates.Y);
         }
 
         public void updateCenter()

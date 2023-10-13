@@ -22,6 +22,7 @@ namespace PapaMarti {
         StageManager currentStage;
         MapManager mapManager;
         Menu menu;
+        TitleScreen titleScreen;
         bool isInMenu;
         Player player;
         KeyboardState oldKB;

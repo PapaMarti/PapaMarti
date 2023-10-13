@@ -33,6 +33,8 @@ namespace PapaMarti
 
         QuestMenu questMenu;
 
+        SettingsMenu settings;
+
         //in the future the menu constructor will need a quest data thing to use for list of quests
         public Menu(Game1 game, ContentManager content, bool tutorial)
         {
