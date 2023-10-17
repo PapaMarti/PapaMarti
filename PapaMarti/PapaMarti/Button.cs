@@ -39,6 +39,12 @@ namespace PapaMarti
         {
             spriteBatch.Draw(texture, rectangle, Color.LightGray);
             spriteBatch.DrawString(font, title, new Vector2(rectangle.X + rectangle.Width / 2 - font.MeasureString(title).X / 2, rectangle.Y + rectangle.Height / 2 - font.MeasureString(title).Y / 2), Color.Black);
+
+            MouseState mouse = Mouse.GetState();
+            if (rectangle.Contains(mouse.X, mouse.Y))
+            {
+                spriteBatch.Draw(texture, rectangle, Game1.shaded);
+            }
         }
 
         public void update()

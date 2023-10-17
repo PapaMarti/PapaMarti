@@ -37,7 +37,7 @@ namespace PapaMarti
                     hasSave = true;
             }
 
-            int buttonWidth = 200;
+            int buttonWidth = 300;
             int buttonHeight = 100;
             int buffer = 20;
             SpriteFont buttonFont = content.Load<SpriteFont>("ButtonTitle");
@@ -57,10 +57,17 @@ namespace PapaMarti
 
         public void draw(SpriteBatch spriteBatch)
         {
-            newGame.draw(spriteBatch);
-            if (oldGame != null)
-                oldGame.draw(spriteBatch);
-            settings.draw(spriteBatch);
+            if (submenu != null)
+            {
+                submenu.draw(spriteBatch);
+            }
+            else
+            {
+                newGame.draw(spriteBatch);
+                if (oldGame != null)
+                    oldGame.draw(spriteBatch);
+                settings.draw(spriteBatch);
+            }
         }
         public void update()
         {
