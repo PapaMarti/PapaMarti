@@ -91,6 +91,7 @@
     <Compile Include="RoomStuff\Weapons\Bomb.cs" />
     <Compile Include="SaveManager.cs" />
     <Compile Include="Menus\SettingsMenu.cs" />
+    <Compile Include="Menus\SaveMenu.cs" />
     <Compile Include="Slider.cs" />
     <Compile Include="StageManager.cs" />
     <Compile Include="Menus\Submenu.cs" />

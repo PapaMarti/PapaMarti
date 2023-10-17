@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace PapaMarti
 {
-    class Menu
+    public class Menu
     {
         bool done;
 
@@ -102,7 +102,7 @@ namespace PapaMarti
                         }
                         else if (button.title.Equals("Settings"))
                         {
-                            submenu = new SettingsMenu(game.Content);
+                            submenu = new SettingsMenu(game.Content, game.saveManager);
                         }
                     }
                 }

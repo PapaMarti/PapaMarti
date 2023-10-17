@@ -21,9 +21,10 @@ namespace PapaMarti {
         SpriteBatch spriteBatch;
         StageManager currentStage;
         MapManager mapManager;
-        Menu menu;
-        TitleScreen titleScreen;
-        SaveManager saveManager;
+        public Menu menu;
+        public TitleScreen titleScreen;
+        public SaveManager saveManager;
+        bool isInTitle;
         bool isInMenu;
         Player player;
         KeyboardState oldKB;
@@ -51,6 +52,7 @@ namespace PapaMarti {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
             isInMenu = false;
+            isInTitle = true;
             oldKB = Keyboard.GetState();
             base.Initialize();
         }
@@ -66,6 +68,8 @@ namespace PapaMarti {
             Room.initializeTextures(Content);
 
             saveManager = new SaveManager(this);
+
+            titleScreen = new TitleScreen(Content, saveManager);
 
             menu = new Menu(this, Content, true);
 
@@ -98,15 +102,24 @@ namespace PapaMarti {
             //if(kb.IsKeyDown(Keys.L))
             //    this.Exit();
 
-
-            if (isInMenu && menu.isDone())
+            if (isInTitle)
             {
-                isInMenu = false;
+                if (titleScreen.isDone())
+                {
+                    isInTitle = false;
+                }
             }
-            if (kb.IsKeyDown(Keys.Escape) && !isInMenu)
+            else
             {
-                isInMenu = true;
-                menu.reset();
+                if (isInMenu && menu.isDone())
+                {
+                    isInMenu = false;
+                }
+                if (kb.IsKeyDown(Keys.Escape) && !isInMenu)
+                {
+                    isInMenu = true;
+                    menu.reset();
+                }
             }
 
             if(currentStage.getStage() == GameStage.Cooking && currentStage.isDone())
@@ -132,10 +145,12 @@ namespace PapaMarti {
             }
             // TODO: Add your update logic here
 
-            if (!isInMenu)
+            if (!isInMenu && !isInTitle)
                 currentStage.update(gameTime);
-            else
+            else if (isInMenu)
                 menu.update();
+            else
+                titleScreen.update();
             testAddWeapon();
             oldKB = kb;
             base.Update(gameTime);
@@ -154,10 +169,17 @@ namespace PapaMarti {
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
-            currentStage.draw(spriteBatch);
+            if (isInTitle)
+            {
+                titleScreen.draw(spriteBatch);
+            }
+            else
+            {
+                currentStage.draw(spriteBatch);
 
-            if (isInMenu)
-                menu.draw(spriteBatch);
+                if (isInMenu)
+                    menu.draw(spriteBatch);
+            }
 
             spriteBatch.End();
             base.Draw(gameTime);

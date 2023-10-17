@@ -16,27 +16,22 @@ namespace PapaMarti
     public class SettingsMenu: Submenu
     {
         Slider volumeBar;
-        Button backButton;
+        Button apply;
 
-        public SettingsMenu(ContentManager content): base(content, "Settings")
+        public SettingsMenu(ContentManager content, SaveManager saveData): base(content, "Settings")
         {
             volumeBar = new Slider(content, new Point(Game1.screenRect.Width / 2, Game1.screenRect.Height / 2), 500, 100, 50);
-            backButton = new Button(content.Load<Texture2D>("whitePixel"), new Rectangle(10, 10, 150, 50), "Back", content.Load<SpriteFont>("ButtonTitle"));
         }
 
         public override void draw(SpriteBatch spriteBatch)
         {
-            backButton.draw(spriteBatch);
+            base.draw(spriteBatch);
             volumeBar.draw(spriteBatch);
         }
         public override void update()
         {
-            backButton.update();
+            base.update();
             volumeBar.update();
-        }
-        public override bool isDone()
-        {
-            return Keyboard.GetState().IsKeyDown(Keys.Escape) || backButton.wasPressed();
         }
     }
 }
