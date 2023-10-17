@@ -39,6 +39,8 @@ namespace PapaMarti
 
         public virtual bool isDone()
         {
+            if(backButton.wasPressed())
+                Console.WriteLine(backButton.wasPressed());
             return Keyboard.GetState().IsKeyDown(Keys.Escape) || backButton.wasPressed();
         }
     }

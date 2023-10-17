@@ -22,6 +22,7 @@ namespace PapaMarti
         ContentManager content;
         Texture2D whitePixel;
         Submenu submenu;
+        bool done;
 
         public TitleScreen(ContentManager content, SaveManager saveManager)
         {
@@ -29,6 +30,7 @@ namespace PapaMarti
             this.content = content;
             whitePixel = content.Load<Texture2D>("whitePixel");
             submenu = null;
+            done = false;
 
             bool hasSave = false;
             for(int i = 0; i < SaveManager.NUM_SAVES; i++)
@@ -73,19 +75,17 @@ namespace PapaMarti
         {
             if(submenu != null)
             {
+                submenu.update();
+                if (submenu.GetType() == typeof(SaveMenu))
+                {
+                    if (((SaveMenu)submenu).startedSave())
+                    {
+                        done = true;
+                    }
+                }
                 if (submenu.isDone())
                 {
-                    if(submenu.GetType() == typeof(SaveMenu))
-                    {
-                        if (!((SaveMenu)submenu).startedSave())
-                        {
-                            submenu = null;
-                        }
-                    }
-                    else if(submenu.GetType() == typeof(SettingsMenu))
-                    {
-                        submenu = null;
-                    }
+                    submenu = null;
                 }
             }
             else
@@ -113,19 +113,7 @@ namespace PapaMarti
         }
         public bool isDone()
         {
-            if(submenu != null)
-            {
-                if(submenu.GetType() == typeof(SaveMenu)){
-                    if (submenu.isDone())
-                    {
-                        if (((SaveMenu)submenu).startedSave())
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
+            return done;
         }
     }
 }

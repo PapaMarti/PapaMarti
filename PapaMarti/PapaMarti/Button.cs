@@ -50,8 +50,10 @@ namespace PapaMarti
         public void update()
         {
             MouseState mouse = Mouse.GetState();
+            Console.WriteLine(title + ": update");
             if(rectangle.Contains(new Point(mouse.X, mouse.Y)) && mouse.LeftButton == ButtonState.Pressed && previous.LeftButton == ButtonState.Released)
             {
+                Console.WriteLine(title + ": pressed");
                 pressed = true;
             }
             else
@@ -64,6 +66,12 @@ namespace PapaMarti
         public bool wasPressed()
         {
             return pressed;
+        }
+
+        public bool beingPressed()
+        {
+            MouseState mouse = Mouse.GetState();
+            return rectangle.Contains(mouse.X, mouse.Y) && mouse.LeftButton == ButtonState.Pressed;
         }
     }
 }

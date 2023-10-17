@@ -84,10 +84,6 @@ namespace PapaMarti
             }
         }
 
-        public override bool isDone()
-        {
-            return done || base.isDone();
-        }
         public bool startedSave()
         {
             return done;
