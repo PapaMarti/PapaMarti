@@ -65,6 +65,7 @@ namespace PapaMarti
 
         public void draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(whitePixel, Game1.screenRect, Color.White);
             newGame.draw(spriteBatch);
             if (oldGame != null)
                 oldGame.draw(spriteBatch);

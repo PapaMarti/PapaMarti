@@ -23,6 +23,7 @@ namespace PapaMarti
         Texture2D texture;
         public Rectangle rectangle;
         bool pressed;
+        bool hover;
         MouseState previous;
         ButtonType type;
 
@@ -37,6 +38,7 @@ namespace PapaMarti
             this.title = title;
             this.font = font;
             pressed = false;
+            hover = false;
             previous = Mouse.GetState();
         }
         public Button(Texture2D texture, Rectangle rectangle): this(texture, rectangle, String.Empty, null, ButtonType.Image) { }
@@ -48,8 +50,7 @@ namespace PapaMarti
             if(type == ButtonType.Text)
                 spriteBatch.DrawString(font, title, new Vector2(rectangle.X + rectangle.Width / 2 - font.MeasureString(title).X / 2, rectangle.Y + rectangle.Height / 2 - font.MeasureString(title).Y / 2), Color.Black);
 
-            MouseState mouse = Mouse.GetState();
-            if (rectangle.Contains(mouse.X, mouse.Y))
+            if (hover)
             {
                 spriteBatch.Draw(texture, rectangle, Game1.shaded);
             }
@@ -58,6 +59,7 @@ namespace PapaMarti
         public void update()
         {
             MouseState mouse = Mouse.GetState();
+
             if(rectangle.Contains(new Point(mouse.X, mouse.Y)) && mouse.LeftButton == ButtonState.Pressed && previous.LeftButton == ButtonState.Released)
             {
                 pressed = true;
@@ -66,6 +68,16 @@ namespace PapaMarti
             {
                 pressed = false;
             }
+
+            if(rectangle.Contains(new Point(mouse.X, mouse.Y)))
+            {
+                hover = true;
+            }
+            else
+            {
+                hover = false;
+            }
+
             previous = mouse;
         }
 
