@@ -69,7 +69,7 @@ namespace PapaMarti {
 
             saveManager = new SaveManager(this);
 
-            titleScreen = new TitleScreen(Content, saveManager);
+            titleScreen = new TitleScreen(this, saveManager);
 
             menu = new Menu(this, Content, true);
 

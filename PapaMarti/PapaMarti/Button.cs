@@ -12,21 +12,26 @@ using System.Linq;
 
 namespace PapaMarti
 {
-    class Button
+    public enum ButtonType
+    {
+        Text,
+        Image
+    }
+
+    public class Button
     {
         Texture2D texture;
         public Rectangle rectangle;
+        bool pressed;
+        MouseState previous;
+        ButtonType type;
 
         public string title;
-
         public SpriteFont font;
 
-        bool pressed;
-
-        MouseState previous;
-
-        public Button(Texture2D texture, Rectangle rectangle, string title, SpriteFont font)
+        public Button(Texture2D texture, Rectangle rectangle, string title, SpriteFont font, ButtonType type)
         {
+            this.type = type;
             this.texture = texture;
             this.rectangle = rectangle;
             this.title = title;
@@ -34,11 +39,14 @@ namespace PapaMarti
             pressed = false;
             previous = Mouse.GetState();
         }
+        public Button(Texture2D texture, Rectangle rectangle): this(texture, rectangle, String.Empty, null, ButtonType.Image) { }
+        public Button(Texture2D texture, Rectangle rectangle, string title, SpriteFont font): this(texture, rectangle, title, font, ButtonType.Text) { }
 
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, rectangle, Color.LightGray);
-            spriteBatch.DrawString(font, title, new Vector2(rectangle.X + rectangle.Width / 2 - font.MeasureString(title).X / 2, rectangle.Y + rectangle.Height / 2 - font.MeasureString(title).Y / 2), Color.Black);
+            if(type == ButtonType.Text)
+                spriteBatch.DrawString(font, title, new Vector2(rectangle.X + rectangle.Width / 2 - font.MeasureString(title).X / 2, rectangle.Y + rectangle.Height / 2 - font.MeasureString(title).Y / 2), Color.Black);
 
             MouseState mouse = Mouse.GetState();
             if (rectangle.Contains(mouse.X, mouse.Y))
@@ -50,10 +58,8 @@ namespace PapaMarti
         public void update()
         {
             MouseState mouse = Mouse.GetState();
-            Console.WriteLine(title + ": update");
             if(rectangle.Contains(new Point(mouse.X, mouse.Y)) && mouse.LeftButton == ButtonState.Pressed && previous.LeftButton == ButtonState.Released)
             {
-                Console.WriteLine(title + ": pressed");
                 pressed = true;
             }
             else

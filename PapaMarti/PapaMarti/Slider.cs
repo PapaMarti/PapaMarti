@@ -19,21 +19,21 @@ namespace PapaMarti
 
         ContentManager content;
         Rectangle bar;
-        Rectangle slide;
+        Button slide;
         Texture2D white;
         double value;
         double scale;
-        bool wasMouseDown;
+        bool slideWasPressed;
 
         public Slider(ContentManager content, Point center, int length, double scale, double startingValue)
         {
             this.content = content;
+            white = content.Load<Texture2D>("whitePixel");
             bar = new Rectangle(center.X - length / 2, center.Y - BAR_HEIGHT / 2, length, BAR_HEIGHT);
             value = startingValue;
             this.scale = scale;
-            slide = new Rectangle((int)(bar.X - BAR_HEIGHT / 2 + value / scale * bar.Width), center.Y - SLIDE_HEIGHT / 2, BAR_HEIGHT, SLIDE_HEIGHT);
-            wasMouseDown = false;
-            white = content.Load<Texture2D>("whitePixel");
+            slide = new Button(white, new Rectangle((int)(bar.X - BAR_HEIGHT / 2 + value / scale * bar.Width), center.Y - SLIDE_HEIGHT / 2, BAR_HEIGHT, SLIDE_HEIGHT));
+            slideWasPressed = false;
         }
         public Slider(ContentManager content, Point center, int length, int scale): this(content, center, length, scale, 0) { }
 
@@ -45,29 +45,37 @@ namespace PapaMarti
         public void update()
         {
             MouseState mouse = Mouse.GetState();
+            slide.update();
             if(mouse.LeftButton == ButtonState.Pressed)
             {
-                if (wasMouseDown)
+                if (slideWasPressed)
                 {
-                    slide.X = mouse.X;
-                    if(slide.X < bar.X - BAR_HEIGHT / 2)
+                    slide.rectangle.X = mouse.X - BAR_HEIGHT / 2;
+                    if (slide.rectangle.X < bar.X - BAR_HEIGHT / 2)
                     {
-                        slide.X = bar.X - BAR_HEIGHT / 2;
+                        slide.rectangle.X = bar.X - BAR_HEIGHT / 2;
                     }
-                    else if(slide.X > bar.X + bar.Width - BAR_HEIGHT / 2)
+                    else if (slide.rectangle.X > bar.X + bar.Width - BAR_HEIGHT / 2)
                     {
-                        slide.X = bar.X + bar.Width - BAR_HEIGHT / 2;
+                        slide.rectangle.X = bar.X + bar.Width - BAR_HEIGHT / 2;
                     }
-                    value = (double)(slide.X - bar.X - BAR_HEIGHT / 2) / bar.X * scale;
+                    value = (double)(slide.rectangle.X - bar.X - BAR_HEIGHT / 2) / bar.X * scale;
                 }
-                wasMouseDown = true;
+                else if(slide.wasPressed())
+                {
+                    slideWasPressed = true;
+                }
+            }
+            else if (slideWasPressed)
+            {
+                slideWasPressed = false;
             }
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(white, bar, Color.Gray);
-            spriteBatch.Draw(white, slide, Color.DarkGray);
+            slide.draw(spriteBatch);
         }
     }
 }

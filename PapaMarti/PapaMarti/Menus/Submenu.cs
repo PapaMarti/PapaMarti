@@ -15,9 +15,9 @@ namespace PapaMarti
     public abstract class Submenu
     {
         public string name;
-        ContentManager content;
-        Texture2D whitePixel;
-        Button backButton;
+        public ContentManager content;
+        public Texture2D whitePixel;
+        public Button backButton;
         public Submenu(ContentManager content, string name)
         {
             this.content = content;
@@ -33,7 +33,7 @@ namespace PapaMarti
 
         public virtual void draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(whitePixel, Game1.screenRect, Color.Gray);
+            spriteBatch.Draw(whitePixel, Game1.screenRect, Game1.shaded);
             backButton.draw(spriteBatch);
         }
 

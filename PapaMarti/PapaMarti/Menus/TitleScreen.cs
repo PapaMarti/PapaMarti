@@ -18,16 +18,20 @@ namespace PapaMarti
         Button newGame;
         Button oldGame;
         Button settings;
+        Button credits;
+        Button quit;
+        Game1 game;
         SaveManager saveManager;
         ContentManager content;
         Texture2D whitePixel;
         Submenu submenu;
         bool done;
 
-        public TitleScreen(ContentManager content, SaveManager saveManager)
+        public TitleScreen(Game1 game, SaveManager saveManager)
         {
+            this.game = game;
             this.saveManager = saveManager;
-            this.content = content;
+            content = game.Content;
             whitePixel = content.Load<Texture2D>("whitePixel");
             submenu = null;
             done = false;
@@ -39,11 +43,13 @@ namespace PapaMarti
                     hasSave = true;
             }
 
-            int buttonWidth = 300;
-            int buttonHeight = 100;
+            int buttonWidth = Game1.screenRect.Width / 2;
+            int buttonHeight = 75;
             int buffer = 20;
             SpriteFont buttonFont = content.Load<SpriteFont>("ButtonTitle");
-            settings = new Button(whitePixel, new Rectangle(Game1.screenRect.Width / 2 - buttonWidth / 2, Game1.screenRect.Height - buffer - buttonHeight, buttonWidth, buttonHeight), "Settings", buttonFont);
+            quit = new Button(whitePixel, new Rectangle(Game1.screenRect.Width / 2 - buttonWidth / 2, Game1.screenRect.Height - buffer - buttonHeight, buttonWidth, buttonHeight), "Quit", buttonFont);
+            credits = new Button(whitePixel, new Rectangle(quit.rectangle.X, quit.rectangle.Y - buffer - buttonHeight, buttonWidth, buttonHeight), "Credits", buttonFont);
+            settings = new Button(whitePixel, new Rectangle(credits.rectangle.X, credits.rectangle.Y - buffer - buttonHeight, buttonWidth, buttonHeight), "Settings", buttonFont);
 
             if (hasSave) //making both buttons for loading and new game
             {
@@ -59,16 +65,16 @@ namespace PapaMarti
 
         public void draw(SpriteBatch spriteBatch)
         {
+            newGame.draw(spriteBatch);
+            if (oldGame != null)
+                oldGame.draw(spriteBatch);
+            settings.draw(spriteBatch);
+            credits.draw(spriteBatch);
+            quit.draw(spriteBatch);
+
             if (submenu != null)
             {
                 submenu.draw(spriteBatch);
-            }
-            else
-            {
-                newGame.draw(spriteBatch);
-                if (oldGame != null)
-                    oldGame.draw(spriteBatch);
-                settings.draw(spriteBatch);
             }
         }
         public void update()
@@ -94,6 +100,9 @@ namespace PapaMarti
                 if (oldGame != null)
                     oldGame.update();
                 settings.update();
+                credits.update();
+                quit.update();
+
                 if (newGame.wasPressed())
                 {
                     submenu = new SaveMenu(content, "New Game", saveManager, SaveMenuPurpose.NewGame);
@@ -101,6 +110,14 @@ namespace PapaMarti
                 else if (settings.wasPressed())
                 {
                     submenu = new SettingsMenu(content, saveManager);
+                }
+                else if (credits.wasPressed())
+                {
+                    submenu = new CreditsMenu(content);
+                }
+                else if (quit.wasPressed())
+                {
+                    game.Exit();
                 }
                 else if (oldGame != null)
                 {
