@@ -39,7 +39,7 @@ namespace PapaMarti
             martiText = "This game is dedicated to the original Papa Marti";
             martiTextLocation = new Vector2((Game1.screenRect.Width - font.MeasureString(martiText).X) / 2, martiRectangle.Y + martiRectangle.Height + 20);
 
-            credits = new string[]{"Scrum Master and Developer: Jacob Bamuel", "Primary Artist: ", "Developer and Artist: Karan Sharma", "Developer: Ella Whitney", "Developer: Annabel Tu"};
+            credits = new string[]{"Scrum Master and Developer: Jacob Bamuel", "Primary Artist: Anna Bessmertnaya", "Developer and Artist: Karan Sharma", "Developer: Ella Whitney", "Developer: Annabel Tu"};
             locations = new Vector2[credits.Length];
             int buffer = 30;
             int height = buffer;
