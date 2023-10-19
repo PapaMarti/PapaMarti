@@ -26,11 +26,12 @@ namespace PapaMarti
         bool hover;
         MouseState previous;
         ButtonType type;
+        bool highlights;
 
         public string title;
         public SpriteFont font;
 
-        public Button(Texture2D texture, Rectangle rectangle, string title, SpriteFont font, ButtonType type)
+        public Button(Texture2D texture, Rectangle rectangle, string title, SpriteFont font, bool highlights, ButtonType type)
         {
             this.type = type;
             this.texture = texture;
@@ -39,10 +40,12 @@ namespace PapaMarti
             this.font = font;
             pressed = false;
             hover = false;
+            this.highlights = highlights;
             previous = Mouse.GetState();
         }
-        public Button(Texture2D texture, Rectangle rectangle): this(texture, rectangle, String.Empty, null, ButtonType.Image) { }
-        public Button(Texture2D texture, Rectangle rectangle, string title, SpriteFont font): this(texture, rectangle, title, font, ButtonType.Text) { }
+        public Button(Texture2D texture, Rectangle rectangle): this(texture, rectangle, String.Empty, null, true, ButtonType.Image) { }
+        public Button(Texture2D texture, Rectangle rectangle, string title, SpriteFont font): this(texture, rectangle, title, font, true, ButtonType.Text) { }
+        public Button(Texture2D texture, Rectangle rectangle, bool highlights) : this(texture, rectangle, String.Empty, null, highlights, ButtonType.Image) { }
 
         public void draw(SpriteBatch spriteBatch)
         {
@@ -50,7 +53,7 @@ namespace PapaMarti
             if(type == ButtonType.Text)
                 spriteBatch.DrawString(font, title, new Vector2(rectangle.X + rectangle.Width / 2 - font.MeasureString(title).X / 2, rectangle.Y + rectangle.Height / 2 - font.MeasureString(title).Y / 2), Color.Black);
 
-            if (hover)
+            if (hover && highlights)
             {
                 spriteBatch.Draw(texture, rectangle, Game1.shaded);
             }

@@ -32,7 +32,7 @@ namespace PapaMarti
             bar = new Rectangle(center.X - length / 2, center.Y - BAR_HEIGHT / 2, length, BAR_HEIGHT);
             value = startingValue;
             this.scale = scale;
-            slide = new Button(white, new Rectangle((int)(bar.X - BAR_HEIGHT / 2 + value / scale * bar.Width), center.Y - SLIDE_HEIGHT / 2, BAR_HEIGHT, SLIDE_HEIGHT));
+            slide = new Button(white, new Rectangle((int)(bar.X - BAR_HEIGHT / 2 + value / scale * bar.Width), center.Y - SLIDE_HEIGHT / 2, BAR_HEIGHT, SLIDE_HEIGHT), false);
             slideWasPressed = false;
         }
         public Slider(ContentManager content, Point center, int length, int scale): this(content, center, length, scale, 0) { }
