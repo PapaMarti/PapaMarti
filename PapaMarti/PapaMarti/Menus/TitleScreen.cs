@@ -26,6 +26,8 @@ namespace PapaMarti
         Texture2D whitePixel;
         Submenu submenu;
         bool done;
+        Texture2D logo;
+        Rectangle logoRect;
 
         public TitleScreen(Game1 game, SaveManager saveManager)
         {
@@ -61,11 +63,17 @@ namespace PapaMarti
                 oldGame = null;
                 newGame = new Button(whitePixel, new Rectangle(settings.rectangle.X, settings.rectangle.Y - buffer - buttonHeight, buttonWidth, buttonHeight), "New Game", buttonFont);
             }
+            
+            logo = content.Load<Texture2D>("papaMartiLogo");
+            double height = newGame.rectangle.Y - buffer * 4;
+            double width = height / logo.Height * logo.Width;
+            logoRect = new Rectangle((int)(Game1.screenRect.Width - width) / 2, buffer * 2, (int)width, (int)height);
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(whitePixel, Game1.screenRect, Color.White);
+            spriteBatch.Draw(logo, logoRect, Color.White);
             newGame.draw(spriteBatch);
             if (oldGame != null)
                 oldGame.draw(spriteBatch);
